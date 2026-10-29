@@ -1,0 +1,167 @@
+@import "tailwindcss";
+
+/* =========================================================
+   TEMA: colores y tipografías de la marca
+   Paleta: azul marino y dorado, con fondos marfil.
+   ========================================================= */
+@theme {
+  --font-display: "Cormorant Garamond", ui-serif, Georgia, serif;
+  --font-sans: "Manrope Variable", ui-sans-serif, system-ui, sans-serif;
+
+  /* Azul marino (fondos oscuros) */
+  --color-marino-950: #0b1322;
+  --color-marino-900: #101b2d;
+  --color-marino-800: #16243b;
+  --color-marino-700: #213452;
+  --color-marino-500: #4a6285;
+
+  /* Dorado (botones y acentos) */
+  --color-dorado-400: #cbb27f;
+  --color-dorado-500: #b99a63;
+  --color-dorado-600: #8f7342;
+
+  /* Dorado claro (texto sobre fondos oscuros) */
+  --color-arena-200: #e6d5b0;
+  --color-arena-300: #d3bd91;
+  --color-arena-400: #b99a63;
+
+  --color-marfil: #f7f3ec;
+  --color-crema: #ebe7df;
+  --color-piedra: #68717d;
+  --color-tinta: #121a28;
+}
+
+/* =========================================================
+   BASE
+   ========================================================= */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+}
+
+body {
+  margin: 0;
+  background: var(--color-marfil);
+  color: var(--color-tinta);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-arena-300);
+  color: var(--color-marino-950);
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Etiqueta pequeña sobre los títulos (en "components" para que las clases de Tailwind puedan sobrescribirla) */
+@layer components {
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 2.5rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.7;
+  }
+  @media (max-width: 480px) {
+    .eyebrow {
+      gap: 0.6rem;
+      letter-spacing: 0.22em;
+    }
+    .eyebrow::before {
+      width: 1.5rem;
+    }
+  }
+}
+
+/* =========================================================
+   ANIMACIONES
+   ========================================================= */
+.fade-up {
+  animation: fade-up 1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Acercamiento lento de la imagen activa del inicio */
+@keyframes ken-burns {
+  from { transform: scale(1); }
+  to { transform: scale(1.05); }
+}
+.ken-burns {
+  animation: ken-burns 9s ease-out both;
+}
+
+/* Barra de progreso del carrusel */
+@keyframes progreso {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.progreso {
+  transform-origin: left;
+  animation: progreso var(--duracion, 7s) linear both;
+}
+
+/* Indicador de scroll */
+@keyframes scroll-dot {
+  0% { transform: translateY(0); opacity: 1; }
+  70% { transform: translateY(12px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 0; }
+}
+.scroll-dot {
+  animation: scroll-dot 1.8s ease-in-out infinite;
+}
+
+/* Elementos que aparecen al hacer scroll (componente Reveal) */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Carrusel horizontal sin barra visible */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Números alineados (Cormorant usa números "antiguos" por defecto) */
+.font-display {
+  font-variant-numeric: lining-nums;
+}

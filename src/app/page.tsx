@@ -1,0 +1,345 @@
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowUpRight, ClipboardList, Home as HomeIcon, Mail, Phone, Scale, Search, ShieldCheck, Users } from "lucide-react";
+import { Navbar } from "@/components/Navbar";
+import { HeroSlideshow } from "@/components/HeroSlideshow";
+import { FeaturedProperties } from "@/components/FeaturedProperties";
+import { SellForm } from "@/components/SellForm";
+import { Reveal } from "@/components/Reveal";
+import { Footer } from "@/components/Footer";
+import { WhatsAppButton, WhatsAppIcon } from "@/components/WhatsAppButton";
+import { contacto, divisiones, formatearTelefono, whatsappUrl } from "@/lib/site";
+
+const principios = [
+  {
+    titulo: "Nuestra misión",
+    texto: "Brindar un servicio inmobiliario profesional y responsable, satisfacer las necesidades de nuestros clientes y aportar valor a los inversores en bienes raíces.",
+  },
+  {
+    titulo: "Nuestra visión",
+    texto: "Ser una empresa líder en servicios inmobiliarios, referente de profesionalismo y atención personalizada.",
+  },
+  {
+    titulo: "Nuestros valores",
+    texto: "Compromiso · Integridad · Profesionalismo · Responsabilidad",
+  },
+];
+
+const beneficiosVenta = [
+  { icono: ShieldCheck, titulo: "Certeza jurídica", texto: "Revisamos la documentación para que vendas o rentes con seguridad." },
+  { icono: Users, titulo: "Acompañamiento personal", texto: "Un asesor te guía desde la primera visita hasta el cierre." },
+  { icono: Search, titulo: "Promoción profesional", texto: "Presentamos tu propiedad a las personas correctas." },
+];
+
+const pasosValuacion = [
+  { icono: ClipboardList, titulo: "Cuéntanos sobre tu inmueble", texto: "Compártenos ubicación, superficie y características principales." },
+  { icono: HomeIcon, titulo: "Visita y análisis", texto: "Revisamos la propiedad y la comparamos con el mercado de la zona." },
+  { icono: Scale, titulo: "Recibe tu valuación", texto: "Te entregamos un valor de referencia para decidir con confianza." },
+];
+
+export default function Home() {
+  return (
+    <>
+      <Navbar />
+
+      <main>
+        {/* =================== INICIO =================== */}
+        <section id="inicio" className="relative isolate flex min-h-[100svh] items-center overflow-hidden text-white">
+          <HeroSlideshow />
+
+          <div className="mx-auto w-full max-w-5xl px-6 pb-32 pt-36 text-center sm:px-10">
+            <p className="eyebrow fade-up justify-center text-arena-300 [animation-delay:.1s] after:h-px after:w-6 after:bg-current after:opacity-70 after:content-[''] sm:after:w-10">
+              Grupo Comalba · Más de 10 años
+            </p>
+
+            <h1 className="fade-up mt-7 font-display text-[3.4rem] font-semibold leading-[0.95] tracking-[-0.01em] [animation-delay:.25s] sm:text-7xl lg:text-[6.5rem]">
+              Creamos espacios
+              <span className="mt-2 block font-medium italic text-arena-200">para vivir el futuro.</span>
+            </h1>
+
+            <p className="fade-up mx-auto mt-8 max-w-2xl text-base leading-8 text-white/85 [animation-delay:.4s] sm:text-lg">
+              Un ecosistema inmobiliario que reúne experiencia, diseño y servicio para acompañarte en cada etapa de tu próximo proyecto.
+            </p>
+
+            <div className="fade-up mt-10 flex flex-col justify-center gap-3 [animation-delay:.55s] sm:flex-row">
+              <Link
+                href="#divisiones"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-dorado-500 px-8 py-4 text-sm font-bold text-marino-950 shadow-xl shadow-dorado-600/30 transition hover:-translate-y-0.5 hover:bg-dorado-400"
+              >
+                Explorar divisiones <ArrowUpRight size={17} />
+              </Link>
+              <Link
+                href="#empresa"
+                className="inline-flex items-center justify-center rounded-full border border-white/35 bg-white/10 px-8 py-4 text-sm font-bold text-white backdrop-blur-md transition hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/20"
+              >
+                Conoce el grupo
+              </Link>
+            </div>
+
+            <div className="fade-up mx-auto mt-14 flex max-w-md items-center justify-center gap-8 border-t border-white/20 pt-7 [animation-delay:.7s] sm:gap-12">
+              <div className="flex items-center gap-3 text-left">
+                <span className="font-display text-5xl font-semibold leading-none text-arena-200">10+</span>
+                <span className="text-xs leading-5 text-white/70">años construyendo<br />confianza</span>
+              </div>
+              <span className="h-10 w-px bg-white/20" />
+              <div className="flex items-center gap-3 text-left">
+                <span className="font-display text-5xl font-semibold leading-none text-arena-200">6</span>
+                <span className="text-xs leading-5 text-white/70">divisiones<br />especializadas</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Indicador para bajar */}
+          <a href="#propiedades" aria-label="Bajar a propiedades" className="absolute bottom-7 left-1/2 z-10 hidden -translate-x-1/2 md:block">
+            <span className="flex h-11 w-7 justify-center rounded-full border-2 border-white/50 pt-2">
+              <span className="scroll-dot h-2 w-1 rounded-full bg-white" />
+            </span>
+          </a>
+        </section>
+
+        {/* =================== PROPIEDADES =================== */}
+        <section id="propiedades" className="overflow-hidden bg-marfil px-6 py-24 sm:px-10 lg:py-32">
+          <div className="mx-auto max-w-7xl">
+            <Reveal className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+              <div>
+                <p className="eyebrow text-dorado-600">Oportunidades</p>
+                <h2 className="mt-4 font-display text-5xl font-semibold leading-[1.02] text-marino-900 sm:text-6xl">
+                  Propiedades <span className="italic text-dorado-600">destacadas</span>
+                </h2>
+              </div>
+              <p className="max-w-sm text-[15px] leading-7 text-piedra">
+                Casas, departamentos y terrenos seleccionados por nuestros asesores en Morelos.
+              </p>
+            </Reveal>
+
+            <Reveal delay={120}>
+              <FeaturedProperties />
+            </Reveal>
+
+            <Reveal className="mt-10 flex flex-col items-center justify-between gap-5 sm:flex-row">
+              <p className="text-xs text-piedra">* Precios aproximados y sujetos a cambios. Confirma disponibilidad con un asesor.</p>
+              <Link
+                href="/albavera"
+                className="inline-flex items-center gap-2 rounded-full bg-marino-900 px-7 py-4 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-marino-700"
+              >
+                Ver todas las propiedades <ArrowUpRight size={17} />
+              </Link>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* =================== VENTA =================== */}
+        <section id="venta" className="relative isolate overflow-hidden px-6 py-24 text-white sm:px-10 lg:py-32">
+          <Image src="/images/residencia.jpg" alt="" fill sizes="100vw" className="-z-20 object-cover" style={{ objectPosition: "50% 40%" }} />
+          <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-marino-950 via-marino-950/90 to-marino-950/60" />
+
+          <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[1fr_1.05fr]">
+            <Reveal>
+              <p className="eyebrow text-arena-300">Ofrece tu propiedad</p>
+              <h2 className="mt-5 font-display text-5xl font-semibold leading-[1.02] sm:text-6xl">
+                Cuéntanos sobre <span className="italic text-arena-200">tu propiedad.</span>
+              </h2>
+              <p className="mt-6 max-w-lg text-[17px] leading-8 text-white/75">
+                Si quieres vender, rentar o conocer el valor de tu inmueble, un asesor revisa tu caso, te explica el proceso y te acompaña hasta el cierre.
+              </p>
+
+              <ul className="mt-10 space-y-6">
+                {beneficiosVenta.map(({ icono: Icono, titulo, texto }) => (
+                  <li key={titulo} className="flex gap-4">
+                    <span className="grid size-12 shrink-0 place-items-center rounded-2xl border border-white/15 bg-white/10 text-arena-300">
+                      <Icono size={21} strokeWidth={1.7} />
+                    </span>
+                    <span>
+                      <span className="block font-bold">{titulo}</span>
+                      <span className="mt-1 block text-sm leading-6 text-white/65">{texto}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+
+            <Reveal delay={150}>
+              <SellForm />
+            </Reveal>
+          </div>
+        </section>
+
+        {/* =================== LA EMPRESA =================== */}
+        <section id="empresa" className="bg-marfil px-6 py-24 sm:px-10 lg:py-32">
+          <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-2 lg:gap-20">
+            <Reveal className="relative">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-2xl shadow-marino-950/25">
+                <Image src="/images/cuernavaca.jpg" alt="Residencia con alberca en Cuernavaca, Morelos" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
+              </div>
+              <div className="absolute -bottom-8 right-4 rounded-3xl bg-marino-900 p-6 text-white shadow-2xl sm:-right-6 sm:p-8">
+                <p className="font-display text-6xl font-semibold leading-none text-arena-200">10+</p>
+                <p className="mt-2 text-sm leading-5 text-white/70">años construyendo<br />confianza y oportunidades</p>
+              </div>
+              <div aria-hidden="true" className="absolute -left-4 -top-4 -z-10 h-40 w-40 rounded-[2rem] border-2 border-dorado-500/40" />
+            </Reveal>
+
+            <div>
+              <Reveal>
+                <p className="eyebrow text-dorado-600">La empresa</p>
+                <h2 className="mt-5 font-display text-5xl font-semibold leading-[1.02] text-marino-900 sm:text-6xl">
+                  Experiencia que <span className="italic text-dorado-600">transforma espacios.</span>
+                </h2>
+                <p className="mt-6 text-[17px] leading-8 text-piedra">
+                  Grupo Comalba integra servicios inmobiliarios, diseño y soluciones para acompañar a personas y empresas desde la búsqueda de un espacio hasta hacerlo suyo.
+                </p>
+              </Reveal>
+
+              <div className="mt-10 divide-y divide-marino-950/10 border-y border-marino-950/10">
+                {principios.map((p, i) => (
+                  <Reveal key={p.titulo} delay={i * 100} className="grid gap-2 py-6 sm:grid-cols-[180px_1fr] sm:gap-6">
+                    <p className="font-display text-2xl font-semibold text-marino-900">{p.titulo}</p>
+                    <p className="text-[15px] leading-7 text-piedra">{p.texto}</p>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* =================== DIVISIONES =================== */}
+        <section id="divisiones" className="bg-white px-6 py-24 sm:px-10 lg:py-32">
+          <div className="mx-auto max-w-7xl">
+            <Reveal className="mx-auto max-w-2xl text-center">
+              <p className="eyebrow justify-center text-dorado-600">Nuestro ecosistema</p>
+              <h2 className="mt-5 font-display text-5xl font-semibold leading-[1.02] text-marino-900 sm:text-6xl">
+                Soluciones para <span className="italic text-dorado-600">cada etapa.</span>
+              </h2>
+              <p className="mt-5 text-[17px] leading-8 text-piedra">Seis divisiones que trabajan juntas para darte una experiencia integral.</p>
+            </Reveal>
+
+            <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {divisiones.map((d, i) => (
+                <Reveal key={d.slug} delay={(i % 3) * 100}>
+                    <Link
+                      href={`/${d.slug}`}
+                      className={`group flex h-full flex-col rounded-[1.6rem] border border-marino-950/10 bg-marfil p-7 transition duration-500 hover:-translate-y-1.5 hover:border-dorado-500/40 hover:bg-white hover:shadow-[0_24px_60px_-24px_rgba(16,27,45,.4)] ${
+                        d.slug === "financiamiento" ? "items-center justify-center text-center" : ""
+                      }`}
+                    >
+                      {d.slug !== "financiamiento" && (
+                        <div className="mb-6 flex h-28 items-center justify-center rounded-2xl bg-white p-4 ring-1 ring-marino-950/5">
+                          <Image src={d.logo} alt={`Logo ${d.nombre}`} width={200} height={110} className="h-full w-auto max-w-full object-contain transition duration-500 group-hover:scale-105" />
+                        </div>
+                      )}
+                      <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-marino-500">0{i + 1} · {d.etiqueta}</p>
+                      <h3 className="mt-2 font-display text-[1.75rem] font-semibold leading-tight text-marino-900">{d.nombre}</h3>
+                      <p className={`mt-3 text-sm leading-6 text-piedra ${d.slug === "financiamiento" ? "max-w-xs" : "flex-1"}`}>{d.resumen}</p>
+                      <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-bold text-dorado-600">
+                        Conocer división
+                        <ArrowUpRight size={16} className="transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                      </span>
+                    </Link>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* =================== VALUACIÓN =================== */}
+        <section id="valuacion" className="bg-crema px-6 py-24 sm:px-10 lg:py-32">
+          <div className="mx-auto max-w-7xl">
+            <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+              <Reveal>
+                <p className="eyebrow text-dorado-600">Valuación</p>
+                <h2 className="mt-5 font-display text-5xl font-semibold leading-[1.02] text-marino-900 sm:text-6xl">
+                  ¿Cuánto vale <span className="italic text-dorado-600">tu propiedad?</span>
+                </h2>
+              </Reveal>
+              <Reveal delay={100}>
+                <p className="text-[17px] leading-8 text-piedra">
+                  Conocer el valor real de tu inmueble es el primer paso para venderlo, rentarlo o invertir con seguridad. Te ayudamos en tres pasos.
+                </p>
+              </Reveal>
+            </div>
+
+            <ol className="mt-14 grid gap-6 md:grid-cols-3">
+              {pasosValuacion.map(({ icono: Icono, titulo, texto }, i) => (
+                <Reveal key={titulo} delay={i * 120}>
+                  <li className="relative h-full overflow-hidden rounded-[1.6rem] bg-white p-8 shadow-[0_10px_40px_-24px_rgba(16,27,45,.4)]">
+                    <span aria-hidden="true" className="absolute -right-2 -top-6 font-display text-[8rem] font-semibold leading-none text-marino-950/[0.05]">
+                      {i + 1}
+                    </span>
+                    <span className="grid size-14 place-items-center rounded-2xl bg-marino-900 text-arena-200">
+                      <Icono size={24} strokeWidth={1.6} />
+                    </span>
+                    <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.22em] text-dorado-600">Paso {i + 1}</p>
+                    <h3 className="mt-2 font-display text-[1.7rem] font-semibold leading-tight text-marino-900">{titulo}</h3>
+                    <p className="mt-3 text-sm leading-6 text-piedra">{texto}</p>
+                  </li>
+                </Reveal>
+              ))}
+            </ol>
+
+            <Reveal className="mt-12 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+              <a
+                href="#venta"
+                data-operacion="Valuar"
+                className="inline-flex items-center gap-2 rounded-full bg-dorado-500 px-8 py-4 text-sm font-bold text-marino-950 shadow-lg shadow-dorado-600/25 transition hover:-translate-y-0.5 hover:bg-dorado-400"
+              >
+                Solicitar valuación <ArrowUpRight size={17} />
+              </a>
+              <a
+                href={whatsappUrl("Hola, me gustaría solicitar la valuación de una propiedad.")}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-marino-900/20 px-8 py-4 text-sm font-bold text-marino-900 transition hover:border-marino-900 hover:bg-marino-900 hover:text-white"
+              >
+                <WhatsAppIcon className="size-[18px]" /> Preguntar por WhatsApp
+              </a>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* =================== CONTACTO =================== */}
+        <section id="contacto" className="relative isolate overflow-hidden bg-marino-900 px-6 py-24 text-white sm:px-10 lg:py-28">
+          <div aria-hidden="true" className="absolute -right-40 -top-40 -z-10 size-[34rem] rounded-full bg-dorado-500/20 blur-3xl" />
+          <div aria-hidden="true" className="absolute -bottom-48 -left-32 -z-10 size-[30rem] rounded-full bg-marino-500/25 blur-3xl" />
+
+          <div className="mx-auto max-w-7xl">
+            <Reveal className="max-w-3xl">
+              <p className="eyebrow text-arena-300">Empecemos una conversación</p>
+              <h2 className="mt-5 font-display text-5xl font-semibold leading-[1.02] sm:text-6xl">
+                Tu próxima posibilidad <span className="italic text-arena-200">comienza aquí.</span>
+              </h2>
+            </Reveal>
+
+            <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-[1fr_1fr_1.45fr]">
+              {[
+                { href: whatsappUrl("Hola, me interesa conocer más sobre Grupo Comalba."), externo: true, etiqueta: "WhatsApp", valor: "Enviar mensaje", Icono: WhatsAppIcon },
+                { href: `tel:+52${contacto.telefono}`, externo: false, etiqueta: "Llámanos", valor: formatearTelefono(contacto.telefono), Icono: Phone },
+                { href: `mailto:${contacto.correo}`, externo: false, etiqueta: "Escríbenos", valor: contacto.correo, Icono: Mail },
+              ].map(({ href, externo, etiqueta, valor, Icono }, i) => (
+                <Reveal key={etiqueta} delay={i * 100}>
+                  <a
+                    href={href}
+                    target={externo ? "_blank" : undefined}
+                    rel={externo ? "noreferrer" : undefined}
+                    className="group flex h-full items-center gap-5 rounded-[1.4rem] border border-white/10 bg-white/[0.05] p-6 transition duration-300 hover:-translate-y-1 hover:border-arena-300/50 hover:bg-white/[0.09]"
+                  >
+                    <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-arena-300 text-marino-950">
+                      <Icono className="size-6" />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-[11px] font-bold uppercase tracking-[0.22em] text-white/50">{etiqueta}</span>
+                      <span className="mt-1 block text-[15px] font-semibold [overflow-wrap:anywhere]">{valor}</span>
+                    </span>
+                    <ArrowUpRight size={18} className="shrink-0 text-white/35 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-arena-300" />
+                  </a>
+                </Reveal>
+              ))}
+            </div>
+
+          </div>
+        </section>
+      </main>
+
+      <Footer mostrarFrase />
+      <WhatsAppButton />
+    </>
+  );
+}
