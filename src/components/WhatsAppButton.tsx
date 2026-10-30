@@ -8,13 +8,17 @@ export function WhatsAppIcon({ className = "" }: { className?: string }) {
   );
 }
 
-export function WhatsAppButton() {
+export function WhatsAppButton({
+  telefono,
+  mensaje = "Hola, me interesa conocer más sobre Grupo Comalba.",
+  nombre = "Grupo Comalba",
+}: { telefono?: string; mensaje?: string; nombre?: string } = {}) {
   return (
     <a
-      href={whatsappUrl("Hola, me interesa conocer más sobre Grupo Comalba.")}
+      href={whatsappUrl(mensaje, telefono)}
       target="_blank"
       rel="noreferrer"
-      aria-label="Contactar a Grupo Comalba por WhatsApp"
+      aria-label={`Contactar a ${nombre} por WhatsApp`}
       className="fixed bottom-5 right-5 z-40 grid size-14 place-items-center rounded-full bg-[#25d366] text-white shadow-xl shadow-black/25 ring-4 ring-white/20 transition hover:scale-105"
     >
       <WhatsAppIcon className="size-7" />

@@ -7,6 +7,9 @@ import "@fontsource/cormorant-garamond/700.css";
 import "@fontsource/cormorant-garamond/500-italic.css";
 import "@fontsource/cormorant-garamond/600-italic.css";
 import "@fontsource-variable/manrope";
+// Solo para el titular principal del inicio
+import "@fontsource-variable/brygada-1918/wght.css";
+import "@fontsource-variable/brygada-1918/wght-italic.css";
 import "./globals.css";
 
 export const metadata: Metadata = {

@@ -12,6 +12,8 @@ export const contacto = {
   facebook: "https://www.facebook.com/COMALBASADECV/",
   instagram: "", // Pega aquí el enlace del perfil oficial; si queda vacío, el ícono no se muestra
   ubicacion: "Cuernavaca, Morelos",
+  // Punto del mapa del pie de página (C.P. 62374, Cuernavaca, Morelos)
+  mapa: { lat: 18.89122772216797, lng: -99.22347259521484 },
 };
 
 /* Logo oficial de Comalba. Si el enlace deja de funcionar, se usa la copia local de /public/logos.
@@ -37,8 +39,9 @@ export const avisoLegal =
 
 export const formatearTelefono = (tel: string) => tel.replace(/(\d{3})(\d{3})(\d{4})/, "$1 $2 $3");
 
-export const whatsappUrl = (mensaje: string) =>
-  `https://wa.me/${contacto.whatsapp}?text=${encodeURIComponent(mensaje)}`;
+/* Sin número usa el WhatsApp general; con número (10 dígitos) usa el de esa división */
+export const whatsappUrl = (mensaje: string, telefono?: string) =>
+  `https://wa.me/${telefono ? `52${telefono}` : contacto.whatsapp}?text=${encodeURIComponent(mensaje)}`;
 
 /* ---------- Navegación ---------- */
 export type NavItem = { label: string; href: string; id: string };
@@ -59,7 +62,8 @@ export type Division = {
   nombre: string;
   etiqueta: string;
   resumen: string;
-  logo: string;
+  logo?: string; // Sin logo se muestra el ícono de la división (Financiamiento)
+  telefono?: string; // 10 dígitos. Si no tiene, se usa el contacto general
 };
 
 export const divisiones: Division[] = [
@@ -68,14 +72,16 @@ export const divisiones: Division[] = [
     nombre: "ALBAVERA Bienes Raíces",
     etiqueta: "Compra y venta",
     resumen: "Te acompañamos a encontrar y adquirir la propiedad ideal para tu siguiente etapa.",
-    logo: "/logos/albavera.png",
+    logo: "/logos/Albavera_sf.png",
+    telefono: "7771310715",
   },
   {
     slug: "civ-rentas",
     nombre: "CIV Rentas",
-    etiqueta: "Renta de propiedades",
-    resumen: "Vivienda y espacios adaptados a tus necesidades, con acompañamiento en todo el proceso.",
-    logo: "/logos/civ-rentas.png",
+    etiqueta: "Rentas anuales y vacacionales",
+    resumen: "Rentas por año para comercio, industria y vivienda, y casas o departamentos para vacacionar.",
+    logo: "/logos/civ-rentas__sf.png",
+    telefono: "7771310715",
   },
   {
     slug: "asesoria-proyectos",
@@ -90,6 +96,7 @@ export const divisiones: Division[] = [
     etiqueta: "Cocinas y clósets",
     resumen: "Cocinas integrales y clósets modernos, funcionales y hechos a la medida.",
     logo: "/logos/aqmen.png",
+    telefono: "7779316342",
   },
   {
     slug: "immor",
@@ -97,13 +104,14 @@ export const divisiones: Division[] = [
     etiqueta: "Fletes y mudanzas",
     resumen: "Traslado seguro de muebles y pertenencias hasta tu nuevo destino.",
     logo: "/logos/transportes-immor.png",
+    telefono: "7774523252",
   },
   {
     slug: "financiamiento",
-    nombre: "Financiamiento",
-    etiqueta: "Opciones para avanzar",
-    resumen: "Alternativas para comprar, construir o remodelar, con plazos de hasta 10 años.",
-    logo: "/logos/financiamiento-hir.png",
+    nombre: "Financiamiento Inmobiliario",
+    etiqueta: "Compra, construye y remodela",
+    resumen: "Financia tu inmueble a 10 años con tasa preferencial de 4% anual y comprobación de ingresos flexible.",
+    telefono: "7774497048",
   },
 ];
 

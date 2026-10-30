@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fontsource-variable/brygada-1918": "^5.3.0",
     "@fontsource-variable/manrope": "^5.3.0",
     "@fontsource/cormorant-garamond": "^5.3.0",
     "lucide-react": "^0.468.0",

@@ -1,11 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, ClipboardList, Home as HomeIcon, Mail, Phone, Scale, Search, ShieldCheck, Users } from "lucide-react";
+import { ArrowUpRight, Mail, Phone, Search, ShieldCheck, Users } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { HeroSlideshow } from "@/components/HeroSlideshow";
 import { FeaturedProperties } from "@/components/FeaturedProperties";
 import { SellForm } from "@/components/SellForm";
 import { Reveal } from "@/components/Reveal";
+import { DivisionesSelector } from "@/components/DivisionesSelector";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton, WhatsAppIcon } from "@/components/WhatsAppButton";
 import { contacto, divisiones, formatearTelefono, whatsappUrl } from "@/lib/site";
@@ -32,9 +33,9 @@ const beneficiosVenta = [
 ];
 
 const pasosValuacion = [
-  { icono: ClipboardList, titulo: "Cuéntanos sobre tu inmueble", texto: "Compártenos ubicación, superficie y características principales." },
-  { icono: HomeIcon, titulo: "Visita y análisis", texto: "Revisamos la propiedad y la comparamos con el mercado de la zona." },
-  { icono: Scale, titulo: "Recibe tu valuación", texto: "Te entregamos un valor de referencia para decidir con confianza." },
+  { titulo: "Cuéntanos sobre tu inmueble", texto: "Compártenos ubicación, superficie y características principales.", detalle: "Por WhatsApp o formulario" },
+  { titulo: "Visita y análisis", texto: "Revisamos la propiedad y la comparamos con el mercado de la zona.", detalle: "Un asesor visita el inmueble" },
+  { titulo: "Recibe tu valuación", texto: "Te entregamos un valor de referencia para decidir con confianza.", detalle: "Con base en el mercado de la zona" },
 ];
 
 export default function Home() {
@@ -52,7 +53,7 @@ export default function Home() {
               Grupo Comalba · Más de 10 años
             </p>
 
-            <h1 className="fade-up mt-7 font-display text-[3.4rem] font-semibold leading-[0.95] tracking-[-0.01em] [animation-delay:.25s] sm:text-7xl lg:text-[6.5rem]">
+            <h1 className="fade-up mt-7 text-balance font-hero text-[3.2rem] font-semibold leading-[0.98] tracking-[-0.02em] [animation-delay:.25s] sm:text-7xl lg:text-[6.5rem]">
               Creamos espacios
               <span className="mt-2 block font-medium italic text-arena-200">para vivir el futuro.</span>
             </h1>
@@ -66,7 +67,7 @@ export default function Home() {
                 href="#divisiones"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-dorado-500 px-8 py-4 text-sm font-bold text-marino-950 shadow-xl shadow-dorado-600/30 transition hover:-translate-y-0.5 hover:bg-dorado-400"
               >
-                Explorar divisiones <ArrowUpRight size={17} />
+                Explorar divisiones
               </Link>
               <Link
                 href="#empresa"
@@ -122,7 +123,7 @@ export default function Home() {
                 href="/albavera"
                 className="inline-flex items-center gap-2 rounded-full bg-marino-900 px-7 py-4 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-marino-700"
               >
-                Ver todas las propiedades <ArrowUpRight size={17} />
+                Ver todas las propiedades
               </Link>
             </Reveal>
           </div>
@@ -204,39 +205,16 @@ export default function Home() {
         {/* =================== DIVISIONES =================== */}
         <section id="divisiones" className="bg-white px-6 py-24 sm:px-10 lg:py-32">
           <div className="mx-auto max-w-7xl">
-            <Reveal className="mx-auto max-w-2xl text-center">
-              <p className="eyebrow justify-center text-dorado-600">Nuestro ecosistema</p>
-              <h2 className="mt-5 font-display text-5xl font-semibold leading-[1.02] text-marino-900 sm:text-6xl">
-                Soluciones para <span className="italic text-dorado-600">cada etapa.</span>
-              </h2>
-              <p className="mt-5 text-[17px] leading-8 text-piedra">Seis divisiones que trabajan juntas para darte una experiencia integral.</p>
+            <Reveal className="grid gap-6 lg:grid-cols-[1.15fr_1fr] lg:items-end lg:gap-14">
+              <h2 className="font-display text-5xl font-semibold leading-[1.02] text-marino-900 sm:text-6xl">¿Qué necesitas hoy?</h2>
+              <p className="text-[17px] leading-8 text-piedra">
+                Grupo Comalba reúne seis negocios especializados. Elige lo que buscas y te mostramos cuál de ellos te atiende.
+              </p>
             </Reveal>
 
-            <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {divisiones.map((d, i) => (
-                <Reveal key={d.slug} delay={(i % 3) * 100}>
-                    <Link
-                      href={`/${d.slug}`}
-                      className={`group flex h-full flex-col rounded-[1.6rem] border border-marino-950/10 bg-marfil p-7 transition duration-500 hover:-translate-y-1.5 hover:border-dorado-500/40 hover:bg-white hover:shadow-[0_24px_60px_-24px_rgba(16,27,45,.4)] ${
-                        d.slug === "financiamiento" ? "items-center justify-center text-center" : ""
-                      }`}
-                    >
-                      {d.slug !== "financiamiento" && (
-                        <div className="mb-6 flex h-28 items-center justify-center rounded-2xl bg-white p-4 ring-1 ring-marino-950/5">
-                          <Image src={d.logo} alt={`Logo ${d.nombre}`} width={200} height={110} className="h-full w-auto max-w-full object-contain transition duration-500 group-hover:scale-105" />
-                        </div>
-                      )}
-                      <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-marino-500">0{i + 1} · {d.etiqueta}</p>
-                      <h3 className="mt-2 font-display text-[1.75rem] font-semibold leading-tight text-marino-900">{d.nombre}</h3>
-                      <p className={`mt-3 text-sm leading-6 text-piedra ${d.slug === "financiamiento" ? "max-w-xs" : "flex-1"}`}>{d.resumen}</p>
-                      <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-bold text-dorado-600">
-                        Conocer división
-                        <ArrowUpRight size={16} className="transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                      </span>
-                    </Link>
-                </Reveal>
-              ))}
-            </div>
+            <Reveal className="mt-14">
+              <DivisionesSelector />
+            </Reveal>
           </div>
         </section>
 
@@ -257,23 +235,24 @@ export default function Home() {
               </Reveal>
             </div>
 
-            <ol className="mt-14 grid gap-6 md:grid-cols-3">
-              {pasosValuacion.map(({ icono: Icono, titulo, texto }, i) => (
-                <Reveal key={titulo} delay={i * 120}>
-                  <li className="relative h-full overflow-hidden rounded-[1.6rem] bg-white p-8 shadow-[0_10px_40px_-24px_rgba(16,27,45,.4)]">
-                    <span aria-hidden="true" className="absolute -right-2 -top-6 font-display text-[8rem] font-semibold leading-none text-marino-950/[0.05]">
+            {/* Pasos unidos por una línea: vertical en celular, horizontal desde tableta */}
+            <Reveal className="mt-14">
+              <ol className="grid gap-10 md:grid-cols-3 md:gap-8">
+                {pasosValuacion.map(({ titulo, texto, detalle }, i) => (
+                  <li
+                    key={titulo}
+                    className="relative pl-20 after:absolute after:-bottom-10 after:left-[27px] after:top-14 after:w-0.5 after:bg-dorado-500 after:content-[''] last:after:hidden md:pl-0 md:pr-6 md:after:-right-8 md:after:bottom-auto md:after:left-14 md:after:top-[27px] md:after:h-0.5 md:after:w-auto"
+                  >
+                    <span aria-hidden="true" className="absolute left-0 top-0 grid size-14 place-items-center rounded-full bg-marino-900 font-hero text-2xl font-semibold text-arena-200 md:static">
                       {i + 1}
                     </span>
-                    <span className="grid size-14 place-items-center rounded-2xl bg-marino-900 text-arena-200">
-                      <Icono size={24} strokeWidth={1.6} />
-                    </span>
-                    <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.22em] text-dorado-600">Paso {i + 1}</p>
-                    <h3 className="mt-2 font-display text-[1.7rem] font-semibold leading-tight text-marino-900">{titulo}</h3>
-                    <p className="mt-3 text-sm leading-6 text-piedra">{texto}</p>
+                    <h3 className="pt-2.5 font-display text-[1.7rem] font-semibold leading-tight text-marino-900 md:mt-6 md:pt-0">{titulo}</h3>
+                    <p className="mt-2 max-w-[34ch] text-sm leading-6 text-piedra">{texto}</p>
+                    <p className="mt-3 text-sm font-bold text-dorado-600">{detalle}</p>
                   </li>
-                </Reveal>
-              ))}
-            </ol>
+                ))}
+              </ol>
+            </Reveal>
 
             <Reveal className="mt-12 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
               <a
@@ -281,7 +260,7 @@ export default function Home() {
                 data-operacion="Valuar"
                 className="inline-flex items-center gap-2 rounded-full bg-dorado-500 px-8 py-4 text-sm font-bold text-marino-950 shadow-lg shadow-dorado-600/25 transition hover:-translate-y-0.5 hover:bg-dorado-400"
               >
-                Solicitar valuación <ArrowUpRight size={17} />
+                Solicitar valuación
               </a>
               <a
                 href={whatsappUrl("Hola, me gustaría solicitar la valuación de una propiedad.")}
@@ -297,8 +276,6 @@ export default function Home() {
 
         {/* =================== CONTACTO =================== */}
         <section id="contacto" className="relative isolate overflow-hidden bg-marino-900 px-6 py-24 text-white sm:px-10 lg:py-28">
-          <div aria-hidden="true" className="absolute -right-40 -top-40 -z-10 size-[34rem] rounded-full bg-dorado-500/20 blur-3xl" />
-          <div aria-hidden="true" className="absolute -bottom-48 -left-32 -z-10 size-[30rem] rounded-full bg-marino-500/25 blur-3xl" />
 
           <div className="mx-auto max-w-7xl">
             <Reveal className="max-w-3xl">
@@ -328,7 +305,7 @@ export default function Home() {
                       <span className="block text-[11px] font-bold uppercase tracking-[0.22em] text-white/50">{etiqueta}</span>
                       <span className="mt-1 block text-[15px] font-semibold [overflow-wrap:anywhere]">{valor}</span>
                     </span>
-                    <ArrowUpRight size={18} className="shrink-0 text-white/35 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-arena-300" />
+                    {externo && <ArrowUpRight size={18} className="shrink-0 text-white/35 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-arena-300" />}
                   </a>
                 </Reveal>
               ))}

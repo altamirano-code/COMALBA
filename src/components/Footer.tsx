@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { MapPin, Mail, Phone } from "lucide-react";
-import { LogoComalba } from "@/components/Logo";
+import { ArrowUpRight, MapPin, Mail, Phone } from "lucide-react";
+import Image from "next/image";
 import { SocialIcons } from "@/components/SocialIcons";
 import { avisoLegal, contacto, divisiones, formatearTelefono, navegacion, textoEmpresa } from "@/lib/site";
 
@@ -11,7 +11,7 @@ export function Footer({ mostrarFrase = false }: { mostrarFrase?: boolean }) {
       {/* Franja con la presentación de la empresa (solo en el inicio) */}
       {mostrarFrase && (
         <div className="border-t-4 border-dorado-500 bg-marino-800">
-          <p className="mx-auto max-w-5xl px-6 py-12 text-center font-display text-2xl font-medium italic leading-snug text-white sm:px-10 sm:text-[2rem]">
+          <p className="mx-auto max-w-5xl text-balance px-6 py-12 text-center font-hero text-xl font-normal italic leading-relaxed text-white sm:px-10 sm:text-[1.65rem] sm:leading-[1.5]">
             “{textoEmpresa}”
           </p>
         </div>
@@ -20,7 +20,7 @@ export function Footer({ mostrarFrase = false }: { mostrarFrase?: boolean }) {
       <div className="mx-auto grid max-w-7xl gap-12 px-6 pb-12 pt-16 sm:px-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1.2fr_1.3fr]">
         <div>
           <span className="inline-grid h-20 w-36 place-items-center rounded-2xl bg-white p-2.5 shadow-lg">
-            <LogoComalba className="h-full w-full object-contain" />
+            <Image src="/logos/Comalba_Grupo_sf.png" alt="Grupo Comalba" width={1604} height={981} className="h-full w-full object-contain" />
           </span>
           <p className="mt-5 max-w-xs text-sm leading-7">
             Un ecosistema inmobiliario que reúne experiencia, diseño y servicio para acompañarte en cada etapa.
@@ -68,6 +68,23 @@ export function Footer({ mostrarFrase = false }: { mostrarFrase?: boolean }) {
             </li>
             <li className="flex items-center gap-3">
               <MapPin size={16} className="shrink-0 text-arena-300" /> {contacto.ubicacion}
+            </li>
+            <li>
+              <iframe
+                title="Mapa: ubicación de Grupo Comalba en Cuernavaca, Morelos"
+                src={`https://www.google.com/maps?q=${contacto.mapa.lat},${contacto.mapa.lng}&z=16&output=embed`}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="aspect-[4/3] w-full rounded-xl border-0"
+              />
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${contacto.mapa.lat},${contacto.mapa.lng}`}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-2 inline-flex items-center gap-1.5 text-[13px] font-semibold text-arena-300 transition hover:text-white"
+              >
+                Abrir en Google Maps <ArrowUpRight size={14} />
+              </a>
             </li>
           </ul>
         </div>

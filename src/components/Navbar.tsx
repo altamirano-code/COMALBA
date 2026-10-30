@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown, Menu, X, ArrowUpRight, Landmark } from "lucide-react";
 import { divisiones, navegacion, whatsappUrl } from "@/lib/site";
-import { LogoComalba } from "@/components/Logo";
 
 /* La posición donde se inserta "Divisiones" dentro del menú */
 const POSICION_DIVISIONES = 4;
@@ -104,7 +103,7 @@ export function Navbar() {
       <nav
         aria-label="Navegación principal"
         className={`group/nav mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-2xl border px-3 py-2.5 text-white transition-all duration-500 sm:px-5 ${
-          scrolled || movilAbierto
+          scrolled || movilAbierto || !esInicio
             ? "border-white/15 bg-marino-950/80 shadow-2xl shadow-black/20 backdrop-blur-xl"
             : "border-white/15 bg-white/[0.06] backdrop-blur-md hover:border-white/25 hover:bg-marino-950/55"
         }`}
@@ -112,7 +111,7 @@ export function Navbar() {
         {/* Logo */}
         <Link href="/#inicio" className="flex shrink-0 items-center gap-3" aria-label="Grupo Comalba, inicio" onClick={() => setMovilAbierto(false)}>
           <span className="grid h-12 w-[82px] place-items-center rounded-xl bg-white px-1.5 py-1 shadow-md shadow-black/20 ring-1 ring-white/40 sm:h-[52px] sm:w-[96px]">
-            <LogoComalba className="h-full w-full object-contain" />
+            <Image src="/logos/Comalba_Grupo_sf.png" alt="Grupo Comalba" width={1604} height={981} priority className="h-full w-full object-contain" />
           </span>
           <span className="leading-none">
             <strong className="block font-display text-[1.35rem] font-semibold tracking-[0.12em]">COMALBA</strong>
@@ -158,20 +157,19 @@ export function Navbar() {
                     onClick={() => setDivisionesAbierto(false)}
                     className="group/item flex items-center gap-3 rounded-xl px-3 py-2.5 transition hover:bg-white/[0.07]"
                   >
-                    {d.slug === "financiamiento" ? (
+                    {!d.logo ? (
                       <span className="grid h-10 w-14 shrink-0 place-items-center rounded-lg border border-arena-300/30 bg-white/[0.06] text-arena-300">
                         <Landmark size={18} strokeWidth={1.7} />
                       </span>
                     ) : (
                       <span className="grid h-10 w-14 shrink-0 place-items-center rounded-lg bg-white p-1">
-                        <Image src={d.logo} alt="" width={64} height={40} className="h-full w-full object-contain" />
+                        <Image src={d.logo!} alt="" width={64} height={40} className="h-full w-full object-contain" />
                       </span>
                     )}
                     <span className="min-w-0 flex-1">
                       <span className="block text-sm font-semibold text-white">{d.nombre}</span>
                       <span className="block text-xs text-white/55">{d.etiqueta}</span>
                     </span>
-                    <ArrowUpRight size={15} className="text-white/30 transition group-hover/item:-translate-y-0.5 group-hover/item:translate-x-0.5 group-hover/item:text-arena-300" />
                   </Link>
                 ))}
               </div>
@@ -241,13 +239,13 @@ export function Navbar() {
                     onClick={() => setMovilAbierto(false)}
                     className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-white/5"
                   >
-                    {d.slug === "financiamiento" ? (
+                    {!d.logo ? (
                       <span className="grid h-9 w-12 shrink-0 place-items-center rounded-lg border border-arena-300/30 bg-white/[0.06] text-arena-300">
                         <Landmark size={17} strokeWidth={1.7} />
                       </span>
                     ) : (
                       <span className="grid h-9 w-12 shrink-0 place-items-center rounded-lg bg-white p-1">
-                        <Image src={d.logo} alt="" width={56} height={36} className="h-full w-full object-contain" />
+                        <Image src={d.logo!} alt="" width={56} height={36} className="h-full w-full object-contain" />
                       </span>
                     )}
 
