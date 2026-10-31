@@ -158,12 +158,12 @@ export function Navbar() {
                     className="group/item flex items-center gap-3 rounded-xl px-3 py-2.5 transition hover:bg-white/[0.07]"
                   >
                     {!d.logo ? (
-                      <span className="grid h-10 w-14 shrink-0 place-items-center rounded-lg border border-arena-300/30 bg-white/[0.06] text-arena-300">
+                      <span className="grid h-11 w-16 shrink-0 place-items-center rounded-lg border border-arena-300/30 bg-white/[0.06] text-arena-300">
                         <Landmark size={18} strokeWidth={1.7} />
                       </span>
                     ) : (
-                      <span className="grid h-10 w-14 shrink-0 place-items-center rounded-lg bg-white p-1">
-                        <Image src={d.logo!} alt="" width={64} height={40} className="h-full w-full object-contain" />
+                      <span className="flex h-11 w-16 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white p-1">
+                        <Image src={d.logo!} alt="" width={128} height={88} className="h-auto max-h-full w-auto max-w-full object-contain" />
                       </span>
                     )}
                     <span className="min-w-0 flex-1">
@@ -240,12 +240,12 @@ export function Navbar() {
                     className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-white/5"
                   >
                     {!d.logo ? (
-                      <span className="grid h-9 w-12 shrink-0 place-items-center rounded-lg border border-arena-300/30 bg-white/[0.06] text-arena-300">
+                      <span className="grid h-10 w-14 shrink-0 place-items-center rounded-lg border border-arena-300/30 bg-white/[0.06] text-arena-300">
                         <Landmark size={17} strokeWidth={1.7} />
                       </span>
                     ) : (
-                      <span className="grid h-9 w-12 shrink-0 place-items-center rounded-lg bg-white p-1">
-                        <Image src={d.logo!} alt="" width={56} height={36} className="h-full w-full object-contain" />
+                      <span className="flex h-10 w-14 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white p-1">
+                        <Image src={d.logo!} alt="" width={112} height={80} className="h-auto max-h-full w-auto max-w-full object-contain" />
                       </span>
                     )}
 

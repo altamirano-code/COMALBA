@@ -21,7 +21,7 @@ export const contacto = {
    y cambia "remoto" por "/logos/comalba.png". */
 export const logoComalba = {
   remoto: "https://static.tokkobroker.com/tfw_images/3052_COMALBA%20S.A.%20de%20C.V./FEF73781-0AD0-41AD-8590-D27C90184D55.png",
-  local: "/logos/grupo-comalba.png",
+  local: "/logos/Comalba_Grupo_sf.png",
 };
 
 /* Íconos de redes sociales (imágenes proporcionadas). Si no cargan, se muestra un ícono dibujado. */
@@ -88,7 +88,7 @@ export const divisiones: Division[] = [
     nombre: "Asesoría y Proyectos",
     etiqueta: "Gestión y desarrollo",
     resumen: "Asesoría jurídica, gestoría inmobiliaria, mantenimiento y desarrollo de proyectos.",
-    logo: "/logos/grupo-comalba.png",
+    logo: "/logos/Comalba_Grupo_sf.png",
   },
   {
     slug: "aqmen",
@@ -103,7 +103,7 @@ export const divisiones: Division[] = [
     nombre: "Transportes IMMOR",
     etiqueta: "Fletes y mudanzas",
     resumen: "Traslado seguro de muebles y pertenencias hasta tu nuevo destino.",
-    logo: "/logos/transportes-immor.png",
+    logo: "/logos/transportes-immor_sf.png",
     telefono: "7774523252",
   },
   {

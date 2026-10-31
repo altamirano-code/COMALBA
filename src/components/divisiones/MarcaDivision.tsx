@@ -6,7 +6,7 @@ import type { Division } from "@/lib/site";
 export function MarcaDivision({ division, className = "" }: { division: Division; className?: string }) {
   if (!division.logo) {
     return (
-      <span className={`inline-flex items-center gap-3 rounded-2xl bg-white px-4 py-3 text-marino-900 ${className}`}>
+      <span className={`inline-flex min-w-max items-center gap-3 whitespace-nowrap rounded-2xl bg-white px-4 py-3 text-marino-900 ${className}`}>
         <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-marino-900 text-arena-200">
           <Landmark size={22} strokeWidth={1.6} />
         </span>

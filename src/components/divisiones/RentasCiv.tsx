@@ -164,7 +164,7 @@ function PanelAnual({ division }: { division: Division }) {
         </div>
       </div>
 
-      <form onSubmit={enviar} className="h-fit rounded-3xl bg-white p-7 ring-1 ring-marino-950/10 sm:p-9 lg:sticky lg:top-28">
+      <form onSubmit={enviar} className="h-fit rounded-3xl bg-white p-7 ring-1 ring-marino-950/10 sm:p-9">
         <p className="font-display text-3xl font-semibold text-marino-900">Renta anual de {segmento.toLowerCase()}</p>
         <p className="mt-2 text-sm leading-6 text-piedra">Contratos por 12 meses o más, con revisión jurídica de cada documento.</p>
 

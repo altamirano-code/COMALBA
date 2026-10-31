@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Armchair, Boxes, Building2, Home, Package, Route, Sofa, Truck } from "lucide-react";
+import { Armchair, Boxes, Building2, ChevronLeft, ChevronRight, Home, Package, Route, Sofa, Truck } from "lucide-react";
 import { MarcaDivision } from "@/components/divisiones/MarcaDivision";
 import { WhatsAppIcon } from "@/components/WhatsAppButton";
 import { whatsappUrl, type Division } from "@/lib/site";
@@ -187,11 +187,31 @@ export function CotizadorMudanza({ division }: { division: Division }) {
           </div>
 
           {paso === 2 ? (
-            <button type="submit" disabled={!listoRuta} className="flex w-full items-center justify-center gap-2 rounded-full bg-marino-900 px-6 py-4 text-sm font-bold text-white transition hover:bg-marino-700 disabled:opacity-40">
+            <button type="submit" disabled={!listoRuta} className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-marino-900 px-6 py-4 text-sm font-bold text-white transition hover:bg-marino-700 disabled:opacity-40">
               <WhatsAppIcon className="size-[18px]" /> Recibir mi cotización
             </button>
           ) : (
-            <p className="text-center text-sm text-piedra">Elige una opción para continuar.</p>
+            <>
+              <p className="text-center text-sm text-piedra">Elige una opción para continuar.</p>
+              <div className="mt-5 grid grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={() => setPaso((p) => p - 1)}
+                  disabled={paso === 0}
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-marino-950/20 px-5 py-3.5 text-sm font-bold text-marino-900 transition hover:border-marino-900 disabled:pointer-events-none disabled:opacity-35"
+                >
+                  <ChevronLeft size={17} /> Anterior
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPaso((p) => p + 1)}
+                  disabled={paso === 0 ? !servicio : !tamano}
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-marino-900 px-5 py-3.5 text-sm font-bold text-white transition hover:bg-marino-700 disabled:pointer-events-none disabled:opacity-35"
+                >
+                  Continuar <ChevronRight size={17} />
+                </button>
+              </div>
+            </>
           )}
         </form>
       </div>
