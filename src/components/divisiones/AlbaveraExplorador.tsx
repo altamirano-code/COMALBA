@@ -2,71 +2,67 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useState, type FormEvent } from "react";
-import { Bath, BedDouble, Car, MapPin, Maximize2, Search, Trees } from "lucide-react";
+import { useMemo, useState, type FormEvent } from "react";
+import { Bath, BedDouble, Car, MapPin, Maximize2, Search, Sparkles, Users } from "lucide-react";
 import { MarcaDivision } from "@/components/divisiones/MarcaDivision";
 import { WhatsAppIcon } from "@/components/WhatsAppButton";
-import { propiedadesDestacadas, whatsappUrl, type Caracteristica, type Division, type Propiedad } from "@/lib/site";
+import { usePublicacionesPublicas } from "@/lib/almacenPublicaciones";
+import { CATEGORIAS, caracteristicasDe, precioTexto, ubicacionTexto, type Caracteristica } from "@/lib/publicaciones";
+import { whatsappUrl, type Division } from "@/lib/site";
 
-type Listing = { id: string; title: string; category: string; price: string; location: string; image: string; active: boolean };
-const CLAVE_ADMIN = "comalba-listings-v1";
-const TIPOS = ["Casa", "Departamento", "Terreno", "Bodega"];
+const TIPOS = CATEGORIAS;
 
 const ICONOS: Record<Caracteristica["icono"], typeof BedDouble> = {
   area: Maximize2,
   recamaras: BedDouble,
   banos: Bath,
   autos: Car,
-  naturaleza: Trees,
+  huespedes: Users,
+  extra: Sparkles,
+};
+
+/* Rangos del filtro de precio (MXN). Las propiedades con "Consultar precio" solo aparecen en "Cualquier precio". */
+const RANGOS = [
+  { id: "", texto: "Cualquier precio", min: 0, max: Infinity },
+  { id: "1", texto: "Hasta $1 millón", min: 0, max: 1_000_000 },
+  { id: "2", texto: "$1 a $2 millones", min: 1_000_000, max: 2_000_000 },
+  { id: "4", texto: "$2 a $4 millones", min: 2_000_000, max: 4_000_000 },
+  { id: "+", texto: "Más de $4 millones", min: 4_000_000, max: Infinity },
+];
+
+const enRango = (precio: number | null, rangoId: string) => {
+  const rango = RANGOS.find((r) => r.id === rangoId);
+  if (!rango || !rango.id) return true;
+  return precio !== null && precio >= rango.min && precio <= rango.max;
 };
 
 const normalizar = (t: string) => t.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 
 /* Portada con buscador estilo portal + listado de propiedades en venta */
 export function AlbaveraExplorador({ division }: { division: Division }) {
-  const [propiedades, setPropiedades] = useState<Propiedad[]>(propiedadesDestacadas);
+  const { publicaciones, cargando } = usePublicacionesPublicas();
+  const propiedades = useMemo(() => publicaciones.filter((p) => p.seccion === "albavera"), [publicaciones]);
   const [tipo, setTipo] = useState("");
   const [zona, setZona] = useState("");
-  const [filtro, setFiltro] = useState({ tipo: "", zona: "" });
-
-  /* Suma las publicaciones activas del panel de administración */
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(CLAVE_ADMIN);
-      if (!raw) return;
-      const extras = (JSON.parse(raw) as Listing[])
-        .filter((x) => x.active && TIPOS.includes(x.category))
-        .map<Propiedad>((x) => ({
-          id: x.id,
-          titulo: x.title,
-          ubicacion: x.location || "Ubicación a consultar",
-          precio: x.price || "Consultar precio",
-          operacion: "Venta",
-          tipo: x.category,
-          imagen: x.image,
-          caracteristicas: [],
-        }));
-      if (extras.length) setPropiedades([...propiedadesDestacadas, ...extras]);
-    } catch {
-      /* Datos locales dañados: se muestran solo las destacadas */
-    }
-  }, []);
+  const [precio, setPrecio] = useState("");
+  const [filtro, setFiltro] = useState({ tipo: "", zona: "", precio: "" });
 
   const visibles = useMemo(
     () =>
       propiedades.filter(
         (p) =>
-          (!filtro.tipo || p.tipo === filtro.tipo) &&
-          (!filtro.zona || normalizar(`${p.ubicacion} ${p.titulo}`).includes(normalizar(filtro.zona))),
+          (!filtro.tipo || p.categoria === filtro.tipo) &&
+          enRango(p.precio, filtro.precio) &&
+          (!filtro.zona || normalizar(`${ubicacionTexto(p)} ${p.titulo} ${p.clave}`).includes(normalizar(filtro.zona))),
       ),
     [propiedades, filtro],
   );
 
-  const conteo = (t: string) => propiedades.filter((p) => !t || p.tipo === t).length;
+  const conteo = (t: string) => propiedades.filter((p) => (!t || p.categoria === t) && enRango(p.precio, filtro.precio)).length;
 
   const buscar = (e: FormEvent) => {
     e.preventDefault();
-    setFiltro({ tipo, zona: zona.trim() });
+    setFiltro({ tipo, zona: zona.trim(), precio });
     document.getElementById("resultados")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
@@ -75,7 +71,8 @@ export function AlbaveraExplorador({ division }: { division: Division }) {
     setFiltro((f) => ({ ...f, tipo: t }));
   };
 
-  const mensajeAsesor = `Hola, busco ${filtro.tipo ? `${filtro.tipo.toLowerCase()} ` : "una propiedad "}en venta${filtro.zona ? ` en ${filtro.zona}` : ""}. ¿Me pueden enviar opciones?`;
+  const rangoElegido = RANGOS.find((r) => r.id === filtro.precio && r.id);
+  const mensajeAsesor = `Hola, busco ${filtro.tipo ? `${filtro.tipo.toLowerCase()} ` : "una propiedad "}en venta${filtro.zona ? ` en ${filtro.zona}` : ""}${rangoElegido ? ` (${rangoElegido.texto.toLowerCase()})` : ""}. ¿Me pueden enviar opciones?`;
 
   return (
     <>
@@ -107,7 +104,7 @@ export function AlbaveraExplorador({ division }: { division: Division }) {
             <form
               onSubmit={buscar}
               role="search"
-              className="grid gap-2 rounded-b-2xl rounded-tr-2xl bg-white p-2 text-marino-900 shadow-2xl shadow-black/40 md:grid-cols-[1fr_1.4fr_auto]"
+              className="grid gap-2 rounded-b-2xl rounded-tr-2xl bg-white p-2 text-marino-900 shadow-2xl shadow-black/40 sm:grid-cols-2 md:grid-cols-[1fr_1fr_1.4fr_auto]"
             >
               <label className="flex flex-col rounded-xl px-4 py-2.5 focus-within:bg-marfil">
                 <span className="text-xs font-semibold text-piedra">Tipo de inmueble</span>
@@ -115,6 +112,16 @@ export function AlbaveraExplorador({ division }: { division: Division }) {
                   <option value="">Todos</option>
                   {TIPOS.map((t) => (
                     <option key={t}>{t}</option>
+                  ))}
+                </select>
+              </label>
+              <label className="flex flex-col rounded-xl px-4 py-2.5 focus-within:bg-marfil md:border-l md:border-marino-950/10">
+                <span className="text-xs font-semibold text-piedra">Precio</span>
+                <select value={precio} onChange={(e) => setPrecio(e.target.value)} className="mt-0.5 bg-transparent text-[15px] font-semibold outline-none">
+                  {RANGOS.map((r) => (
+                    <option key={r.id || "todos"} value={r.id}>
+                      {r.texto}
+                    </option>
                   ))}
                 </select>
               </label>
@@ -129,7 +136,7 @@ export function AlbaveraExplorador({ division }: { division: Division }) {
               </label>
               <button
                 type="submit"
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-marino-900 px-8 py-4 text-sm font-bold text-white transition hover:bg-marino-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dorado-500"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-marino-900 px-8 py-4 sm:col-span-2 md:col-span-1 text-sm font-bold text-white transition hover:bg-marino-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dorado-500"
               >
                 <Search size={18} /> Buscar
               </button>
@@ -144,9 +151,13 @@ export function AlbaveraExplorador({ division }: { division: Division }) {
           <div className="flex flex-col justify-between gap-5 border-b border-marino-950/10 pb-6 md:flex-row md:items-end">
             <div>
               <h2 className="font-display text-4xl font-semibold text-marino-900 sm:text-5xl">
-                {visibles.length} {visibles.length === 1 ? "propiedad" : "propiedades"} en venta
+                {cargando ? "Cargando propiedades…" : `${visibles.length} ${visibles.length === 1 ? "propiedad" : "propiedades"} en venta`}
               </h2>
-              {filtro.zona && <p className="mt-2 text-sm text-piedra">Resultados para “{filtro.zona}”</p>}
+              {(filtro.zona || rangoElegido) && (
+                <p className="mt-2 text-sm text-piedra">
+                  Resultados{filtro.zona && ` para “${filtro.zona}”`}{rangoElegido && ` · ${rangoElegido.texto}`}
+                </p>
+              )}
             </div>
             <div role="group" aria-label="Filtrar por tipo" className="no-scrollbar -mx-6 flex gap-2 overflow-x-auto px-6 md:mx-0 md:px-0">
               {["", ...TIPOS].map((t) => (
@@ -173,21 +184,21 @@ export function AlbaveraExplorador({ division }: { division: Division }) {
                 <li key={p.id}>
                   <article className="grid overflow-hidden rounded-2xl bg-white ring-1 ring-marino-950/8 sm:grid-cols-[minmax(0,320px)_1fr]">
                     <div className="relative aspect-[4/3] bg-crema sm:aspect-auto sm:min-h-56">
-                      {p.imagen && (
+                      {p.fotos[0] && (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={p.imagen} alt={p.titulo} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+                        <img src={p.fotos[0]} alt={p.titulo} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
                       )}
-                      <span className="absolute left-3 top-3 rounded-md bg-white px-2.5 py-1 text-xs font-bold text-marino-900">{p.tipo}</span>
+                      <span className="absolute left-3 top-3 rounded-md bg-white px-2.5 py-1 text-xs font-bold text-marino-900">{p.categoria}</span>
                     </div>
                     <div className="flex flex-col p-6 sm:p-7">
-                      <p className="font-hero text-3xl font-semibold text-marino-900">{p.precio}</p>
+                      <p className="font-hero text-3xl font-semibold text-marino-900">{precioTexto(p)}</p>
                       <h3 className="mt-2 text-lg font-bold leading-snug text-tinta">{p.titulo}</h3>
                       <p className="mt-1.5 flex items-center gap-1.5 text-sm text-piedra">
-                        <MapPin size={15} className="shrink-0" /> {p.ubicacion}
+                        <MapPin size={15} className="shrink-0" /> {ubicacionTexto(p)}
                       </p>
-                      {p.caracteristicas.length > 0 && (
+                      {caracteristicasDe(p).length > 0 && (
                         <ul className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-marino-900">
-                          {p.caracteristicas.map((c) => {
+                          {caracteristicasDe(p).map((c) => {
                             const Icono = ICONOS[c.icono];
                             return (
                               <li key={c.texto} className="flex items-center gap-1.5">
@@ -199,7 +210,7 @@ export function AlbaveraExplorador({ division }: { division: Division }) {
                       )}
                       <div className="mt-6 flex flex-wrap items-center gap-4 border-t border-marino-950/10 pt-5 sm:mt-auto">
                         <a
-                          href={whatsappUrl(`Hola, me interesa la propiedad "${p.titulo}" (${p.ubicacion}). ¿Sigue disponible?`, division.telefono)}
+                          href={whatsappUrl(`Hola, me interesa la propiedad ${p.clave} "${p.titulo}" (${ubicacionTexto(p)}). ¿Sigue disponible?`, division.telefono)}
                           target="_blank"
                           rel="noreferrer"
                           className="inline-flex items-center gap-2 rounded-full bg-[#25d366] px-5 py-2.5 text-sm font-bold text-white transition hover:brightness-95"
@@ -212,10 +223,10 @@ export function AlbaveraExplorador({ division }: { division: Division }) {
                 </li>
               ))}
             </ul>
-          ) : (
+          ) : cargando ? null : (
             <div className="mt-8 rounded-2xl border border-dashed border-marino-950/20 bg-white p-10 text-center">
               <p className="font-display text-2xl font-semibold text-marino-900">No hay publicaciones con esos filtros.</p>
-              <p className="mt-2 text-sm text-piedra">Prueba con otro tipo o zona, o pide a un asesor opciones que aún no publicamos.</p>
+              <p className="mt-2 text-sm text-piedra">Prueba con otro tipo, precio o zona, o pide a un asesor opciones que aún no publicamos.</p>
             </div>
           )}
 

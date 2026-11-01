@@ -5,3 +5,7 @@ out
 !.env.example
 
 *.tsbuildinfo
+*.pdf
+/*.jpeg
+/*.jpg
+/*.png

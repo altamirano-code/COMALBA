@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useState, type FormEvent } from "react";
 import { CalendarDays, Factory, Home, Minus, Plus, Store, Sun } from "lucide-react";
 import { MarcaDivision } from "@/components/divisiones/MarcaDivision";
-import { PublicListings } from "@/components/PublicListings";
+import { ListadoPublicaciones } from "@/components/ListadoPublicaciones";
 import { WhatsAppIcon } from "@/components/WhatsAppButton";
 import { whatsappUrl, type Division } from "@/lib/site";
 
@@ -210,7 +210,7 @@ function PanelAnual({ division }: { division: Division }) {
       <div className="lg:col-span-2">
         <h3 className="font-display text-3xl font-semibold text-marino-900">Disponibles para renta</h3>
         <div className="mt-6">
-          <PublicListings categories={["Casa", "Departamento", "Bodega"]} />
+          <ListadoPublicaciones seccion="civ-rentas" operacion="Renta anual" />
         </div>
       </div>
     </div>
@@ -302,6 +302,13 @@ function PanelVacacional({ division }: { division: Division }) {
           <WhatsAppIcon className="size-[18px]" /> Consultar disponibilidad
         </button>
       </form>
+
+      <div className="lg:col-span-2">
+        <h3 className="font-display text-3xl font-semibold text-marino-900">Disponibles para vacacionar</h3>
+        <div className="mt-6">
+          <ListadoPublicaciones seccion="civ-rentas" operacion="Renta vacacional" />
+        </div>
+      </div>
     </div>
   );
 }

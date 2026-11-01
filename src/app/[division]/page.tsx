@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
-import { PublicListings } from "@/components/PublicListings";
+import { ListadoPublicaciones } from "@/components/ListadoPublicaciones";
 import { AlbaveraExplorador } from "@/components/divisiones/AlbaveraExplorador";
 import { RentasCiv } from "@/components/divisiones/RentasCiv";
 import { AsesoriaProyectos } from "@/components/divisiones/AsesoriaProyectos";
@@ -73,7 +73,7 @@ function Contenido({ division }: { division: Division }) {
             <div className="mx-auto max-w-7xl">
               <h2 className="font-display text-4xl font-semibold text-marino-900">Proyectos AQMEN</h2>
               <div className="mt-8">
-                <PublicListings categories={["Cocina"]} />
+                <ListadoPublicaciones seccion="aqmen" />
               </div>
             </div>
           </section>

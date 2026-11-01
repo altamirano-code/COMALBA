@@ -8,7 +8,7 @@ export const contacto = {
   // Número internacional sin "+" ni espacios. Si existe NEXT_PUBLIC_WHATSAPP_NUMBER en .env, tiene prioridad.
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "527771091524",
   telefono: "7771091524",
-  correo: "inmueblesycertezajuridica@gmail.com",
+  correo: "comalbasadecv@gmail.com",
   facebook: "https://www.facebook.com/COMALBASADECV/",
   instagram: "", // Pega aquí el enlace del perfil oficial; si queda vacío, el ícono no se muestra
   ubicacion: "Cuernavaca, Morelos",
@@ -122,62 +122,4 @@ export const slidesInicio = [
   { src: "/images/hero-cuernavaca.jpg", titulo: "Casa con alberca", lugar: "Cuernavaca, Morelos", posicion: "50% 55%" },
 ];
 
-/* ---------- Propiedades destacadas ----------
-   Datos tomados de las publicaciones de ALBAVERA.
-   Las propiedades que se publiquen desde /admin se agregan después de estas. */
-export type Caracteristica = { icono: "area" | "recamaras" | "banos" | "autos" | "naturaleza"; texto: string };
-
-export type Propiedad = {
-  id: string;
-  titulo: string;
-  ubicacion: string;
-  precio: string;
-  operacion: string;
-  tipo: string;
-  imagen: string;
-  caracteristicas: Caracteristica[];
-};
-
-export const propiedadesDestacadas: Propiedad[] = [
-  {
-    id: "los-volcanes",
-    titulo: "Departamentos modernos con alberca",
-    ubicacion: "Los Volcanes, Morelos",
-    precio: "Desde $3,050,000 MXN",
-    operacion: "Venta",
-    tipo: "Departamento",
-    imagen: "/images/departamentos.jpg",
-    caracteristicas: [
-      { icono: "recamaras", texto: "3 rec." },
-      { icono: "autos", texto: "2 autos" },
-      { icono: "area", texto: "110 m² const." },
-    ],
-  },
-  {
-    id: "casa-residencial",
-    titulo: "Casa residencial de diseño moderno",
-    ubicacion: "Morelos",
-    precio: "Consultar precio",
-    operacion: "Venta",
-    tipo: "Casa",
-    imagen: "/images/residencia.jpg",
-    caracteristicas: [
-      { icono: "recamaras", texto: "4 hab." },
-      { icono: "banos", texto: "3.5 baños" },
-      { icono: "autos", texto: "2 autos" },
-    ],
-  },
-  {
-    id: "huitzilac",
-    titulo: "Terreno rodeado de naturaleza",
-    ubicacion: "Huitzilac, Morelos",
-    precio: "$550,000 MXN",
-    operacion: "Venta",
-    tipo: "Terreno",
-    imagen: "/images/huitzilac.jpg",
-    caracteristicas: [
-      { icono: "area", texto: "402 m² terreno" },
-      { icono: "naturaleza", texto: "Entorno natural" },
-    ],
-  },
-];
+/* Las propiedades (y sus destacadas del inicio) viven en src/lib/publicaciones.ts y se administran desde /admin */
