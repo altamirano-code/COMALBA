@@ -60,7 +60,7 @@ export function CalculadoraFinanciamiento({ division }: { division: Division }) 
             ))}
           </dl>
 
-          <p className="mt-8 max-w-md text-[15px] leading-7 text-piedra">
+          <p className="mt-8 max-w-md text-cuerpo text-piedra">
             Calcula tu mensualidad aproximada. Un asesor revisa tu caso y te explica los requisitos para integrar tu expediente.
           </p>
         </div>

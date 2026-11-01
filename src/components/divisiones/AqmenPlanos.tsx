@@ -79,7 +79,7 @@ export function AqmenPlanos({ division }: { division: Division }) {
               Cocinas y clósets hechos a la medida de tu casa.
             </h1>
           </div>
-          <p className="max-w-sm text-[17px] leading-8 text-piedra">
+          <p className="max-w-sm text-cuerpo-lg text-piedra">
             Elige la forma de tu espacio en el plano. Con eso preparamos la visita de medición y tu propuesta de diseño.
           </p>
         </div>

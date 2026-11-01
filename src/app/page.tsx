@@ -53,12 +53,12 @@ export default function Home() {
               Grupo Comalba · Más de 10 años
             </p>
 
-            <h1 className="fade-up mt-7 text-balance font-hero text-[3.2rem] font-semibold leading-[0.98] tracking-[-0.02em] [animation-delay:.25s] sm:text-7xl lg:text-[6.5rem]">
+            <h1 className="fade-up mt-7 text-balance font-display text-portada font-semibold [animation-delay:.25s]">
               Creamos espacios
-              <span className="mt-2 block font-medium italic text-arena-200">para vivir el futuro.</span>
+              <span className="mt-1 block font-medium text-arena-200">para vivir el futuro.</span>
             </h1>
 
-            <p className="fade-up mx-auto mt-8 max-w-2xl text-base leading-8 text-white/85 [animation-delay:.4s] sm:text-lg">
+            <p className="fade-up mx-auto mt-8 max-w-2xl text-base leading-relaxed text-white/85 [animation-delay:.4s] sm:text-lg">
               Un ecosistema inmobiliario que reúne experiencia, diseño y servicio para acompañarte en cada etapa de tu próximo proyecto.
             </p>
 
@@ -104,11 +104,11 @@ export default function Home() {
             <Reveal className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
               <div>
                 <p className="eyebrow text-dorado-600">Oportunidades</p>
-                <h2 className="mt-4 font-display text-5xl font-semibold leading-[1.02] text-marino-900 sm:text-6xl">
-                  Propiedades <span className="italic text-dorado-600">destacadas</span>
+                <h2 className="mt-4 font-display text-titulo font-semibold text-marino-900">
+                  Propiedades destacadas
                 </h2>
               </div>
-              <p className="max-w-sm text-[15px] leading-7 text-piedra">
+              <p className="max-w-sm text-cuerpo text-piedra">
                 Casas, departamentos y terrenos seleccionados por nuestros asesores en Morelos.
               </p>
             </Reveal>
@@ -137,10 +137,10 @@ export default function Home() {
           <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[1fr_1.05fr]">
             <Reveal>
               <p className="eyebrow text-arena-300">Ofrece tu propiedad</p>
-              <h2 className="mt-5 font-display text-5xl font-semibold leading-[1.02] sm:text-6xl">
-                Cuéntanos sobre <span className="italic text-arena-200">tu propiedad.</span>
+              <h2 className="mt-5 font-display text-titulo font-semibold">
+                Cuéntanos sobre tu propiedad.
               </h2>
-              <p className="mt-6 max-w-lg text-[17px] leading-8 text-white/75">
+              <p className="mt-6 max-w-lg text-cuerpo-lg text-white/75">
                 Si quieres vender, rentar o conocer el valor de tu inmueble, un asesor revisa tu caso, te explica el proceso y te acompaña hasta el cierre.
               </p>
 
@@ -182,10 +182,10 @@ export default function Home() {
             <div>
               <Reveal>
                 <p className="eyebrow text-dorado-600">La empresa</p>
-                <h2 className="mt-5 font-display text-5xl font-semibold leading-[1.02] text-marino-900 sm:text-6xl">
-                  Experiencia que <span className="italic text-dorado-600">transforma espacios.</span>
+                <h2 className="mt-5 font-display text-titulo font-semibold text-marino-900">
+                  Experiencia que transforma espacios.
                 </h2>
-                <p className="mt-6 text-[17px] leading-8 text-piedra">
+                <p className="mt-6 text-cuerpo-lg text-piedra">
                   Grupo Comalba integra servicios inmobiliarios, diseño y soluciones para acompañar a personas y empresas desde la búsqueda de un espacio hasta hacerlo suyo.
                 </p>
               </Reveal>
@@ -194,7 +194,7 @@ export default function Home() {
                 {principios.map((p, i) => (
                   <Reveal key={p.titulo} delay={i * 100} className="grid gap-2 py-6 sm:grid-cols-[180px_1fr] sm:gap-6">
                     <p className="font-display text-2xl font-semibold text-marino-900">{p.titulo}</p>
-                    <p className="text-[15px] leading-7 text-piedra">{p.texto}</p>
+                    <p className="text-cuerpo text-piedra">{p.texto}</p>
                   </Reveal>
                 ))}
               </div>
@@ -206,8 +206,8 @@ export default function Home() {
         <section id="divisiones" className="bg-white px-6 py-24 sm:px-10 lg:py-32">
           <div className="mx-auto max-w-7xl">
             <Reveal className="grid gap-6 lg:grid-cols-[1.15fr_1fr] lg:items-end lg:gap-14">
-              <h2 className="font-display text-5xl font-semibold leading-[1.02] text-marino-900 sm:text-6xl">¿Qué necesitas hoy?</h2>
-              <p className="text-[17px] leading-8 text-piedra">
+              <h2 className="font-display text-titulo font-semibold text-marino-900">¿Qué necesitas hoy?</h2>
+              <p className="text-cuerpo-lg text-piedra">
                 Grupo Comalba reúne seis negocios especializados. Elige lo que buscas y te mostramos cuál de ellos te atiende.
               </p>
             </Reveal>
@@ -224,12 +224,12 @@ export default function Home() {
             <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
               <Reveal>
                 <p className="eyebrow text-dorado-600">Valuación</p>
-                <h2 className="mt-5 font-display text-5xl font-semibold leading-[1.02] text-marino-900 sm:text-6xl">
-                  ¿Cuánto vale <span className="italic text-dorado-600">tu propiedad?</span>
+                <h2 className="mt-5 font-display text-titulo font-semibold text-marino-900">
+                  ¿Cuánto vale tu propiedad?
                 </h2>
               </Reveal>
               <Reveal delay={100}>
-                <p className="text-[17px] leading-8 text-piedra">
+                <p className="text-cuerpo-lg text-piedra">
                   Conocer el valor real de tu inmueble es el primer paso para venderlo, rentarlo o invertir con seguridad. Te ayudamos en tres pasos.
                 </p>
               </Reveal>
@@ -243,10 +243,10 @@ export default function Home() {
                     key={titulo}
                     className="relative pl-20 after:absolute after:-bottom-10 after:left-[27px] after:top-14 after:w-0.5 after:bg-dorado-500 after:content-[''] last:after:hidden md:pl-0 md:pr-6 md:after:-right-8 md:after:bottom-auto md:after:left-14 md:after:top-[27px] md:after:h-0.5 md:after:w-auto"
                   >
-                    <span aria-hidden="true" className="absolute left-0 top-0 grid size-14 place-items-center rounded-full bg-marino-900 font-hero text-2xl font-semibold text-arena-200 md:static">
+                    <span aria-hidden="true" className="absolute left-0 top-0 grid size-14 place-items-center rounded-full bg-marino-900 font-display text-2xl font-semibold text-arena-200 md:static">
                       {i + 1}
                     </span>
-                    <h3 className="pt-2.5 font-display text-[1.7rem] font-semibold leading-tight text-marino-900 md:mt-6 md:pt-0">{titulo}</h3>
+                    <h3 className="pt-2.5 font-display text-subtitulo font-semibold text-marino-900 md:mt-6 md:pt-0">{titulo}</h3>
                     <p className="mt-2 max-w-[34ch] text-sm leading-6 text-piedra">{texto}</p>
                     <p className="mt-3 text-sm font-bold text-dorado-600">{detalle}</p>
                   </li>
@@ -280,8 +280,8 @@ export default function Home() {
           <div className="mx-auto max-w-7xl">
             <Reveal className="max-w-3xl">
               <p className="eyebrow text-arena-300">Empecemos una conversación</p>
-              <h2 className="mt-5 font-display text-5xl font-semibold leading-[1.02] sm:text-6xl">
-                Tu próxima posibilidad <span className="italic text-arena-200">comienza aquí.</span>
+              <h2 className="mt-5 font-display text-titulo font-semibold">
+                Tu próxima posibilidad comienza aquí.
               </h2>
             </Reveal>
 

@@ -11,7 +11,7 @@ export function Footer({ mostrarFrase = false }: { mostrarFrase?: boolean }) {
       {/* Franja con la presentación de la empresa (solo en el inicio) */}
       {mostrarFrase && (
         <div className="border-t-4 border-dorado-500 bg-marino-800">
-          <p className="mx-auto max-w-5xl text-balance px-6 py-12 text-center font-hero text-xl font-normal italic leading-relaxed text-white sm:px-10 sm:text-[1.65rem] sm:leading-[1.5]">
+          <p className="mx-auto max-w-5xl text-balance px-6 py-12 text-center font-display text-xl font-normal leading-relaxed text-white sm:px-10 sm:text-2xl sm:leading-normal">
             “{textoEmpresa}”
           </p>
         </div>
@@ -95,7 +95,7 @@ export function Footer({ mostrarFrase = false }: { mostrarFrase?: boolean }) {
         <p className="border-t border-white/10 pt-8 text-xs leading-6 text-white/45">{avisoLegal}</p>
       </div>
 
-      <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-6 text-xs text-white/45 sm:flex-row sm:items-center sm:justify-between sm:px-10">
+      <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-6 text-xs text-white/55 sm:flex-row sm:items-center sm:justify-between sm:px-10">
         <p>© {new Date().getFullYear()} COMALBA S.A. de C.V. Todos los derechos reservados.</p>
         <Link href="/admin" className="w-fit underline underline-offset-4 hover:text-white">Administración</Link>
       </div>

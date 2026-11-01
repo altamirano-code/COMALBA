@@ -63,7 +63,7 @@ export function RentasCiv({ division }: { division: Division }) {
                 Renta por año o por temporada.
               </h1>
             </div>
-            <p className="max-w-sm text-[17px] leading-8 text-white/75">
+            <p className="max-w-sm text-cuerpo-lg text-white/75">
               Elige cómo quieres rentar. Te mostramos los espacios disponibles y un asesor de CIV te acompaña hasta la firma o la llegada.
             </p>
           </div>
@@ -154,7 +154,7 @@ function PanelAnual({ division }: { division: Division }) {
                   <Icono size={24} strokeWidth={1.5} />
                 </span>
                 <span className="font-display text-3xl font-semibold text-marino-900">{id}</span>
-                <span className="col-start-2 text-[15px] leading-7 text-piedra sm:col-span-2">{texto}</span>
+                <span className="col-start-2 text-cuerpo text-piedra sm:col-span-2">{texto}</span>
                 <span className="col-start-2 mt-2 text-sm font-semibold text-marino-700 sm:col-start-3 sm:row-start-1 sm:mt-0 sm:self-center">
                   {espacios.join(", ")}
                 </span>
@@ -238,7 +238,7 @@ function PanelVacacional({ division }: { division: Division }) {
     <div className="grid items-start gap-12 lg:grid-cols-[1fr_1.1fr]">
       <div>
         <h2 className="font-display text-4xl font-semibold text-marino-900">Tu descanso en Morelos, listo al llegar.</h2>
-        <p className="mt-4 max-w-md text-[17px] leading-8 text-piedra">
+        <p className="mt-4 max-w-md text-cuerpo-lg text-piedra">
           Casas y departamentos para fines de semana, puentes o temporadas largas. Dinos tus fechas y te confirmamos disponibilidad.
         </p>
         <div className="relative mt-10 aspect-[4/3] overflow-hidden rounded-3xl">

@@ -86,7 +86,7 @@ export function AlbaveraExplorador({ division }: { division: Division }) {
           <h1 className="fade-up mt-8 max-w-3xl text-balance font-display text-5xl font-semibold leading-[1.02] sm:text-6xl lg:text-7xl">
             Casas, departamentos y terrenos en venta en Morelos.
           </h1>
-          <p className="mt-5 max-w-xl text-[17px] leading-8 text-white/80">
+          <p className="mt-5 max-w-xl text-cuerpo-lg text-white/80">
             Busca entre las propiedades que publicamos o pide a un asesor que te envíe opciones a tu medida.
           </p>
 
@@ -231,7 +231,7 @@ export function AlbaveraExplorador({ division }: { division: Division }) {
           )}
 
           <div className="mt-10 flex flex-col items-start justify-between gap-5 rounded-2xl bg-marino-900 p-7 text-white sm:flex-row sm:items-center sm:p-8">
-            <p className="max-w-lg text-[15px] leading-7 text-white/80">
+            <p className="max-w-lg text-cuerpo text-white/80">
               Tenemos más inmuebles de los que publicamos. Cuéntanos qué buscas y te enviamos opciones.
             </p>
             <a

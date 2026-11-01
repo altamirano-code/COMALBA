@@ -52,7 +52,7 @@ export function AsesoriaProyectos({ division }: { division: Division }) {
             <h1 className="fade-up mt-3 text-balance font-display text-5xl font-semibold leading-[1.02] text-marino-900 sm:text-6xl lg:text-7xl">
               Lo que tu inmueble necesita, resuelto por especialistas.
             </h1>
-            <p className="mt-7 max-w-lg text-[17px] leading-8 text-piedra">
+            <p className="mt-7 max-w-lg text-cuerpo-lg text-piedra">
               Un mismo equipo para el lado legal, los trámites, el mantenimiento y la obra. Elige el servicio y te contactamos con la persona indicada.
             </p>
           </div>
@@ -81,7 +81,7 @@ export function AsesoriaProyectos({ division }: { division: Division }) {
             {ETAPAS.map((e) => (
               <li key={e.etapa} className="bg-marino-900 p-7 md:p-8">
                 <p className="font-display text-2xl font-semibold text-arena-200">{e.etapa}</p>
-                <p className="mt-3 text-[15px] leading-7 text-white/70">{e.texto}</p>
+                <p className="mt-3 text-cuerpo text-white/70">{e.texto}</p>
                 <ul className="mt-6 flex flex-wrap gap-2">
                   {e.servicios.map((id) => (
                     <li key={id}>
@@ -104,7 +104,7 @@ export function AsesoriaProyectos({ division }: { division: Division }) {
             <article key={s.id} id={s.id} className="grid scroll-mt-28 gap-6 py-12 first:pt-0 last:pb-0 lg:grid-cols-[1fr_1fr_auto] lg:gap-12">
               <div>
                 <h2 className="font-display text-4xl font-semibold text-marino-900">{s.nombre}</h2>
-                <p className="mt-3 max-w-md text-[15px] leading-7 text-piedra">{s.texto}</p>
+                <p className="mt-3 max-w-md text-cuerpo text-piedra">{s.texto}</p>
               </div>
               <ul className="grid gap-x-8 gap-y-3 text-[15px] text-tinta sm:grid-cols-2 lg:grid-cols-1">
                 {s.incluye.map((i) => (

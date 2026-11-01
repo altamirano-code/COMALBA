@@ -47,7 +47,7 @@ function Pasos({ titulo, pasos }: { titulo: string; pasos: { titulo: string; tex
             <li key={p.titulo} className="border-t-2 border-marino-900 pt-5">
               <span className="font-hero text-lg font-semibold text-dorado-600">Paso {i + 1}</span>
               <h3 className="mt-2 font-display text-2xl font-semibold text-marino-900">{p.titulo}</h3>
-              <p className="mt-2 text-[15px] leading-7 text-piedra">{p.texto}</p>
+              <p className="mt-2 text-cuerpo text-piedra">{p.texto}</p>
             </li>
           ))}
         </ol>

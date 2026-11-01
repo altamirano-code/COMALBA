@@ -26,7 +26,7 @@ function Panel({ i, className = "" }: { i: number; className?: string }) {
       <MarcaDivision key={division.slug} division={division} className="fade-up h-24 w-40 self-start sm:h-28 sm:w-48" />
       <p className="mt-7 text-sm font-semibold text-arena-300">{division.etiqueta}</p>
       <h3 className="mt-1 font-display text-3xl font-semibold leading-tight sm:text-4xl">{division.nombre}</h3>
-      <p className="mt-3 text-[15px] leading-7 text-white/75">{necesidad.detalle}</p>
+      <p className="mt-3 text-cuerpo text-white/75">{necesidad.detalle}</p>
       {division.telefono && (
         <a href={`tel:+52${division.telefono}`} className="mt-6 inline-flex w-fit items-center gap-2 text-sm font-semibold text-white/80 transition hover:text-white">
           <Phone size={16} /> {formatearTelefono(division.telefono)}
@@ -59,8 +59,8 @@ export function DivisionesSelector() {
                 aria-checked={activo}
                 onClick={() => setI(idx)}
                 onMouseEnter={() => setI(idx)}
-                className={`flex w-full items-center justify-between gap-4 py-4 text-left font-display text-2xl font-semibold leading-snug transition sm:text-[1.75rem] ${
-                  activo ? "text-marino-900" : "text-marino-900/45 hover:text-marino-900/75"
+                className={`flex w-full items-center justify-between gap-4 py-4 text-left font-display text-2xl font-medium leading-snug transition sm:text-[1.75rem] ${
+                  activo ? "text-marino-900" : "text-piedra hover:text-marino-900"
                 }`}
               >
                 {n.texto}

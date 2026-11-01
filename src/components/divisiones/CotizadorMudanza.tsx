@@ -60,7 +60,7 @@ export function CotizadorMudanza({ division }: { division: Division }) {
           <h1 className="fade-up mt-8 text-balance font-display text-5xl font-semibold leading-[1.02] sm:text-6xl lg:text-7xl">
             Cotiza tu mudanza en tres pasos.
           </h1>
-          <p className="mt-6 max-w-md text-[17px] leading-8 text-white/75">
+          <p className="mt-6 max-w-md text-cuerpo-lg text-white/75">
             Salimos desde Cuernavaca, Morelos. Dinos qué llevamos y a dónde, y te respondemos con precio y disponibilidad por WhatsApp.
           </p>
           <ul className="mt-10 grid max-w-md grid-cols-2 gap-x-6 gap-y-4 text-sm text-white/80">

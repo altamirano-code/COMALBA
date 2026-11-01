@@ -1,15 +1,12 @@
 import type { Metadata, Viewport } from "next";
 
 // Tipografías alojadas en el proyecto (no dependen de Google Fonts al compilar)
-import "@fontsource/cormorant-garamond/500.css";
-import "@fontsource/cormorant-garamond/600.css";
-import "@fontsource/cormorant-garamond/700.css";
-import "@fontsource/cormorant-garamond/500-italic.css";
-import "@fontsource/cormorant-garamond/600-italic.css";
+// Títulos: Source Serif 4 con eje óptico (sin cursiva: no se usa en el sitio)
+import "@fontsource-variable/source-serif-4/opsz.css";
+// Texto e interfaz
 import "@fontsource-variable/manrope";
-// Solo para el titular principal del inicio
-import "@fontsource-variable/brygada-1918/wght.css";
-import "@fontsource-variable/brygada-1918/wght-italic.css";
+// Solo para el logotipo "COMALBA" del menú
+import "@fontsource/cormorant-garamond/600.css";
 import "./globals.css";
 
 export const metadata: Metadata = {

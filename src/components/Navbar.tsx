@@ -114,7 +114,7 @@ export function Navbar() {
             <Image src="/logos/Comalba_Grupo_sf.png" alt="Grupo Comalba" width={1604} height={981} priority className="h-full w-full object-contain" />
           </span>
           <span className="leading-none">
-            <strong className="block font-display text-[1.35rem] font-semibold tracking-[0.12em]">COMALBA</strong>
+            <strong className="block font-marca text-[1.35rem] font-semibold tracking-[0.12em]">COMALBA</strong>
             <small className="mt-1 block text-[9px] font-semibold tracking-[0.28em] text-white/60">GRUPO INMOBILIARIO</small>
           </span>
         </Link>

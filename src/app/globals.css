@@ -5,10 +5,29 @@
    Paleta: azul marino y dorado, con fondos marfil.
    ========================================================= */
 @theme {
-  --font-display: "Cormorant Garamond", ui-serif, Georgia, serif;
+  /* Dos familias: Source Serif 4 para títulos y cifras destacadas, Manrope para todo lo demás.
+     Source Serif ajusta su dibujo al tamaño (eje óptico): fina en títulos grandes, robusta en pequeños. */
+  --font-display: "Source Serif 4 Variable", ui-serif, Georgia, serif;
   --font-sans: "Manrope Variable", ui-sans-serif, system-ui, sans-serif;
-  /* Titular del inicio: remates sólidos, en sintonía con la rotulación del logo */
-  --font-hero: "Brygada 1918 Variable", ui-serif, Georgia, serif;
+  /* Alias histórico: font-hero ahora usa la misma serif que los títulos */
+  --font-hero: "Source Serif 4 Variable", ui-serif, Georgia, serif;
+  /* Logotipo "COMALBA" del menú (se conserva el original) */
+  --font-marca: "Cormorant Garamond", ui-serif, Georgia, serif;
+
+  /* Escala tipográfica por función (usar text-portada, text-titulo, etc. en lugar de tamaños sueltos) */
+  --text-portada: clamp(2.75rem, 1.6rem + 4.4vw, 5.25rem);
+  --text-portada--line-height: 1.04;
+  --text-portada--letter-spacing: -0.025em;
+  --text-titulo: clamp(2.375rem, 1.65rem + 2.4vw, 3.5rem);
+  --text-titulo--line-height: 1.1;
+  --text-titulo--letter-spacing: -0.02em;
+  --text-subtitulo: clamp(1.5rem, 1.25rem + 0.8vw, 1.875rem);
+  --text-subtitulo--line-height: 1.2;
+  --text-subtitulo--letter-spacing: -0.01em;
+  --text-cuerpo-lg: 1.0625rem;
+  --text-cuerpo-lg--line-height: 1.7;
+  --text-cuerpo: 0.9375rem;
+  --text-cuerpo--line-height: 1.65;
 
   /* Azul marino (fondos oscuros) */
   --color-marino-950: #0b1322;
@@ -20,7 +39,7 @@
   /* Dorado (botones y acentos) */
   --color-dorado-400: #cbb27f;
   --color-dorado-500: #b99a63;
-  --color-dorado-600: #8f7342;
+  --color-dorado-600: #78602f; /* texto dorado: ≥4.5:1 sobre marfil, crema y blanco */
 
   /* Dorado claro (texto sobre fondos oscuros) */
   --color-arena-200: #e6d5b0;
@@ -29,7 +48,7 @@
 
   --color-marfil: #f7f3ec;
   --color-crema: #ebe7df;
-  --color-piedra: #68717d;
+  --color-piedra: #5c6470; /* texto secundario: ≥4.5:1 sobre marfil, crema y blanco */
   --color-tinta: #121a28;
 }
 
@@ -62,13 +81,18 @@ button {
 
 /* Etiqueta pequeña sobre los títulos (en "components" para que las clases de Tailwind puedan sobrescribirla) */
 @layer components {
+  /* Serif de títulos un poco más compacta; las clases text-portada/text-titulo traen su propio ajuste */
+  .font-display,
+  .font-hero {
+    letter-spacing: -0.012em;
+  }
   .eyebrow {
     display: inline-flex;
     align-items: center;
     gap: 0.85rem;
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    letter-spacing: 0.32em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
   }
   .eyebrow::before {
@@ -81,7 +105,7 @@ button {
   @media (max-width: 480px) {
     .eyebrow {
       gap: 0.6rem;
-      letter-spacing: 0.22em;
+      letter-spacing: 0.12em;
     }
     .eyebrow::before {
       width: 1.5rem;
@@ -163,9 +187,22 @@ button {
   }
 }
 
-/* Números alineados (Cormorant usa números "antiguos" por defecto) */
-.font-display {
-  font-variant-numeric: lining-nums;
+/* Serif de títulos: cifras alineadas y del mismo ancho (precios, montos), sin cursivas sintéticas */
+.font-display,
+.font-hero {
+  font-variant-numeric: lining-nums tabular-nums;
+  font-synthesis: none;
+}
+
+/* Títulos con renglones equilibrados; párrafos sin palabras huérfanas */
+h1,
+h2,
+h3,
+legend {
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
 }
 
 /* Barras deslizables de la calculadora de financiamiento */
