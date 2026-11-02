@@ -11,18 +11,18 @@ export function Footer({ mostrarFrase = false }: { mostrarFrase?: boolean }) {
       {/* Franja con la presentación de la empresa (solo en el inicio) */}
       {mostrarFrase && (
         <div className="border-t-4 border-dorado-500 bg-marino-800">
-          <p className="mx-auto max-w-5xl text-balance px-6 py-12 text-center font-display text-xl font-normal leading-relaxed text-white sm:px-10 sm:text-2xl sm:leading-normal">
+          <p className="mx-auto max-w-5xl text-balance px-6 py-8 text-center font-display text-lg font-normal leading-relaxed sm:py-12 text-white sm:px-10 sm:text-2xl sm:leading-normal">
             “{textoEmpresa}”
           </p>
         </div>
       )}
 
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 pb-12 pt-16 sm:px-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1.2fr_1.3fr]">
-        <div>
-          <span className="inline-grid h-20 w-36 place-items-center rounded-2xl bg-white p-2.5 shadow-lg">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-9 px-6 pb-10 pt-10 sm:gap-12 sm:px-10 sm:pb-12 sm:pt-16 lg:grid-cols-[1.4fr_1fr_1.2fr_1.3fr]">
+        <div className="col-span-2 md:col-span-1">
+          <span className="inline-grid h-16 w-28 place-items-center rounded-2xl bg-white p-2 shadow-lg sm:h-20 sm:w-36 sm:p-2.5">
             <Image src="/logos/Comalba_Grupo_sf.png" alt="Grupo Comalba" width={1604} height={981} className="h-full w-full object-contain" />
           </span>
-          <p className="mt-5 max-w-xs text-sm leading-7">
+          <p className="mt-4 max-w-xs text-sm leading-6 sm:mt-5 sm:leading-7">
             Un ecosistema inmobiliario que reúne experiencia, diseño y servicio para acompañarte en cada etapa.
           </p>
           <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.25em] text-arena-300">Síguenos</p>
@@ -53,7 +53,7 @@ export function Footer({ mostrarFrase = false }: { mostrarFrase?: boolean }) {
           </ul>
         </nav>
 
-        <div>
+        <div className="col-span-2 md:col-span-1">
           <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-arena-300">Encuéntranos</p>
           <ul className="mt-5 space-y-4 text-sm">
             <li>
@@ -75,7 +75,7 @@ export function Footer({ mostrarFrase = false }: { mostrarFrase?: boolean }) {
                 src={`https://www.google.com/maps?q=${contacto.mapa.lat},${contacto.mapa.lng}&z=16&output=embed`}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                className="aspect-[4/3] w-full rounded-xl border-0"
+                className="aspect-[16/9] w-full rounded-xl border-0 md:aspect-[4/3]"
               />
               <a
                 href={`https://www.google.com/maps/search/?api=1&query=${contacto.mapa.lat},${contacto.mapa.lng}`}
@@ -92,7 +92,7 @@ export function Footer({ mostrarFrase = false }: { mostrarFrase?: boolean }) {
 
       {/* Aviso legal */}
       <div className="mx-auto max-w-7xl px-6 sm:px-10">
-        <p className="border-t border-white/10 pt-8 text-xs leading-6 text-white/45">{avisoLegal}</p>
+        <p className="border-t border-white/10 pt-6 text-xs sm:pt-8 leading-6 text-white/45">{avisoLegal}</p>
       </div>
 
       <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-6 text-xs text-white/55 sm:flex-row sm:items-center sm:justify-between sm:px-10">

@@ -37,21 +37,21 @@ export function CalculadoraFinanciamiento({ division }: { division: Division }) 
   const mensaje = `Hola, quiero información de financiamiento para ${proposito.verbo}: ${pesos.format(monto)} a ${anios} ${anios === 1 ? "año" : "años"} (mensualidad estimada de ${pesos.format(pago)}).`;
 
   return (
-    <section className="bg-marfil px-6 pb-16 pt-32 sm:px-10 sm:pt-36 lg:pb-24">
-      <div className="mx-auto grid max-w-7xl items-start gap-12 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
+    <section className="bg-marfil px-6 pb-12 pt-28 sm:px-10 sm:pb-16 sm:pt-36 lg:pb-24">
+      <div className="mx-auto grid max-w-7xl items-start gap-8 sm:gap-12 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
         <div className="lg:pt-4">
           <MarcaDivision division={division} className="ring-1 ring-marino-950/10" />
-          <h1 className="fade-up mt-8 text-balance font-display text-5xl font-semibold leading-[1.02] text-marino-900 sm:text-6xl lg:text-7xl">
+          <h1 className="fade-up mt-5 text-balance sm:mt-8 font-display text-4xl font-semibold leading-[1.02] text-marino-900 sm:text-6xl lg:text-7xl">
             Compra, construye o remodela con un financiamiento a tu alcance.
           </h1>
 
-          <dl className="mt-10 grid grid-cols-3 border-y border-marino-950/15">
+          <dl className="mt-6 grid grid-cols-3 border-y sm:mt-10 border-marino-950/15">
             {[
               { valor: "10", unidad: "años", etiqueta: "de plazo" },
               { valor: "4%", unidad: "anual", etiqueta: "tasa preferencial" },
               { valor: "Flexible", unidad: "", etiqueta: "comprobación de ingresos" },
             ].map((d, i) => (
-              <div key={d.etiqueta} className={`flex flex-col py-5 ${i > 0 ? "border-l border-marino-950/15 pl-4 sm:pl-6" : "pr-4"}`}>
+              <div key={d.etiqueta} className={`flex flex-col py-3 sm:py-5 ${i > 0 ? "border-l border-marino-950/15 pl-4 sm:pl-6" : "pr-4"}`}>
                 <dt className="order-2 mt-1 text-xs leading-5 text-piedra sm:text-sm">{d.etiqueta}</dt>
                 <dd className="font-hero text-2xl font-semibold text-marino-900 sm:text-4xl">
                   {d.valor} {d.unidad && <span className="text-base font-medium text-piedra sm:text-lg">{d.unidad}</span>}
@@ -60,13 +60,13 @@ export function CalculadoraFinanciamiento({ division }: { division: Division }) 
             ))}
           </dl>
 
-          <p className="mt-8 max-w-md text-cuerpo text-piedra">
+          <p className="mt-4 max-w-md text-cuerpo sm:mt-8 text-piedra">
             Calcula tu mensualidad aproximada. Un asesor revisa tu caso y te explica los requisitos para integrar tu expediente.
           </p>
         </div>
 
         {/* Calculadora */}
-        <div className="rounded-3xl bg-marino-900 p-6 text-white shadow-2xl shadow-marino-950/30 sm:p-9">
+        <div className="rounded-3xl bg-marino-900 p-5 text-white shadow-2xl shadow-marino-950/30 sm:p-9">
           <div role="radiogroup" aria-label="¿Para qué es el financiamiento?" className="grid grid-cols-3 gap-2">
             {PROPOSITOS.map((p) => {
               const activo = proposito.id === p.id;
@@ -89,7 +89,7 @@ export function CalculadoraFinanciamiento({ division }: { division: Division }) 
             })}
           </div>
 
-          <div className="mt-9">
+          <div className="mt-6 sm:mt-9">
             <div className="flex items-baseline justify-between gap-4">
               <label htmlFor={idMonto} className="text-sm font-semibold text-white/80">Monto a financiar</label>
               <span className="font-hero text-2xl font-semibold">{pesos.format(monto)}</span>
@@ -111,7 +111,7 @@ export function CalculadoraFinanciamiento({ division }: { division: Division }) 
             </div>
           </div>
 
-          <div className="mt-8">
+          <div className="mt-6 sm:mt-8">
             <div className="flex items-baseline justify-between gap-4">
               <label htmlFor={idPlazo} className="text-sm font-semibold text-white/80">Plazo</label>
               <span className="font-hero text-2xl font-semibold">
@@ -135,9 +135,9 @@ export function CalculadoraFinanciamiento({ division }: { division: Division }) 
             </div>
           </div>
 
-          <div aria-live="polite" className="mt-9 rounded-2xl bg-white/[0.06] p-6 ring-1 ring-white/10">
+          <div aria-live="polite" className="mt-6 rounded-2xl bg-white/[0.06] p-4 ring-1 sm:mt-9 sm:p-6 ring-white/10">
             <p className="text-sm text-white/70">Mensualidad estimada</p>
-            <p className="mt-1 font-hero text-5xl font-semibold tracking-tight text-arena-200 sm:text-6xl">{pesos.format(pago)}</p>
+            <p className="mt-1 font-hero text-4xl font-semibold tracking-tight text-arena-200 sm:text-6xl">{pesos.format(pago)}</p>
             <p className="mt-3 text-sm text-white/60">
               Pago total aproximado de {pesos.format(total)} con tasa de 4% anual.
             </p>
@@ -147,7 +147,7 @@ export function CalculadoraFinanciamiento({ division }: { division: Division }) 
             href={whatsappUrl(mensaje, division.telefono)}
             target="_blank"
             rel="noreferrer"
-            className="mt-7 flex w-full items-center justify-center gap-2 rounded-full bg-dorado-500 px-6 py-4 text-sm font-bold text-marino-950 transition hover:bg-dorado-400"
+            className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-dorado-500 px-4 py-3.5 sm:mt-7 sm:px-6 sm:py-4 text-sm font-bold text-marino-950 transition hover:bg-dorado-400"
           >
             <WhatsAppIcon className="size-[18px]" /> Enviar mi simulación a un asesor
           </a>

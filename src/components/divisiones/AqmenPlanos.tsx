@@ -70,12 +70,12 @@ export function AqmenPlanos({ division }: { division: Division }) {
   const mensaje = `Hola AQMEN, me interesa ${datos.singular === "cocina" ? "una cocina" : "un clóset"} con distribución ${elegida.nombre.toLowerCase()} de aproximadamente ${metros} metros lineales. ¿Pueden visitarme para medir?`;
 
   return (
-    <section className="bg-marfil px-6 pb-16 pt-32 sm:px-10 sm:pt-36 lg:pb-24">
+    <section className="bg-marfil px-6 pb-12 pt-28 sm:px-10 sm:pb-16 sm:pt-36 lg:pb-24">
       <div className="mx-auto max-w-7xl">
-        <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+        <div className="flex flex-col justify-between gap-4 sm:gap-8 md:flex-row md:items-end">
           <div>
-            <MarcaDivision division={division} className="h-20 w-44 ring-1 ring-marino-950/10" />
-            <h1 className="fade-up mt-8 max-w-2xl text-balance font-display text-5xl font-semibold leading-[1.02] text-marino-900 sm:text-6xl lg:text-7xl">
+            <MarcaDivision division={division} className="h-16 w-36 ring-1 sm:h-20 sm:w-44 ring-marino-950/10" />
+            <h1 className="fade-up mt-5 max-w-2xl sm:mt-8 text-balance font-display text-4xl font-semibold leading-[1.02] text-marino-900 sm:text-6xl lg:text-7xl">
               Cocinas y clósets hechos a la medida de tu casa.
             </h1>
           </div>
@@ -84,19 +84,19 @@ export function AqmenPlanos({ division }: { division: Division }) {
           </p>
         </div>
 
-        <div className="mt-12 grid overflow-hidden rounded-3xl bg-white ring-1 ring-marino-950/10 lg:grid-cols-[1.15fr_1fr]">
+        <div className="mt-7 grid grid-cols-1 overflow-hidden rounded-3xl sm:mt-12 bg-white ring-1 ring-marino-950/10 lg:grid-cols-[1.15fr_1fr]">
           {/* Plano grande */}
-          <div className="relative border-b border-marino-950/10 p-6 text-marino-900 sm:p-10 lg:border-b-0 lg:border-r">
-            <div className="mx-auto aspect-[6/5] max-w-xl">
+          <div className="relative border-b border-marino-950/10 p-4 text-marino-900 sm:p-10 lg:border-b-0 lg:border-r">
+            <div className="mx-auto aspect-[6/5] max-w-[15rem] sm:max-w-xl">
               <Plano muebles={elegida.muebles} grande />
             </div>
-            <p className="mt-4 text-center text-sm text-piedra">
+            <p className="mt-3 text-center text-sm text-piedra sm:mt-4">
               Vista en planta. {datos.singular === "cocina" ? "Cocina" : "Clóset"} {elegida.nombre.toLowerCase()}, aprox. {metros} m lineales.
             </p>
           </div>
 
           {/* Opciones */}
-          <div className="p-6 sm:p-10">
+          <div className="p-4 sm:p-10">
             <div role="radiogroup" aria-label="Línea de producto" className="grid grid-cols-2 rounded-full bg-marfil p-1 text-sm font-bold">
               {(["cocinas", "closets"] as const).map((l) => (
                 <button
@@ -112,7 +112,7 @@ export function AqmenPlanos({ division }: { division: Division }) {
               ))}
             </div>
 
-            <fieldset className="mt-8">
+            <fieldset className="mt-5 sm:mt-8">
               <legend className="text-sm font-semibold text-marino-900">Distribución</legend>
               <div className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-5 lg:grid-cols-3 xl:grid-cols-5">
                 {datos.distribuciones.map((d) => (
@@ -121,7 +121,7 @@ export function AqmenPlanos({ division }: { division: Division }) {
                     type="button"
                     aria-pressed={elegida.id === d.id}
                     onClick={() => setId(d.id)}
-                    className={`flex flex-col items-center gap-2 rounded-xl border p-2.5 text-xs font-bold transition ${
+                    className={`flex flex-col items-center gap-1.5 rounded-xl border p-2 text-xs sm:gap-2 sm:p-2.5 font-bold transition ${
                       elegida.id === d.id ? "border-marino-900 bg-marino-900 text-white" : "border-marino-950/15 text-marino-900 hover:border-marino-900"
                     }`}
                   >
@@ -132,7 +132,7 @@ export function AqmenPlanos({ division }: { division: Division }) {
                   </button>
                 ))}
               </div>
-              <p className="mt-4 min-h-12 text-[15px] leading-6 text-piedra">{elegida.texto}</p>
+              <p className="mt-3 min-h-12 text-[15px] sm:mt-4 leading-6 text-piedra">{elegida.texto}</p>
             </fieldset>
 
             <div className="mt-4 flex items-center justify-between gap-4 rounded-2xl border border-marino-950/15 p-4">
@@ -155,7 +155,7 @@ export function AqmenPlanos({ division }: { division: Division }) {
               href={whatsappUrl(mensaje, division.telefono)}
               target="_blank"
               rel="noreferrer"
-              className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-marino-900 px-6 py-4 text-sm font-bold text-white transition hover:bg-marino-700"
+              className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-marino-900 px-6 py-3.5 sm:mt-8 sm:py-4 text-sm font-bold text-white transition hover:bg-marino-700"
             >
               <WhatsAppIcon className="size-[18px]" /> Agendar visita de medición
             </a>

@@ -39,14 +39,14 @@ const pasosFinanciamiento = [
 
 function Pasos({ titulo, pasos }: { titulo: string; pasos: { titulo: string; texto: string }[] }) {
   return (
-    <section className="bg-white px-6 py-16 sm:px-10 lg:py-24">
+    <section className="bg-white px-6 py-12 sm:px-10 sm:py-16 lg:py-24">
       <div className="mx-auto max-w-7xl">
-        <h2 className="max-w-xl font-display text-4xl font-semibold leading-tight text-marino-900 sm:text-5xl">{titulo}</h2>
-        <ol className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+        <h2 className="max-w-xl font-display text-3xl font-semibold leading-tight text-marino-900 sm:text-5xl">{titulo}</h2>
+        <ol className="mt-7 grid gap-6 sm:mt-12 sm:grid-cols-2 sm:gap-10 lg:grid-cols-4 lg:gap-8">
           {pasos.map((p, i) => (
-            <li key={p.titulo} className="border-t-2 border-marino-900 pt-5">
-              <span className="font-hero text-lg font-semibold text-dorado-600">Paso {i + 1}</span>
-              <h3 className="mt-2 font-display text-2xl font-semibold text-marino-900">{p.titulo}</h3>
+            <li key={p.titulo} className="border-t-2 border-marino-900 pt-3 sm:pt-5">
+              <span className="font-hero text-base font-semibold text-dorado-600 sm:text-lg">Paso {i + 1}</span>
+              <h3 className="mt-1 font-display text-xl font-semibold text-marino-900 sm:mt-2 sm:text-2xl">{p.titulo}</h3>
               <p className="mt-2 text-cuerpo text-piedra">{p.texto}</p>
             </li>
           ))}
@@ -69,10 +69,10 @@ function Contenido({ division }: { division: Division }) {
         <>
           <AqmenPlanos division={division} />
           <Pasos titulo="De la medición a la instalación." pasos={pasosAqmen} />
-          <section className="bg-marfil px-6 py-16 sm:px-10 lg:py-20">
+          <section className="bg-marfil px-6 py-12 sm:px-10 sm:py-16 lg:py-20">
             <div className="mx-auto max-w-7xl">
-              <h2 className="font-display text-4xl font-semibold text-marino-900">Proyectos AQMEN</h2>
-              <div className="mt-8">
+              <h2 className="font-display text-3xl font-semibold text-marino-900 sm:text-4xl">Proyectos AQMEN</h2>
+              <div className="mt-6 sm:mt-8">
                 <ListadoPublicaciones seccion="aqmen" />
               </div>
             </div>

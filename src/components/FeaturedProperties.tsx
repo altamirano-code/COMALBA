@@ -54,14 +54,14 @@ export function FeaturedProperties() {
       <div ref={pista} className="no-scrollbar -mx-6 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-px-6 px-6 pb-6 pt-2 sm:-mx-10 sm:scroll-px-10 sm:px-10">
         {cargando &&
           [0, 1, 2].map((i) => (
-            <div key={i} aria-hidden="true" className="h-[26rem] w-[85%] shrink-0 animate-pulse rounded-[1.4rem] bg-white/70 sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]" />
+            <div key={i} aria-hidden="true" className="h-[22rem] w-[85%] sm:h-[26rem] shrink-0 animate-pulse rounded-[1.4rem] bg-white/70 sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]" />
           ))}
         {propiedades.map((p) => (
           <article
             key={p.id}
             className="group flex w-[85%] shrink-0 snap-start flex-col overflow-hidden rounded-[1.4rem] bg-white shadow-[0_10px_40px_-18px_rgba(16,27,45,.35)] ring-1 ring-marino-950/5 transition duration-500 hover:-translate-y-1.5 hover:shadow-[0_24px_60px_-20px_rgba(16,27,45,.45)] sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
           >
-            <div className="relative h-64 overflow-hidden bg-crema">
+            <div className="relative h-48 overflow-hidden bg-crema sm:h-64">
               {p.fotos[0] && (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={p.fotos[0]} alt={p.titulo} loading="lazy" className="h-full w-full object-cover transition duration-[1.2s] ease-out group-hover:scale-[1.07]" />
@@ -75,15 +75,15 @@ export function FeaturedProperties() {
               </span>
             </div>
 
-            <div className="flex flex-1 flex-col p-6">
-              <p className="font-display text-[1.75rem] font-semibold leading-none text-dorado-600">{precioTexto(p)}</p>
-              <h3 className="mt-3 text-[17px] font-bold leading-snug text-tinta">{p.titulo}</h3>
+            <div className="flex flex-1 flex-col p-5 sm:p-6">
+              <p className="font-display text-2xl font-semibold leading-none text-dorado-600 sm:text-[1.75rem]">{precioTexto(p)}</p>
+              <h3 className="mt-2 text-base font-bold leading-snug text-tinta sm:mt-3 sm:text-[17px]">{p.titulo}</h3>
               <p className="mt-2 flex items-center gap-1.5 text-sm text-piedra">
                 <MapPin size={15} className="shrink-0 text-marino-500" /> {ubicacionTexto(p)}
               </p>
 
               {caracteristicasDe(p).length > 0 && (
-                <ul className="mt-auto flex flex-wrap gap-x-5 gap-y-2 border-t border-marino-950/10 pt-5 text-[13px] font-medium text-piedra [margin-top:max(1.25rem,auto)]">
+                <ul className="mt-auto flex flex-wrap gap-x-5 gap-y-2 border-t border-marino-950/10 pt-4 text-[13px] sm:pt-5 font-medium text-piedra [margin-top:max(1.25rem,auto)]">
                   {caracteristicasDe(p).map((c) => {
                     const Icono = ICONOS[c.icono];
                     return (

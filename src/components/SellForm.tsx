@@ -10,7 +10,7 @@ type Operacion = (typeof OPERACIONES)[number];
 const TIPOS = ["Casa", "Departamento", "Terreno", "Casa en condominio", "Local comercial", "Oficina", "Bodega", "Otro"];
 
 const campo =
-  "mt-2 w-full rounded-xl border border-white/15 bg-white/[0.07] px-4 py-3.5 text-base text-white placeholder:text-white/55 outline-none transition focus:border-arena-300 focus:bg-white/[0.11] focus:ring-4 focus:ring-arena-300/15";
+  "mt-2 w-full rounded-xl border border-white/15 bg-white/[0.07] px-4 py-3 text-base sm:py-3.5 text-white placeholder:text-white/55 outline-none transition focus:border-arena-300 focus:bg-white/[0.11] focus:ring-4 focus:ring-arena-300/15";
 const etiqueta = "block text-[13px] font-semibold text-white/85";
 
 /* Formulario "Cuéntanos sobre tu propiedad": arma el mensaje y lo envía por WhatsApp */
@@ -52,7 +52,7 @@ export function SellForm() {
   }
 
   return (
-    <form onSubmit={enviar} className="rounded-[1.6rem] border border-white/15 bg-marino-950/55 p-6 shadow-2xl shadow-black/30 backdrop-blur-xl sm:p-8">
+    <form onSubmit={enviar} className="rounded-[1.6rem] border border-white/15 bg-marino-950/55 p-5 shadow-2xl shadow-black/30 backdrop-blur-xl sm:p-8">
       <fieldset>
         <legend className={etiqueta}>¿Qué te gustaría hacer?</legend>
         <div className="mt-2 grid grid-cols-3 gap-1 rounded-xl bg-white/[0.07] p-1">
@@ -67,7 +67,7 @@ export function SellForm() {
         </div>
       </fieldset>
 
-      <div className="mt-5 grid gap-5 sm:grid-cols-2">
+      <div className="mt-4 grid gap-4 sm:mt-5 sm:grid-cols-2 sm:gap-5">
         <label className={etiqueta}>
           Nombre completo *
           <input name="nombre" required autoComplete="name" className={campo} placeholder="Tu nombre" />
@@ -78,12 +78,12 @@ export function SellForm() {
         </label>
       </div>
 
-      <label className={`${etiqueta} mt-5`}>
+      <label className={`${etiqueta} mt-4 sm:mt-5`}>
         Correo electrónico *
         <input name="correo" required type="email" autoComplete="email" className={campo} placeholder="tucorreo@ejemplo.com" />
       </label>
 
-      <div className="mt-5 grid gap-5 sm:grid-cols-2">
+      <div className="mt-4 grid gap-4 sm:mt-5 sm:grid-cols-2 sm:gap-5">
         <label className={etiqueta}>
           Tipo de propiedad *
           <select name="tipo" required defaultValue="" className={`${campo} appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22white%22 stroke-width=%222%22><path d=%22m6 9 6 6 6-6%22/></svg>')] bg-[length:16px] bg-[right_1rem_center] bg-no-repeat pr-10`}>
@@ -99,19 +99,19 @@ export function SellForm() {
         </label>
       </div>
 
-      <label className={`${etiqueta} mt-5`}>
+      <label className={`${etiqueta} mt-4 sm:mt-5`}>
         Cuéntanos más <span className="font-normal text-white/60">(opcional)</span>
         <textarea name="detalles" rows={3} className={`${campo} resize-none`} placeholder="Recámaras, m², estado de la propiedad, etc." />
       </label>
 
-      <label className="mt-5 flex items-start gap-3 text-[13px] leading-5 text-white/70">
+      <label className="mt-4 flex items-start gap-3 text-[13px] sm:mt-5 leading-5 text-white/70">
         <input type="checkbox" required className="mt-0.5 size-4 shrink-0 accent-arena-300" />
         Acepto que Grupo Comalba me contacte para dar seguimiento a mi solicitud.
       </label>
 
       <button
         type="submit"
-        className="mt-6 flex w-full items-center justify-center gap-2.5 rounded-xl bg-dorado-500 px-6 py-4 text-[15px] font-bold text-marino-950 shadow-lg shadow-dorado-600/30 transition hover:-translate-y-0.5 hover:bg-dorado-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-arena-300 active:translate-y-0"
+        className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-dorado-500 px-4 py-3.5 sm:mt-6 sm:gap-2.5 sm:px-6 sm:py-4 text-[15px] font-bold text-marino-950 shadow-lg shadow-dorado-600/30 transition hover:-translate-y-0.5 hover:bg-dorado-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-arena-300 active:translate-y-0"
       >
         <Send size={17} /> Enviar solicitud por WhatsApp
       </button>

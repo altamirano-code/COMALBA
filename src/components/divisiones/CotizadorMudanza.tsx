@@ -42,28 +42,28 @@ export function CotizadorMudanza({ division }: { division: Division }) {
   };
 
   const opcion = (activo: boolean) =>
-    `flex items-center gap-4 rounded-2xl border p-4 text-left transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dorado-500 ${
+    `flex items-center gap-3 rounded-2xl border p-3 text-left sm:gap-4 sm:p-4 transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dorado-500 ${
       activo ? "border-marino-900 bg-marino-900 text-white" : "border-marino-950/15 bg-white text-marino-900 hover:border-marino-900"
     }`;
 
   return (
-    <section className="relative overflow-hidden bg-marino-950 px-6 pb-16 pt-32 text-white sm:px-10 sm:pt-36 lg:pb-24">
+    <section className="relative overflow-hidden bg-marino-950 px-6 pb-12 pt-28 text-white sm:px-10 sm:pb-16 sm:pt-36 lg:pb-24">
       {/* Trazo de carretera de fondo */}
       <svg aria-hidden="true" viewBox="0 0 800 400" preserveAspectRatio="none" className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 w-full text-white/[0.06]">
         <path d="M-20 380C180 360 220 220 400 220S620 60 820 40" fill="none" stroke="currentColor" strokeWidth="46" />
         <path d="M-20 380C180 360 220 220 400 220S620 60 820 40" fill="none" stroke="#d3bd91" strokeOpacity=".35" strokeWidth="2" strokeDasharray="18 16" />
       </svg>
 
-      <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
+      <div className="relative mx-auto grid max-w-7xl gap-8 sm:gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
         <div className="lg:pt-6">
-          <MarcaDivision division={division} className="h-24 w-36 sm:h-28 sm:w-44" />
-          <h1 className="fade-up mt-8 text-balance font-display text-5xl font-semibold leading-[1.02] sm:text-6xl lg:text-7xl">
+          <MarcaDivision division={division} className="h-[4.5rem] w-28 sm:h-28 sm:w-44" />
+          <h1 className="fade-up mt-5 text-balance sm:mt-8 font-display text-4xl font-semibold leading-[1.02] sm:text-6xl lg:text-7xl">
             Cotiza tu mudanza en tres pasos.
           </h1>
-          <p className="mt-6 max-w-md text-cuerpo-lg text-white/75">
+          <p className="mt-4 max-w-md text-cuerpo-lg sm:mt-6 text-white/75">
             Salimos desde Cuernavaca, Morelos. Dinos qué llevamos y a dónde, y te respondemos con precio y disponibilidad por WhatsApp.
           </p>
-          <ul className="mt-10 grid max-w-md grid-cols-2 gap-x-6 gap-y-4 text-sm text-white/80">
+          <ul className="mt-6 grid max-w-md grid-cols-2 gap-x-6 gap-y-2.5 sm:mt-10 sm:gap-y-4 text-sm text-white/80">
             {["Mudanzas locales y foráneas", "Fletes desde una pieza", "Embalaje y carga", "Casas, departamentos y oficinas"].map((t) => (
               <li key={t} className="flex items-center gap-2.5">
                 <span aria-hidden="true" className="size-1.5 shrink-0 rounded-full bg-arena-300" />
@@ -73,7 +73,7 @@ export function CotizadorMudanza({ division }: { division: Division }) {
           </ul>
         </div>
 
-        <form onSubmit={enviar} className="rounded-3xl bg-marfil p-6 text-marino-900 shadow-2xl shadow-black/40 sm:p-8">
+        <form onSubmit={enviar} className="rounded-3xl bg-marfil p-4 text-marino-900 shadow-2xl shadow-black/40 sm:p-8">
           {/* Progreso: es un proceso de verdad, por eso va numerado */}
           <ol className="grid grid-cols-3 gap-2">
             {pasos.map((p, i) => {
@@ -97,11 +97,11 @@ export function CotizadorMudanza({ division }: { division: Division }) {
             })}
           </ol>
 
-          <div className="mt-7 min-h-[19rem]">
+          <div className="mt-5 min-h-[17rem] sm:mt-7 sm:min-h-[19rem]">
             {paso === 0 && (
               <fieldset>
-                <legend className="font-display text-3xl font-semibold">¿Qué necesitas?</legend>
-                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                <legend className="font-display text-2xl font-semibold sm:text-3xl">¿Qué necesitas?</legend>
+                <div className="mt-3 grid gap-2 sm:mt-5 sm:grid-cols-2 sm:gap-3">
                   {SERVICIOS.map(({ id, texto, Icono }) => (
                     <button
                       key={id}
@@ -126,8 +126,8 @@ export function CotizadorMudanza({ division }: { division: Division }) {
 
             {paso === 1 && (
               <fieldset>
-                <legend className="font-display text-3xl font-semibold">¿Cuánto vamos a mover?</legend>
-                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                <legend className="font-display text-2xl font-semibold sm:text-3xl">¿Cuánto vamos a mover?</legend>
+                <div className="mt-3 grid gap-2 sm:mt-5 sm:grid-cols-2 sm:gap-3">
                   {TAMANOS.map(({ id, texto, Icono }) => (
                     <button
                       key={id}
@@ -152,8 +152,8 @@ export function CotizadorMudanza({ division }: { division: Division }) {
 
             {paso === 2 && (
               <fieldset>
-                <legend className="font-display text-3xl font-semibold">¿De dónde a dónde?</legend>
-                <div className="relative mt-5 rounded-2xl border border-marino-950/15 bg-white">
+                <legend className="font-display text-2xl font-semibold sm:text-3xl">¿De dónde a dónde?</legend>
+                <div className="relative mt-3 rounded-2xl sm:mt-5 border border-marino-950/15 bg-white">
                   {/* Línea de ruta entre origen y destino */}
                   <span aria-hidden="true" className="absolute bottom-[2.6rem] left-[1.55rem] top-[2.6rem] w-0 border-l-2 border-dashed border-dorado-500" />
                   <label className="flex items-center gap-4 p-4">
@@ -187,13 +187,13 @@ export function CotizadorMudanza({ division }: { division: Division }) {
           </div>
 
           {paso === 2 ? (
-            <button type="submit" disabled={!listoRuta} className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-marino-900 px-6 py-4 text-sm font-bold text-white transition hover:bg-marino-700 disabled:opacity-40">
+            <button type="submit" disabled={!listoRuta} className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-marino-900 px-6 py-3.5 sm:mt-8 sm:py-4 text-sm font-bold text-white transition hover:bg-marino-700 disabled:opacity-40">
               <WhatsAppIcon className="size-[18px]" /> Recibir mi cotización
             </button>
           ) : (
             <>
               <p className="text-center text-sm text-piedra">Elige una opción para continuar.</p>
-              <div className="mt-5 grid grid-cols-2 gap-3">
+              <div className="mt-3 grid grid-cols-2 gap-3 sm:mt-5">
                 <button
                   type="button"
                   onClick={() => setPaso((p) => p - 1)}

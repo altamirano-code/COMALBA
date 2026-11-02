@@ -22,19 +22,19 @@ function Panel({ i, className = "" }: { i: number; className?: string }) {
   const division = divisiones.find((d) => d.slug === necesidad.slug)!;
 
   return (
-    <div className={`flex-col rounded-3xl bg-marino-900 p-7 text-white sm:p-9 ${className}`}>
-      <MarcaDivision key={division.slug} division={division} className="fade-up h-24 w-40 self-start sm:h-28 sm:w-48" />
-      <p className="mt-7 text-sm font-semibold text-arena-300">{division.etiqueta}</p>
-      <h3 className="mt-1 font-display text-3xl font-semibold leading-tight sm:text-4xl">{division.nombre}</h3>
-      <p className="mt-3 text-cuerpo text-white/75">{necesidad.detalle}</p>
+    <div className={`flex-col rounded-3xl bg-marino-900 p-5 text-white sm:p-9 ${className}`}>
+      <MarcaDivision key={division.slug} division={division} className="fade-up h-[4.5rem] w-32 self-start sm:h-28 sm:w-48" />
+      <p className="mt-4 text-sm font-semibold text-arena-300 sm:mt-7">{division.etiqueta}</p>
+      <h3 className="mt-1 font-display text-2xl font-semibold leading-tight sm:text-4xl">{division.nombre}</h3>
+      <p className="mt-2 text-cuerpo text-white/75 sm:mt-3">{necesidad.detalle}</p>
       {division.telefono && (
-        <a href={`tel:+52${division.telefono}`} className="mt-6 inline-flex w-fit items-center gap-2 text-sm font-semibold text-white/80 transition hover:text-white">
+        <a href={`tel:+52${division.telefono}`} className="mt-4 inline-flex w-fit items-center gap-2 text-sm font-semibold text-white/80 sm:mt-6 transition hover:text-white">
           <Phone size={16} /> {formatearTelefono(division.telefono)}
         </a>
       )}
       <Link
         href={necesidad.href}
-        className="mt-8 inline-flex w-fit items-center rounded-full bg-dorado-500 px-7 py-3.5 text-sm font-bold text-marino-950 transition hover:bg-dorado-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-arena-200"
+        className="mt-5 inline-flex w-fit items-center rounded-full bg-dorado-500 px-6 py-3 text-sm sm:mt-8 sm:px-7 sm:py-3.5 font-bold text-marino-950 transition hover:bg-dorado-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-arena-200"
       >
         Ir a {division.nombre}
       </Link>
@@ -91,7 +91,7 @@ export function DivisionesSelector() {
                 tabIndex={activo ? 0 : -1}
                 onClick={() => elegir(idx)}
                 onKeyDown={(e) => alPresionarTecla(e, idx)}
-                className={`group flex w-full scroll-mt-28 items-center justify-between gap-4 py-4 text-left font-display text-2xl font-medium leading-snug transition focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-dorado-600 sm:text-[1.75rem] ${
+                className={`group flex w-full scroll-mt-28 items-center justify-between gap-4 py-3 text-left font-display text-xl font-medium leading-snug sm:py-4 transition focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-dorado-600 sm:text-[1.75rem] ${
                   activo ? "text-marino-900" : "cursor-pointer text-piedra hover:text-marino-700"
                 }`}
               >
@@ -101,7 +101,7 @@ export function DivisionesSelector() {
                   className={`size-2.5 shrink-0 rounded-full bg-dorado-500 transition ${activo ? "scale-100" : "scale-0 group-hover:scale-75 group-hover:opacity-50"}`}
                 />
               </button>
-              {activo && <Panel i={idx} className="mb-5 flex lg:hidden" />}
+              {activo && <Panel i={idx} className="mb-4 flex sm:mb-5 lg:hidden" />}
             </div>
           );
         })}

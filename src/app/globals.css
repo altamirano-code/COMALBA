@@ -15,16 +15,16 @@
   --font-marca: "Cormorant Garamond", ui-serif, Georgia, serif;
 
   /* Escala tipográfica por función (usar text-portada, text-titulo, etc. en lugar de tamaños sueltos) */
-  --text-portada: clamp(2.75rem, 1.6rem + 4.4vw, 5.25rem);
+  --text-portada: clamp(2.375rem, 1.2rem + 5vw, 5.25rem);
   --text-portada--line-height: 1.04;
   --text-portada--letter-spacing: -0.025em;
-  --text-titulo: clamp(2.375rem, 1.65rem + 2.4vw, 3.5rem);
+  --text-titulo: clamp(1.875rem, 1.2rem + 3vw, 3.5rem);
   --text-titulo--line-height: 1.1;
   --text-titulo--letter-spacing: -0.02em;
-  --text-subtitulo: clamp(1.5rem, 1.25rem + 0.8vw, 1.875rem);
+  --text-subtitulo: clamp(1.25rem, 1.05rem + 1.1vw, 1.875rem);
   --text-subtitulo--line-height: 1.2;
   --text-subtitulo--letter-spacing: -0.01em;
-  --text-cuerpo-lg: 1.0625rem;
+  --text-cuerpo-lg: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
   --text-cuerpo-lg--line-height: 1.7;
   --text-cuerpo: 0.9375rem;
   --text-cuerpo--line-height: 1.65;
@@ -50,6 +50,14 @@
   --color-crema: #ebe7df;
   --color-piedra: #5c6470; /* texto secundario: ≥4.5:1 sobre marfil, crema y blanco */
   --color-tinta: #121a28;
+}
+
+/* Celular: párrafos con renglones más juntos */
+@media (max-width: 639px) {
+  :root {
+    --text-cuerpo-lg--line-height: 1.55;
+    --text-cuerpo--line-height: 1.55;
+  }
 }
 
 /* =========================================================

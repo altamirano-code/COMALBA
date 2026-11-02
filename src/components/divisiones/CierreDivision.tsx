@@ -11,10 +11,10 @@ export function CierreDivision({ division, titulo, cta }: { division: Division; 
 
   return (
     <>
-      <section id="contacto" className="bg-marino-900 px-6 py-20 text-white sm:px-10">
-        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_1.15fr] lg:items-start">
-          <div className="flex flex-col gap-6">
-            <h2 className="max-w-xl text-balance font-display text-4xl font-semibold leading-tight sm:text-5xl">{titulo}</h2>
+      <section id="contacto" className="bg-marino-900 px-6 py-12 text-white sm:px-10 sm:py-20">
+        <div className="mx-auto grid max-w-7xl gap-8 sm:gap-12 lg:grid-cols-[1fr_1.15fr] lg:items-start">
+          <div className="flex flex-col gap-4 sm:gap-6">
+            <h2 className="max-w-xl text-balance font-display text-3xl font-semibold leading-tight sm:text-5xl">{titulo}</h2>
             <p className="max-w-md text-cuerpo text-white/70">
               Déjanos tus datos y un asesor de {division.nombre} te contactará. Si lo prefieres, escríbenos directo.
             </p>
@@ -38,16 +38,16 @@ export function CierreDivision({ division, titulo, cta }: { division: Division; 
         </div>
       </section>
 
-      <section aria-labelledby="grupo-titulo" className="bg-white px-6 py-16 sm:px-10">
+      <section aria-labelledby="grupo-titulo" className="bg-white px-6 py-10 sm:px-10 sm:py-16">
         <div className="mx-auto max-w-7xl">
-          <h2 id="grupo-titulo" className="font-display text-3xl font-semibold text-marino-900">
+          <h2 id="grupo-titulo" className="font-display text-2xl font-semibold text-marino-900 sm:text-3xl">
             Otros servicios de Grupo Comalba
           </h2>
-          <ul className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-marino-950/10 bg-marino-950/10 md:grid-cols-5">
+          <ul className="mt-5 grid grid-cols-2 gap-px sm:mt-8 overflow-hidden rounded-2xl border border-marino-950/10 bg-marino-950/10 md:grid-cols-5">
             {otras.map((d) => (
               <li key={d.slug} className="bg-white odd:last:col-span-2 md:odd:last:col-span-1">
-                <Link href={`/${d.slug}`} className="group @container flex h-full flex-col items-center gap-3 p-5 text-center transition hover:bg-marfil">
-                  <MarcaDivision division={d} ajustable className="h-20 w-full" />
+                <Link href={`/${d.slug}`} className="group @container flex h-full flex-col items-center gap-2 p-3 text-center sm:gap-3 sm:p-5 transition hover:bg-marfil">
+                  <MarcaDivision division={d} ajustable className="h-16 w-full sm:h-20" />
                   <span className="text-xs font-semibold text-piedra group-hover:text-marino-900">{d.etiqueta}</span>
                 </Link>
               </li>

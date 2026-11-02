@@ -125,8 +125,8 @@ export function FormularioArea({ division }: { division: Division }) {
   }
 
   return (
-    <form onSubmit={enviar} className="rounded-[1.6rem] border border-white/15 bg-marino-950/40 p-6 shadow-2xl shadow-black/20 sm:p-8">
-      <div className="grid gap-5 sm:grid-cols-2">
+    <form onSubmit={enviar} className="rounded-[1.6rem] border border-white/15 bg-marino-950/40 p-5 shadow-2xl shadow-black/20 sm:p-8">
+      <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
         <label className={etiqueta}>
           Nombre completo *
           <input name="nombre" required autoComplete="name" className={campo} placeholder="Tu nombre" />
@@ -164,7 +164,7 @@ export function FormularioArea({ division }: { division: Division }) {
         </label>
       </div>
 
-      <label className={`${etiqueta} mt-5`}>
+      <label className={`${etiqueta} mt-4 sm:mt-5`}>
         <span className="flex justify-between gap-3">
           <span>
             Comentario <span className="font-normal text-white/45">(opcional)</span>
@@ -184,14 +184,14 @@ export function FormularioArea({ division }: { division: Division }) {
         />
       </label>
 
-      <label className="mt-5 flex items-start gap-3 text-[13px] leading-5 text-white/70">
+      <label className="mt-4 flex items-start gap-3 text-[13px] sm:mt-5 leading-5 text-white/70">
         <input type="checkbox" required className="mt-0.5 size-4 shrink-0 accent-arena-300" />
         Acepto que Grupo Comalba me contacte para dar seguimiento a mi solicitud.
       </label>
 
       <button
         type="submit"
-        className="mt-6 flex w-full items-center justify-center gap-2.5 rounded-xl bg-dorado-500 px-6 py-4 text-[15px] font-bold text-marino-950 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:bg-dorado-400 active:translate-y-0"
+        className="mt-5 flex w-full items-center justify-center gap-2.5 rounded-xl bg-dorado-500 px-6 py-3.5 sm:mt-6 sm:py-4 text-[15px] font-bold text-marino-950 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:bg-dorado-400 active:translate-y-0"
       >
         <Send size={17} /> Enviar solicitud
       </button>
