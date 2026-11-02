@@ -42,7 +42,7 @@ function Panel({ i, className = "" }: { i: number; className?: string }) {
   );
 }
 
-/* Escritorio: lista a la izquierda y panel fijo a la derecha. Celular: el panel se abre bajo la opción elegida.
+/* Escritorio: lista a la izquierda y panel a la derecha, sin desplazarse dentro de la sección. Celular: el panel se abre bajo la opción elegida.
    La opción cambia solo al hacer clic/tocar o con las flechas del teclado (no al pasar el mouse). */
 export function DivisionesSelector() {
   const [i, setI] = useState(0);
@@ -108,7 +108,7 @@ export function DivisionesSelector() {
       </div>
 
       <div aria-live="polite" className="hidden lg:block">
-        <Panel i={i} className="flex lg:sticky lg:top-36" />
+        <Panel i={i} className="flex" />
       </div>
     </div>
   );
