@@ -58,7 +58,7 @@ export function HeroSlideshow() {
       <div aria-hidden="true" className="absolute inset-x-0 top-0 -z-10 h-40 bg-gradient-to-b from-black/50 to-transparent" />
 
       {/* Lugar de la imagen actual + controles */}
-      <div className="absolute inset-x-0 bottom-0 z-10 mx-auto flex max-w-7xl items-end justify-between gap-6 px-6 pb-8 sm:px-10">
+      <div className="absolute inset-x-0 bottom-0 z-10 mx-auto flex max-w-7xl items-end justify-between gap-6 pb-8 pl-6 pr-24 sm:pl-10 2xl:pr-10">
         <p key={slide.src} className="fade-up hidden items-center gap-2 text-xs font-medium text-white/75 sm:flex">
           <MapPin size={14} className="text-arena-300" />
           <span className="text-white">{slide.titulo}</span>

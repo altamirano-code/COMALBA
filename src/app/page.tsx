@@ -108,7 +108,7 @@ export default function Home() {
                   Propiedades destacadas
                 </h2>
               </div>
-              <p className="max-w-sm text-cuerpo text-piedra">
+              <p className="max-w-sm text-cuerpo-lg text-piedra">
                 Casas, departamentos y terrenos seleccionados por nuestros asesores en Morelos.
               </p>
             </Reveal>
@@ -296,7 +296,7 @@ export default function Home() {
                     href={href}
                     target={externo ? "_blank" : undefined}
                     rel={externo ? "noreferrer" : undefined}
-                    className="group flex h-full items-center gap-5 rounded-[1.4rem] border border-white/10 bg-white/[0.05] p-6 transition duration-300 hover:-translate-y-1 hover:border-arena-300/50 hover:bg-white/[0.09]"
+                    className="group flex h-full items-center gap-5 rounded-[1.4rem] border border-white/10 bg-white/[0.05] p-6 transition duration-300 hover:-translate-y-1 hover:border-arena-300/50 hover:bg-white/[0.09] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-arena-300"
                   >
                     <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-arena-300 text-marino-950">
                       <Icono className="size-6" />

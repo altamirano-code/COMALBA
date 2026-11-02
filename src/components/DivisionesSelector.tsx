@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { Phone } from "lucide-react";
 import { MarcaDivision } from "@/components/divisiones/MarcaDivision";
 import { divisiones, formatearTelefono } from "@/lib/site";
@@ -42,9 +42,39 @@ function Panel({ i, className = "" }: { i: number; className?: string }) {
   );
 }
 
-/* Escritorio: lista a la izquierda y panel fijo a la derecha. Celular: el panel se abre bajo la opción elegida. */
+/* Escritorio: lista a la izquierda y panel fijo a la derecha. Celular: el panel se abre bajo la opción elegida.
+   La opción cambia solo al hacer clic/tocar o con las flechas del teclado (no al pasar el mouse). */
 export function DivisionesSelector() {
   const [i, setI] = useState(0);
+  const botones = useRef<(HTMLButtonElement | null)[]>([]);
+  const elegidaPorUsuario = useRef(false);
+
+  // En celular, al cerrarse el panel de arriba la lista se recorre: mantener visible la opción elegida
+  useEffect(() => {
+    if (!elegidaPorUsuario.current || !window.matchMedia("(max-width: 1023px)").matches) return;
+    const reducir = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    botones.current[i]?.scrollIntoView({ block: "nearest", behavior: reducir ? "auto" : "smooth" });
+  }, [i]);
+
+  const elegir = (idx: number, enfocar = false) => {
+    elegidaPorUsuario.current = true;
+    setI(idx);
+    if (enfocar) botones.current[idx]?.focus();
+  };
+
+  // Teclado de un grupo de opciones: flechas para moverse, Inicio/Fin para los extremos
+  const alPresionarTecla = (e: KeyboardEvent<HTMLButtonElement>, idx: number) => {
+    const total = NECESIDADES.length;
+    const destino =
+      e.key === "ArrowDown" || e.key === "ArrowRight" ? (idx + 1) % total
+      : e.key === "ArrowUp" || e.key === "ArrowLeft" ? (idx - 1 + total) % total
+      : e.key === "Home" ? 0
+      : e.key === "End" ? total - 1
+      : null;
+    if (destino === null) return;
+    e.preventDefault();
+    elegir(destino, true);
+  };
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:gap-14">
@@ -54,17 +84,22 @@ export function DivisionesSelector() {
           return (
             <div key={n.texto} className="border-b border-marino-950/12">
               <button
+                ref={(el) => { botones.current[idx] = el; }}
                 type="button"
                 role="radio"
                 aria-checked={activo}
-                onClick={() => setI(idx)}
-                onMouseEnter={() => setI(idx)}
-                className={`flex w-full items-center justify-between gap-4 py-4 text-left font-display text-2xl font-medium leading-snug transition sm:text-[1.75rem] ${
-                  activo ? "text-marino-900" : "text-piedra hover:text-marino-900"
+                tabIndex={activo ? 0 : -1}
+                onClick={() => elegir(idx)}
+                onKeyDown={(e) => alPresionarTecla(e, idx)}
+                className={`group flex w-full scroll-mt-28 items-center justify-between gap-4 py-4 text-left font-display text-2xl font-medium leading-snug transition focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-dorado-600 sm:text-[1.75rem] ${
+                  activo ? "text-marino-900" : "cursor-pointer text-piedra hover:text-marino-700"
                 }`}
               >
                 {n.texto}
-                <span aria-hidden="true" className={`size-2.5 shrink-0 rounded-full bg-dorado-500 transition ${activo ? "scale-100" : "scale-0"}`} />
+                <span
+                  aria-hidden="true"
+                  className={`size-2.5 shrink-0 rounded-full bg-dorado-500 transition ${activo ? "scale-100" : "scale-0 group-hover:scale-75 group-hover:opacity-50"}`}
+                />
               </button>
               {activo && <Panel i={idx} className="mb-5 flex lg:hidden" />}
             </div>
@@ -73,7 +108,7 @@ export function DivisionesSelector() {
       </div>
 
       <div aria-live="polite" className="hidden lg:block">
-        <Panel i={i} className="flex lg:sticky lg:top-28" />
+        <Panel i={i} className="flex lg:sticky lg:top-36" />
       </div>
     </div>
   );

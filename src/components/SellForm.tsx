@@ -10,7 +10,7 @@ type Operacion = (typeof OPERACIONES)[number];
 const TIPOS = ["Casa", "Departamento", "Terreno", "Casa en condominio", "Local comercial", "Oficina", "Bodega", "Otro"];
 
 const campo =
-  "mt-2 w-full rounded-xl border border-white/15 bg-white/[0.07] px-4 py-3.5 text-[15px] text-white placeholder:text-white/40 outline-none transition focus:border-arena-300 focus:bg-white/[0.11] focus:ring-4 focus:ring-arena-300/15";
+  "mt-2 w-full rounded-xl border border-white/15 bg-white/[0.07] px-4 py-3.5 text-base text-white placeholder:text-white/55 outline-none transition focus:border-arena-300 focus:bg-white/[0.11] focus:ring-4 focus:ring-arena-300/15";
 const etiqueta = "block text-[13px] font-semibold text-white/85";
 
 /* Formulario "Cuéntanos sobre tu propiedad": arma el mensaje y lo envía por WhatsApp */
@@ -100,7 +100,7 @@ export function SellForm() {
       </div>
 
       <label className={`${etiqueta} mt-5`}>
-        Cuéntanos más <span className="font-normal text-white/45">(opcional)</span>
+        Cuéntanos más <span className="font-normal text-white/60">(opcional)</span>
         <textarea name="detalles" rows={3} className={`${campo} resize-none`} placeholder="Recámaras, m², estado de la propiedad, etc." />
       </label>
 
@@ -111,12 +111,12 @@ export function SellForm() {
 
       <button
         type="submit"
-        className="mt-6 flex w-full items-center justify-center gap-2.5 rounded-xl bg-dorado-500 px-6 py-4 text-[15px] font-bold text-marino-950 shadow-lg shadow-dorado-600/30 transition hover:-translate-y-0.5 hover:bg-dorado-400 active:translate-y-0"
+        className="mt-6 flex w-full items-center justify-center gap-2.5 rounded-xl bg-dorado-500 px-6 py-4 text-[15px] font-bold text-marino-950 shadow-lg shadow-dorado-600/30 transition hover:-translate-y-0.5 hover:bg-dorado-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-arena-300 active:translate-y-0"
       >
         <Send size={17} /> Enviar solicitud por WhatsApp
       </button>
 
-      <p className="mt-4 flex items-center justify-center gap-2 text-center text-xs text-white/50" aria-live="polite">
+      <p className="mt-4 flex items-center justify-center gap-2 text-center text-xs text-white/65" aria-live="polite">
         <ShieldCheck size={14} />
         {enviado ? "¡Listo! Se abrió WhatsApp con tu solicitud." : "Tus datos solo se usan para contactarte."}
       </p>

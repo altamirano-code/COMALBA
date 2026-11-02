@@ -57,7 +57,7 @@
    ========================================================= */
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 96px;
+  scroll-padding-top: 8rem; /* menú fijo (~94px) + respiro */
 }
 
 body {

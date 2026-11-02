@@ -13,7 +13,7 @@ export function CierreDivision({ division, titulo, cta }: { division: Division; 
     <>
       <section id="contacto" className="bg-marino-900 px-6 py-20 text-white sm:px-10">
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_1.15fr] lg:items-start">
-          <div className="flex flex-col gap-6 lg:sticky lg:top-28">
+          <div className="flex flex-col gap-6">
             <h2 className="max-w-xl text-balance font-display text-4xl font-semibold leading-tight sm:text-5xl">{titulo}</h2>
             <p className="max-w-md text-cuerpo text-white/70">
               Déjanos tus datos y un asesor de {division.nombre} te contactará. Si lo prefieres, escríbenos directo.
