@@ -18,15 +18,25 @@ export function SellForm() {
   const [operacion, setOperacion] = useState<Operacion>("Vender");
   const [enviado, setEnviado] = useState(false);
 
-  /* Los botones con data-operacion (p. ej. en Valuación) preseleccionan la opción */
+  /* "Solicitar valuación" preselecciona Valuar de dos formas:
+     - por la dirección (#valuar), que funciona aunque el toque llegue antes de que cargue el JavaScript;
+     - por el clic en botones con data-operacion, para cuando la dirección ya era #valuar. */
   useEffect(() => {
+    const desdeHash = () => {
+      if (window.location.hash === "#valuar") setOperacion("Valuar");
+    };
     const onClick = (e: MouseEvent) => {
       const el = (e.target as HTMLElement).closest<HTMLElement>("[data-operacion]");
       const valor = el?.dataset.operacion as Operacion | undefined;
       if (valor && OPERACIONES.includes(valor)) setOperacion(valor);
     };
+    desdeHash();
+    window.addEventListener("hashchange", desdeHash);
     document.addEventListener("click", onClick);
-    return () => document.removeEventListener("click", onClick);
+    return () => {
+      window.removeEventListener("hashchange", desdeHash);
+      document.removeEventListener("click", onClick);
+    };
   }, []);
 
   function enviar(e: FormEvent<HTMLFormElement>) {

@@ -11,6 +11,7 @@ import { AqmenPlanos } from "@/components/divisiones/AqmenPlanos";
 import { CotizadorMudanza } from "@/components/divisiones/CotizadorMudanza";
 import { CalculadoraFinanciamiento } from "@/components/divisiones/CalculadoraFinanciamiento";
 import { CierreDivision } from "@/components/divisiones/CierreDivision";
+import { AlInicioAlEntrar } from "@/components/AlInicioAlEntrar";
 import { divisiones, type Division } from "@/lib/site";
 
 /* Cada división tiene su propia estructura; aquí solo se define su cierre (contacto) */
@@ -110,6 +111,7 @@ export default async function DivisionPage({ params }: { params: Promise<{ divis
 
   return (
     <>
+      <AlInicioAlEntrar />
       <Navbar />
       <main>
         <Contenido division={info} />

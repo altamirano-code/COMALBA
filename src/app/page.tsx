@@ -131,6 +131,8 @@ export default function Home() {
 
         {/* =================== VENTA =================== */}
         <section id="venta" className="relative isolate overflow-hidden px-6 py-16 text-white sm:px-10 sm:py-24 lg:py-32">
+          {/* Destino de "Solicitar valuación": el formulario lee #valuar y preselecciona Valuar */}
+          <span id="valuar" aria-hidden="true" className="absolute inset-x-0 top-0" />
           <Image src="/images/residencia.jpg" alt="" fill sizes="100vw" className="-z-20 object-cover" style={{ objectPosition: "50% 40%" }} />
           <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-marino-950 via-marino-950/90 to-marino-950/60" />
 
@@ -256,7 +258,7 @@ export default function Home() {
 
             <Reveal className="mt-8 flex flex-col items-center gap-3 sm:mt-12 sm:flex-row sm:justify-center sm:gap-4">
               <a
-                href="#venta"
+                href="#valuar"
                 data-operacion="Valuar"
                 className="inline-flex items-center gap-2 rounded-full bg-dorado-500 px-8 py-4 text-sm font-bold text-marino-950 shadow-lg shadow-dorado-600/25 transition hover:-translate-y-0.5 hover:bg-dorado-400"
               >

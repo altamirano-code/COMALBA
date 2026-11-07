@@ -70,9 +70,11 @@ export function Navbar() {
     };
   }, []);
 
-  /* Evita que la página se mueva detrás del menú móvil */
+  /* Evita que la página se mueva detrás del menú móvil.
+     Al cerrarlo (X, un enlace o Escape) también se pliega Servicios, para que la próxima vez abra limpio. */
   useEffect(() => {
     document.body.style.overflow = movilAbierto ? "hidden" : "";
+    if (!movilAbierto) setMovilDivisiones(false);
     return () => {
       document.body.style.overflow = "";
     };

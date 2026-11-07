@@ -83,12 +83,12 @@ export function CalculadoraFinanciamiento({ division }: { division: Division }) 
                   role="radio"
                   aria-checked={activo}
                   onClick={() => setProposito(p)}
-                  className={`flex flex-col items-start gap-2 rounded-2xl border p-3 text-left transition sm:p-4 ${
+                  className={`flex min-w-0 flex-col items-center gap-2 rounded-2xl border px-1.5 py-3 text-center transition sm:items-start sm:p-4 sm:text-left ${
                     activo ? "border-arena-300 bg-arena-300 text-marino-950" : "border-white/15 text-white hover:border-white/40"
                   }`}
                 >
                   <p.Icono size={22} strokeWidth={1.6} />
-                  <span className="font-bold">{p.id}</span>
+                  <span className="text-sm font-bold sm:text-base">{p.id}</span>
                   <span className={`hidden text-xs leading-4 sm:block ${activo ? "text-marino-900/75" : "text-white/55"}`}>{p.texto}</span>
                 </button>
               );

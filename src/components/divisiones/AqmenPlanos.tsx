@@ -17,9 +17,12 @@ const LINEAS: Record<"cocinas" | "closets", { nombre: string; singular: string; 
     distribuciones: [
       { id: "lineal", nombre: "Lineal", texto: "Todo en una pared. Ideal para departamentos y espacios angostos.", muebles: [[10, 10, 100, 18]] },
       { id: "l", nombre: "En L", texto: "Aprovecha una esquina y deja libre el centro para una mesa.", muebles: [[10, 10, 100, 18], [10, 28, 18, 52]] },
-      { id: "u", nombre: "En U", texto: "Tres frentes de trabajo y la mayor capacidad de guardado.", muebles: [[10, 10, 100, 18], [10, 28, 18, 52], [92, 28, 18, 52]] },
-      { id: "paralela", nombre: "Paralela", texto: "Dos frentes enfrentados, muy eficiente para cocinar.", muebles: [[10, 10, 100, 18], [10, 62, 100, 18]] },
-      { id: "isla", nombre: "Con isla", texto: "Una barra central para cocinar, servir y convivir.", muebles: [[10, 10, 100, 18], [32, 48, 56, 20]] },
+      {
+        id: "barra",
+        nombre: "Con barra desayunador",
+        texto: "Una barra con bancos para desayunar, servir y convivir.",
+        muebles: [[10, 10, 100, 18], [30, 50, 60, 12]],
+      },
     ],
   },
   closets: {
@@ -114,14 +117,14 @@ export function AqmenPlanos({ division }: { division: Division }) {
 
             <fieldset className="mt-5 sm:mt-8">
               <legend className="text-sm font-semibold text-marino-900">Distribución</legend>
-              <div className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-5 lg:grid-cols-3 xl:grid-cols-5">
+              <div className="mt-3 grid grid-cols-3 gap-2">
                 {datos.distribuciones.map((d) => (
                   <button
                     key={d.id}
                     type="button"
                     aria-pressed={elegida.id === d.id}
                     onClick={() => setId(d.id)}
-                    className={`flex flex-col items-center gap-1.5 rounded-xl border p-2 text-xs sm:gap-2 sm:p-2.5 font-bold transition ${
+                    className={`flex flex-col items-center gap-1.5 rounded-xl border p-2 text-center text-xs leading-tight sm:gap-2 sm:p-2.5 font-bold transition ${
                       elegida.id === d.id ? "border-marino-900 bg-marino-900 text-white" : "border-marino-950/15 text-marino-900 hover:border-marino-900"
                     }`}
                   >

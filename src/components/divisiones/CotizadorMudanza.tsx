@@ -10,7 +10,7 @@ const SERVICIOS = [
   { id: "Mudanza local", texto: "Dentro de Cuernavaca y zona metropolitana", Icono: Truck },
   { id: "Mudanza foránea", texto: "A otra ciudad o estado", Icono: Route },
   { id: "Flete", texto: "Pocas piezas o mercancía", Icono: Package },
-  { id: "Embalaje y carga", texto: "Empacamos y cargamos por ti", Icono: Boxes },
+  { id: "Embalaje", texto: "Emplayamos y cargaremos por ti", Icono: Boxes },
 ];
 
 const TAMANOS = [
@@ -192,7 +192,7 @@ export function CotizadorMudanza({ division }: { division: Division }) {
             </button>
           ) : (
             <>
-              <p className="text-center text-sm text-piedra">Elige una opción para continuar.</p>
+              <p className="mt-5 text-center text-sm text-piedra sm:mt-0">Elige una opción para continuar.</p>
               <div className="mt-3 grid grid-cols-2 gap-3 sm:mt-5">
                 <button
                   type="button"
