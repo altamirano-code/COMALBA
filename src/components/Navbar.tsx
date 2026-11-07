@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronDown, Menu, X, ArrowUpRight, Landmark } from "lucide-react";
 import { divisiones, navegacion, whatsappUrl } from "@/lib/site";
 
-/* La posición donde se inserta "Divisiones" dentro del menú */
+/* La posición donde se inserta "Servicios" dentro del menú */
 const POSICION_DIVISIONES = 4;
 
 export function Navbar() {
@@ -139,7 +139,7 @@ export function Navbar() {
                 divisionActiva || divisionesAbierto ? "text-white" : "text-white/75 hover:text-white"
               }`}
             >
-              Divisiones
+              Servicios
               <ChevronDown size={15} className={`transition-transform duration-300 ${divisionesAbierto ? "rotate-180" : ""}`} />
             </button>
 
@@ -149,7 +149,7 @@ export function Navbar() {
               }`}
             >
               <div className="overflow-hidden rounded-2xl border border-white/10 bg-marino-950/95 p-2 shadow-2xl shadow-black/40 backdrop-blur-xl">
-                <p className="px-3 pb-2 pt-2 text-[10px] font-bold uppercase tracking-[0.28em] text-arena-300">Nuestras divisiones</p>
+                <p className="px-3 pb-2 pt-2 text-[10px] font-bold uppercase tracking-[0.28em] text-arena-300">Nuestros servicios</p>
                 {divisiones.map((d) => (
                   <Link
                     key={d.slug}
@@ -226,7 +226,7 @@ export function Navbar() {
             aria-expanded={movilDivisiones}
             className="flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-[15px] font-semibold text-white/85 hover:bg-white/5"
           >
-            Divisiones
+            Servicios
             <ChevronDown size={18} className={`transition-transform duration-300 ${movilDivisiones ? "rotate-180" : ""}`} />
           </button>
           <div className={`grid transition-all duration-300 ${movilDivisiones ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
