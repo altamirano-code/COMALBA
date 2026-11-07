@@ -1,6 +1,5 @@
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import { WhatsAppIcon } from "@/components/WhatsAppButton";
+import { MarcaDivision } from "@/components/divisiones/MarcaDivision";
 import { whatsappUrl, type Division } from "@/lib/site";
 
 const SERVICIOS = [
@@ -45,11 +44,8 @@ export function AsesoriaProyectos({ division }: { division: Division }) {
       <section className="bg-marfil px-6 pb-12 pt-28 sm:px-10 sm:pb-16 sm:pt-36 lg:pb-24 lg:pt-44">
         <div className="mx-auto grid max-w-7xl gap-8 sm:gap-14 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
           <div>
-            <Link href="/#divisiones" className="inline-flex items-center gap-2 text-sm font-semibold text-piedra transition hover:text-marino-900">
-              <ArrowLeft size={16} /> Grupo Comalba
-            </Link>
-            <p className="mt-5 text-base font-semibold text-dorado-600 sm:mt-10 sm:text-lg">{division.nombre}</p>
-            <h1 className="fade-up mt-3 text-balance font-display text-4xl font-semibold leading-[1.02] text-marino-900 sm:text-6xl lg:text-7xl">
+            <MarcaDivision division={division} className="h-[4.5rem] w-32 shadow-lg shadow-marino-950/10 ring-1 ring-marino-950/10 sm:h-28 sm:w-48" />
+            <h1 className="fade-up mt-5 sm:mt-8 text-balance font-display text-4xl font-semibold leading-[1.02] text-marino-900 sm:text-6xl lg:text-7xl">
               Lo que tu inmueble necesita, resuelto por especialistas.
             </h1>
             <p className="mt-4 max-w-lg text-cuerpo-lg sm:mt-7 text-piedra">

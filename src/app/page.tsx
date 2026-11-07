@@ -67,7 +67,7 @@ export default function Home() {
                 href="#divisiones"
                 className="inline-flex flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-dorado-500 px-4 py-3.5 text-sm sm:flex-none sm:px-8 sm:py-4 font-bold text-marino-950 shadow-xl shadow-dorado-600/30 transition hover:-translate-y-0.5 hover:bg-dorado-400"
               >
-                Explorar divisiones
+                Nuestros servicios
               </Link>
               <Link
                 href="#empresa"
@@ -85,7 +85,7 @@ export default function Home() {
               <span className="h-10 w-px bg-white/20" />
               <div className="flex items-center gap-3 text-left">
                 <span className="font-display text-4xl font-semibold leading-none text-arena-200 sm:text-5xl">6</span>
-                <span className="text-xs leading-5 text-white/70">divisiones<br />especializadas</span>
+                <span className="text-xs leading-5 text-white/70">servicios<br />especializados</span>
               </div>
             </div>
           </div>
@@ -141,7 +141,7 @@ export default function Home() {
                 Cuéntanos sobre tu propiedad.
               </h2>
               <p className="mt-4 max-w-lg text-cuerpo-lg sm:mt-6 text-white/75">
-                Si quieres vender, rentar o conocer el valor de tu inmueble, un asesor revisa tu caso, te explica el proceso y te acompaña hasta el cierre.
+                Si quieres vender, rentar o conocer el valor de tu inmueble, o necesitas alguna asesoría sobre un trámite o proceso de compra, un asesor revisa tu caso, te explica el proceso y te acompaña hasta el cierre.
               </p>
 
               <ul className="mt-6 space-y-4 sm:mt-10 sm:space-y-6">

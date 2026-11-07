@@ -42,8 +42,8 @@ export function Footer({ mostrarFrase = false }: { mostrarFrase?: boolean }) {
           </ul>
         </nav>
 
-        <nav aria-label="Divisiones">
-          <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-arena-300">Divisiones</p>
+        <nav aria-label="Servicios">
+          <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-arena-300">Servicios</p>
           <ul className="mt-5 space-y-3 text-sm">
             {divisiones.map((d) => (
               <li key={d.slug}>

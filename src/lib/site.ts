@@ -49,14 +49,14 @@ export type NavItem = { label: string; href: string; id: string };
 export const navegacion: NavItem[] = [
   { label: "Inicio", href: "/#inicio", id: "inicio" },
   { label: "Propiedades", href: "/#propiedades", id: "propiedades" },
-  { label: "Venta", href: "/#venta", id: "venta" },
-  { label: "La Empresa", href: "/#empresa", id: "empresa" },
-  // "Divisiones" se inserta aquí como menú desplegable (ver Navbar)
+  { label: "Asesoría", href: "/#venta", id: "venta" },
+  { label: "Conoce la empresa", href: "/#empresa", id: "empresa" },
+  // "Servicios" (divisiones) se inserta aquí como menú desplegable (ver Navbar)
   { label: "Valuación", href: "/#valuacion", id: "valuacion" },
   { label: "Contacto", href: "/#contacto", id: "contacto" },
 ];
 
-/* ---------- Divisiones ---------- */
+/* ---------- Servicios ---------- */
 export type Division = {
   slug: string;
   nombre: string;
@@ -85,10 +85,10 @@ export const divisiones: Division[] = [
   },
   {
     slug: "asesoria-proyectos",
-    nombre: "Asesoría y Proyectos",
+    nombre: "ALBANDRA",
     etiqueta: "Gestión y desarrollo",
     resumen: "Asesoría jurídica, gestoría inmobiliaria, mantenimiento y desarrollo de proyectos.",
-    logo: "/logos/Comalba_Grupo_sf.png",
+    logo: "/logos/albandra_sf.png",
   },
   {
     slug: "aqmen",

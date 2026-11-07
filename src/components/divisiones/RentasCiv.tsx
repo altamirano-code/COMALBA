@@ -14,7 +14,7 @@ const SEGMENTOS = [
   {
     id: "Comercio",
     icono: Store,
-    espacios: ["Local comercial", "Oficina", "Consultorio"],
+    espacios: ["Local comercial", "Oficina", "Consultorio", "Terreno"],
     texto: "Espacios a pie de calle o en plaza para abrir o mudar tu negocio.",
   },
   {
@@ -26,7 +26,7 @@ const SEGMENTOS = [
   {
     id: "Vivienda",
     icono: Home,
-    espacios: ["Casa", "Departamento", "Casa en condominio"],
+    espacios: ["Casa", "Departamento"],
     texto: "Un hogar para vivir todo el año, con contrato y reglas claras.",
   },
 ];

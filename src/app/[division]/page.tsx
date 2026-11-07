@@ -34,7 +34,7 @@ const pasosFinanciamiento = [
   { titulo: "Simula tu mensualidad", texto: "Usa la calculadora para conocer un pago aproximado." },
   { titulo: "Platica con un asesor", texto: "Revisamos tu proyecto y cómo puedes comprobar tus ingresos." },
   { titulo: "Integra tu expediente", texto: "Te decimos qué documentos reunir y te ayudamos a completarlos." },
-  { titulo: "Avanza con tu proyecto", texto: "Compra, construye o remodela con pagos fijos hasta por 10 años." },
+  { titulo: "Avanza con tu proyecto", texto: "Compra, construye o remodela con pagos fijos a 10 años." },
 ];
 
 function Pasos({ titulo, pasos }: { titulo: string; pasos: { titulo: string; texto: string }[] }) {

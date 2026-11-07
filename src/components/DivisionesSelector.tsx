@@ -8,13 +8,13 @@ import { divisiones, formatearTelefono } from "@/lib/site";
 
 /* Cada necesidad lleva a la división que la resuelve (algunas divisiones atienden más de una) */
 const NECESIDADES = [
-  { texto: "Comprar una casa, departamento o terreno", slug: "albavera", href: "/albavera", detalle: "Busca entre las propiedades en venta o pide opciones a un asesor." },
-  { texto: "Rentar un local, bodega o vivienda por año", slug: "civ-rentas", href: "/civ-rentas#anual", detalle: "Rentas anuales para comercio, industria y vivienda." },
+  { texto: "Buscas un inmueble en venta, o solo requieres asesoría", slug: "albavera", href: "/albavera", detalle: "Busca entre las propiedades en venta o pide opciones a un asesor." },
+  { texto: "Distintas opciones en arrendamiento (desde un departamento, hasta una nave industrial)", slug: "civ-rentas", href: "/civ-rentas#anual", detalle: "Rentas anuales para comercio, industria y vivienda." },
   { texto: "Rentar una casa para vacacionar", slug: "civ-rentas", href: "/civ-rentas#vacacional", detalle: "Casas y departamentos por noche, fin de semana o temporada." },
-  { texto: "Financiar la compra, construcción o remodelación", slug: "financiamiento", href: "/financiamiento", detalle: "Hasta 10 años de plazo, tasa preferencial de 4% anual." },
+  { texto: "¿El banco no te presta?, ¿te gustaría comprar cualquier inmueble con financiamiento?", slug: "financiamiento", href: "/financiamiento", detalle: "Hasta 10 años de plazo, tasa preferencial de 4% anual." },
   { texto: "Una cocina integral o un clóset a la medida", slug: "aqmen", href: "/aqmen", detalle: "Elige la distribución en un plano y agenda tu visita de medición." },
-  { texto: "Mudarme o mover muebles", slug: "immor", href: "/immor", detalle: "Cotiza tu mudanza o flete en tres pasos." },
-  { texto: "Resolver papeles, trámites, mantenimiento u obra", slug: "asesoria-proyectos", href: "/asesoria-proyectos", detalle: "Asesoría jurídica, gestoría, mantenimiento y proyectos." },
+  { texto: "¿Necesitas mudarte, o solo transladar articulos a otro lado?", slug: "immor", href: "/immor", detalle: "Cotiza tu mudanza o flete en tres pasos." },
+  { texto: "Mantenimiento y proyección", slug: "asesoria-proyectos", href: "/asesoria-proyectos", detalle: "Asesoría jurídica, gestoría, mantenimiento y proyectos." },
 ];
 
 function Panel({ i, className = "" }: { i: number; className?: string }) {

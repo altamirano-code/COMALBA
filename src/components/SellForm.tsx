@@ -7,7 +7,7 @@ import { whatsappUrl } from "@/lib/site";
 const OPERACIONES = ["Vender", "Rentar", "Valuar"] as const;
 type Operacion = (typeof OPERACIONES)[number];
 
-const TIPOS = ["Casa", "Departamento", "Terreno", "Casa en condominio", "Local comercial", "Oficina", "Bodega", "Otro"];
+const TIPOS = ["Casa", "Departamento", "Terreno", "Local comercial", "Oficina", "Bodega", "Otro"];
 
 const campo =
   "mt-2 w-full rounded-xl border border-white/15 bg-white/[0.07] px-4 py-3 text-base sm:py-3.5 text-white placeholder:text-white/55 outline-none transition focus:border-arena-300 focus:bg-white/[0.11] focus:ring-4 focus:ring-arena-300/15";

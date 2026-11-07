@@ -192,7 +192,7 @@ export function Navbar() {
           rel="noreferrer"
           className="hidden items-center gap-2 rounded-full bg-dorado-500 px-5 py-2.5 text-[13px] font-bold text-marino-950 shadow-lg shadow-dorado-600/30 transition hover:-translate-y-0.5 hover:bg-dorado-400 xl:inline-flex"
         >
-          Hablemos <ArrowUpRight size={15} />
+          Escríbenos <ArrowUpRight size={15} />
         </a>
 
         {/* Botón del menú móvil */}
@@ -271,7 +271,7 @@ export function Navbar() {
             rel="noreferrer"
             className="mt-2 flex items-center justify-center gap-2 rounded-xl bg-dorado-500 px-4 py-3.5 text-sm font-bold text-marino-950"
           >
-            Hablemos por WhatsApp <ArrowUpRight size={16} />
+            Escríbenos por WhatsApp <ArrowUpRight size={16} />
           </a>
         </div>
       </div>
