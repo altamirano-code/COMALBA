@@ -6,12 +6,13 @@
    ========================================================= */
 @theme {
   /* Dos familias: Poppins para títulos y cifras destacadas, Manrope para todo lo demás. */
-  --font-display: "Poppins", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Manrope Variable", ui-sans-serif, system-ui, sans-serif;
+  /* Las variables --fuente-* las define next/font en layout.tsx (fuente + respaldo con sus medidas) */
+  --font-display: var(--fuente-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--fuente-manrope), ui-sans-serif, system-ui, sans-serif;
   /* Alias histórico: font-hero usa la misma fuente que los títulos */
-  --font-hero: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-hero: var(--fuente-poppins), ui-sans-serif, system-ui, sans-serif;
   /* Logotipo "COMALBA" del menú (se conserva el original) */
-  --font-marca: "Cormorant Garamond", ui-serif, Georgia, serif;
+  --font-marca: var(--fuente-cormorant), ui-serif, Georgia, serif;
 
   /* Escala tipográfica por función (usar text-portada, text-titulo, etc. en lugar de tamaños sueltos) */
   --text-portada: clamp(2.375rem, 1.2rem + 5vw, 5.25rem);
@@ -65,6 +66,9 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 8rem; /* menú fijo (~94px) + respiro */
+  /* Reserva siempre el espacio de la barra de desplazamiento: al terminar la intro (que bloquea el scroll)
+     la barra aparece sin angostar la página ni mover el contenido */
+  scrollbar-gutter: stable;
 }
 
 /* Escala del sitio en computadora: al 100% del navegador se ve como al 80%.
@@ -176,6 +180,20 @@ button {
 @keyframes brillo {
   0%, 100% { text-shadow: 0 0 0 transparent; }
   45% { text-shadow: 0 0 18px rgb(255 240 205 / 0.7); }
+}
+/* Celular y tablet: el mismo movimiento sin desenfoque (blur animado palabra por palabra es lo más
+   costoso de pintar en equipos modestos y retrasaba la aparición del inicio) */
+@keyframes palabra-sube-ligera {
+  from { opacity: 0; transform: translateY(105%); }
+  to { opacity: 1; transform: none; }
+}
+@media (max-width: 1023px) {
+  .titulo-efecto .palabra > span {
+    animation-name: palabra-sube-ligera;
+  }
+  .titulo-efecto .brillo > span {
+    animation-name: palabra-sube-ligera, brillo;
+  }
 }
 
 /* =========================================================

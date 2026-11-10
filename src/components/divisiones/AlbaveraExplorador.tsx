@@ -223,7 +223,28 @@ export function AlbaveraExplorador({ division }: { division: Division }) {
                 </li>
               ))}
             </ul>
-          ) : cargando ? null : (
+          ) : cargando ? (
+            // Tarjetas de muestra con la misma estructura que las reales: apartan el espacio mientras
+            // se leen las publicaciones, para que el resto de la sección no salte al llegar.
+            <ul aria-hidden="true" className="mt-5 space-y-4 sm:mt-8 sm:space-y-5">
+              {[0, 1, 2].map((i) => (
+                <li key={i}>
+                  <div className="grid animate-pulse overflow-hidden rounded-2xl bg-white ring-1 ring-marino-950/8 sm:grid-cols-[minmax(0,320px)_1fr]">
+                    <div className="aspect-[16/9] bg-crema sm:aspect-auto sm:min-h-56" />
+                    <div className="flex flex-col p-4 sm:p-7">
+                      <div className="h-8 w-40 rounded-md bg-crema sm:h-9" />
+                      <div className="mt-1.5 h-6 w-3/4 rounded-md bg-crema sm:mt-2 sm:h-7" />
+                      <div className="mt-1.5 h-5 w-1/2 rounded-md bg-crema" />
+                      <div className="mt-3 h-5 w-2/3 rounded-md bg-crema sm:mt-5" />
+                      <div className="mt-4 border-t border-marino-950/10 pt-4 sm:mt-auto sm:pt-5">
+                        <div className="h-10 w-64 max-w-full rounded-full bg-crema" />
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
             <div className="mt-5 rounded-2xl border border-dashed border-marino-950/20 bg-white p-6 sm:mt-8 sm:p-10 text-center">
               <p className="font-display text-2xl font-semibold text-marino-900">No hay publicaciones con esos filtros.</p>
               <p className="mt-2 text-sm text-piedra">Prueba con otro tipo, precio o zona, o pide a un asesor opciones que aún no publicamos.</p>

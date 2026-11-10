@@ -113,7 +113,7 @@ export function Navbar() {
         {/* Logo */}
         <Link href="/#inicio" className="flex shrink-0 items-center gap-3" aria-label="Grupo Comalba, inicio" onClick={() => setMovilAbierto(false)}>
           <span className="grid h-12 w-[82px] place-items-center rounded-xl bg-white px-1.5 py-1 shadow-md shadow-black/20 ring-1 ring-white/40 sm:h-[52px] sm:w-[96px]">
-            <Image src="/logos/Comalba_Grupo_sf.png" alt="Grupo Comalba" width={1604} height={981} priority className="h-full w-full object-contain" />
+            <Image src="/logos/Comalba_Grupo_sf.png" alt="Grupo Comalba" width={1604} height={981} priority sizes="96px" className="h-full w-full object-contain" />
           </span>
           <span className="leading-none">
             <strong className="block font-marca text-[1.35rem] font-semibold tracking-[0.12em]">COMALBA</strong>

@@ -55,7 +55,9 @@ export default function Home() {
             </p>
 
             <h1 aria-label="Creamos espacios para vivir el futuro." className="titulo-efecto mt-5 text-balance sm:mt-7 font-display text-portada font-semibold uppercase">
-              <span aria-hidden="true" className="block">
+              {/* lg:whitespace-nowrap: en escritorio va en un renglón (≈650 px en Poppins). Sin esto, la fuente de
+                  respaldo (más ancha) lo partía en dos mientras cargaba Poppins y el inicio saltaba al llegar. */}
+              <span aria-hidden="true" className="block lg:whitespace-nowrap">
                 {["Creamos", "espacios"].map((p, i) => (
                   <Fragment key={p}>
                   <span className="palabra">

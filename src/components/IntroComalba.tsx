@@ -67,20 +67,20 @@ export function IntroComalba() {
     >
       {/* El azul crece detrás del logo. Encima, la versión con letras y ventanas en blanco se recorta con el mismo
           círculo, así que letras y ventanas cambian justo donde llega el azul y el resto del logo no se toca.
-          unoptimized: se sirve el PNG original, sin recomprimir, para que se vea nítido. */}
+          unoptimized: WebP de 960 px preparados a mano (nítidos en pantallas 2x y ligeros). */}
       <div className="intro-azul" />
       {/* El logo se "construye": cada pieza es una copia del PNG recortada a su zona (globals.css) */}
       <div className="intro-escena">
         <div className="intro-logo intro-obra">
           {PIEZAS.map((pieza) => (
             <div key={pieza} className={`intro-pieza intro-pieza-${pieza}`}>
-              <Image src="/logos/Comalba_Grupo_sf.png" alt="" width={1604} height={981} priority unoptimized />
+              <Image src="/logos/comalba-intro.webp" alt="" width={960} height={587} priority unoptimized />
             </div>
           ))}
         </div>
       </div>
       <div className="intro-escena intro-recorte">
-        <Image src="/logos/comalba-logo-claro.png" alt="" width={1604} height={981} priority unoptimized className="intro-logo" />
+        <Image src="/logos/comalba-intro-claro.webp" alt="" width={960} height={587} priority unoptimized className="intro-logo" />
       </div>
     </div>
   );

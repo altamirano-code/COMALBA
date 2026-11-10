@@ -24,10 +24,10 @@ export const logoComalba = {
   local: "/logos/Comalba_Grupo_sf.png",
 };
 
-/* Íconos de redes sociales (imágenes proporcionadas). Si no cargan, se muestra un ícono dibujado. */
+/* Íconos de redes sociales (imágenes proporcionadas, alojadas en el proyecto). Si no cargan, se muestra un ícono dibujado. */
 export const iconosRedes = {
-  facebook: "https://static.tv-azteca.production.tv-azteca.brightspot.cloud/22/9f/7e52050044ce8cfa6b57c7acce75/icono-facebook.png",
-  instagram: "https://static.tv-azteca.production.tv-azteca.brightspot.cloud/35/54/3e0388b1438a8be3118e56ce5845/icono-instagram.png",
+  facebook: "/iconos/facebook.webp",
+  instagram: "/iconos/instagram.webp",
 };
 
 /* Textos institucionales del pie de página */

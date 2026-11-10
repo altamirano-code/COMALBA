@@ -20,7 +20,7 @@ export function Footer({ mostrarFrase = false }: { mostrarFrase?: boolean }) {
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-9 px-6 pb-10 pt-10 sm:gap-12 sm:px-10 sm:pb-12 sm:pt-16 lg:grid-cols-[1.4fr_1fr_1.2fr_1.3fr]">
         <div className="col-span-2 md:col-span-1">
           <span className="inline-grid h-16 w-28 place-items-center rounded-2xl bg-white p-2 shadow-lg sm:h-20 sm:w-36 sm:p-2.5">
-            <Image src="/logos/Comalba_Grupo_sf.png" alt="Grupo Comalba" width={1604} height={981} className="h-full w-full object-contain" />
+            <Image src="/logos/Comalba_Grupo_sf.png" alt="Grupo Comalba" width={1604} height={981} sizes="144px" className="h-full w-full object-contain" />
           </span>
           <p className="mt-4 max-w-xs text-sm leading-6 sm:mt-5 sm:leading-7">
             Un ecosistema inmobiliario que reúne experiencia, diseño y servicio para acompañarte en cada etapa.
