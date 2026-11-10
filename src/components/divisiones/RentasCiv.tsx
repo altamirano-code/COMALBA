@@ -252,16 +252,16 @@ function PanelVacacional({ division }: { division: Division }) {
         <div className="mt-5 grid grid-cols-2 overflow-hidden rounded-2xl sm:mt-7 border border-marino-950/15">
           <label className="block p-3 focus-within:bg-marfil sm:p-4">
             <span className="text-xs font-semibold text-piedra">Llegada</span>
-            <input type="date" min={hoy()} value={llegada} onChange={(e) => setLlegada(e.target.value)} className="mt-1 w-full bg-transparent text-[15px] font-semibold text-marino-900 outline-none" />
+            <input type="date" min={hoy()} value={llegada} onChange={(e) => setLlegada(e.target.value)} className="mt-1 w-full bg-transparent text-[0.9375rem] font-semibold text-marino-900 outline-none" />
           </label>
           <label className="block border-l border-marino-950/15 p-3 focus-within:bg-marfil sm:p-4">
             <span className="text-xs font-semibold text-piedra">Salida</span>
-            <input type="date" min={llegada || hoy()} value={salida} onChange={(e) => setSalida(e.target.value)} className="mt-1 w-full bg-transparent text-[15px] font-semibold text-marino-900 outline-none" />
+            <input type="date" min={llegada || hoy()} value={salida} onChange={(e) => setSalida(e.target.value)} className="mt-1 w-full bg-transparent text-[0.9375rem] font-semibold text-marino-900 outline-none" />
           </label>
           <div className="col-span-2 flex items-center justify-between border-t border-marino-950/15 p-3 sm:p-4">
             <span>
               <span className="block text-xs font-semibold text-piedra">Huéspedes</span>
-              <span className="text-[15px] font-semibold text-marino-900">
+              <span className="text-[0.9375rem] font-semibold text-marino-900">
                 {huespedes} {huespedes === 1 ? "persona" : "personas"}
               </span>
             </span>

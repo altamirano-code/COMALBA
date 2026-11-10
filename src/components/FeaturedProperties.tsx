@@ -67,23 +67,23 @@ export function FeaturedProperties() {
                 <img src={p.fotos[0]} alt={p.titulo} loading="lazy" className="h-full w-full object-cover transition duration-[1.2s] ease-out group-hover:scale-[1.07]" />
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
-              <span className="absolute left-4 top-4 rounded-full bg-marino-900/90 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-white backdrop-blur">
+              <span className="absolute left-4 top-4 rounded-full bg-marino-900/90 px-3.5 py-1.5 text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-white backdrop-blur">
                 {p.operacion}
               </span>
-              <span className="absolute right-4 top-4 rounded-full bg-white/85 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-marino-900 backdrop-blur">
+              <span className="absolute right-4 top-4 rounded-full bg-white/85 px-3.5 py-1.5 text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-marino-900 backdrop-blur">
                 {p.categoria}
               </span>
             </div>
 
             <div className="flex flex-1 flex-col p-5 sm:p-6">
               <p className="font-display text-2xl font-semibold leading-none text-dorado-600 sm:text-[1.75rem]">{precioTexto(p)}</p>
-              <h3 className="mt-2 text-base font-bold leading-snug text-tinta sm:mt-3 sm:text-[17px]">{p.titulo}</h3>
+              <h3 className="mt-2 text-base font-bold leading-snug text-tinta sm:mt-3 sm:text-[1.0625rem]">{p.titulo}</h3>
               <p className="mt-2 flex items-center gap-1.5 text-sm text-piedra">
                 <MapPin size={15} className="shrink-0 text-marino-500" /> {ubicacionTexto(p)}
               </p>
 
               {caracteristicasDe(p).length > 0 && (
-                <ul className="mt-auto flex flex-wrap gap-x-5 gap-y-2 border-t border-marino-950/10 pt-4 text-[13px] sm:pt-5 font-medium text-piedra [margin-top:max(1.25rem,auto)]">
+                <ul className="mt-auto flex flex-wrap gap-x-5 gap-y-2 border-t border-marino-950/10 pt-4 text-[0.8125rem] sm:pt-5 font-medium text-piedra [margin-top:max(1.25rem,auto)]">
                   {caracteristicasDe(p).map((c) => {
                     const Icono = ICONOS[c.icono];
                     return (

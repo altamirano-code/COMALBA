@@ -91,7 +91,7 @@ export function Navbar() {
   const divisionActiva = divisiones.some((d) => pathname === `/${d.slug}`) || (esInicio && activo === "divisiones");
 
   const linkClase = (id: string) =>
-    `relative px-1 py-2 text-[13px] font-semibold tracking-wide transition-colors duration-300 after:absolute after:inset-x-1 after:-bottom-0.5 after:h-px after:origin-left after:bg-arena-300 after:transition-transform after:duration-300 ${
+    `relative px-1 py-2 text-[0.8125rem] font-semibold tracking-wide transition-colors duration-300 after:absolute after:inset-x-1 after:-bottom-0.5 after:h-px after:origin-left after:bg-arena-300 after:transition-transform after:duration-300 ${
       esInicio && activo === id
         ? "text-white after:scale-x-100"
         : "text-white/75 hover:text-white after:scale-x-0 hover:after:scale-x-100"
@@ -117,7 +117,7 @@ export function Navbar() {
           </span>
           <span className="leading-none">
             <strong className="block font-marca text-[1.35rem] font-semibold tracking-[0.12em]">COMALBA</strong>
-            <small className="mt-1 block text-[9px] font-semibold tracking-[0.28em] text-white/60">GRUPO INMOBILIARIO</small>
+            <small className="mt-1 block text-[0.5625rem] font-semibold tracking-[0.28em] text-white/60">GRUPO INMOBILIARIO</small>
           </span>
         </Link>
 
@@ -137,7 +137,7 @@ export function Navbar() {
               aria-haspopup="true"
               aria-expanded={divisionesAbierto}
               onClick={() => setDivisionesAbierto((v) => !v)}
-              className={`flex items-center gap-1.5 px-1 py-2 text-[13px] font-semibold tracking-wide transition-colors ${
+              className={`flex items-center gap-1.5 px-1 py-2 text-[0.8125rem] font-semibold tracking-wide transition-colors ${
                 divisionActiva || divisionesAbierto ? "text-white" : "text-white/75 hover:text-white"
               }`}
             >
@@ -151,7 +151,7 @@ export function Navbar() {
               }`}
             >
               <div className="overflow-hidden rounded-2xl border border-white/10 bg-marino-950/95 p-2 shadow-2xl shadow-black/40 backdrop-blur-xl">
-                <p className="px-3 pb-2 pt-2 text-[10px] font-bold uppercase tracking-[0.28em] text-arena-300">Nuestros servicios</p>
+                <p className="px-3 pb-2 pt-2 text-[0.625rem] font-bold uppercase tracking-[0.28em] text-arena-300">Nuestros servicios</p>
                 {divisiones.map((d) => (
                   <Link
                     key={d.slug}
@@ -192,7 +192,7 @@ export function Navbar() {
           href={whatsappUrl("Hola, me interesa conocer más sobre Grupo Comalba.")}
           target="_blank"
           rel="noreferrer"
-          className="hidden items-center gap-2 rounded-full bg-dorado-500 px-5 py-2.5 text-[13px] font-bold text-marino-950 shadow-lg shadow-dorado-600/30 transition hover:-translate-y-0.5 hover:bg-dorado-400 xl:inline-flex"
+          className="hidden items-center gap-2 rounded-full bg-dorado-500 px-5 py-2.5 text-[0.8125rem] font-bold text-marino-950 shadow-lg shadow-dorado-600/30 transition hover:-translate-y-0.5 hover:bg-dorado-400 xl:inline-flex"
         >
           Escríbenos <ArrowUpRight size={15} />
         </a>
@@ -217,7 +217,7 @@ export function Navbar() {
       >
         <div className="max-h-[calc(100svh-6rem)] overflow-y-auto p-3">
           {itemsAntes.map((item) => (
-            <Link key={item.id} href={item.href} onClick={() => setMovilAbierto(false)} className="block rounded-xl px-4 py-3.5 text-[15px] font-semibold text-white/85 hover:bg-white/5">
+            <Link key={item.id} href={item.href} onClick={() => setMovilAbierto(false)} className="block rounded-xl px-4 py-3.5 text-[0.9375rem] font-semibold text-white/85 hover:bg-white/5">
               {item.label}
             </Link>
           ))}
@@ -226,7 +226,7 @@ export function Navbar() {
             type="button"
             onClick={() => setMovilDivisiones((v) => !v)}
             aria-expanded={movilDivisiones}
-            className="flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-[15px] font-semibold text-white/85 hover:bg-white/5"
+            className="flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-[0.9375rem] font-semibold text-white/85 hover:bg-white/5"
           >
             Servicios
             <ChevronDown size={18} className={`transition-transform duration-300 ${movilDivisiones ? "rotate-180" : ""}`} />
@@ -262,7 +262,7 @@ export function Navbar() {
           </div>
 
           {itemsDespues.map((item) => (
-            <Link key={item.id} href={item.href} onClick={() => setMovilAbierto(false)} className="block rounded-xl px-4 py-3.5 text-[15px] font-semibold text-white/85 hover:bg-white/5">
+            <Link key={item.id} href={item.href} onClick={() => setMovilAbierto(false)} className="block rounded-xl px-4 py-3.5 text-[0.9375rem] font-semibold text-white/85 hover:bg-white/5">
               {item.label}
             </Link>
           ))}

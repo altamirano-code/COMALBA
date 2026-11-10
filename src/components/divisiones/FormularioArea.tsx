@@ -91,10 +91,10 @@ const AREAS: Record<string, ConfigArea> = {
 const MAX_COMENTARIO = 100;
 
 const campo =
-  "mt-2 w-full rounded-xl border border-white/15 bg-white/[0.07] px-4 py-3 text-[15px] text-white placeholder:text-white/40 outline-none transition focus:border-arena-300 focus:bg-white/[0.11] focus:ring-4 focus:ring-arena-300/15 [color-scheme:dark]";
+  "mt-2 w-full rounded-xl border border-white/15 bg-white/[0.07] px-4 py-3 text-[0.9375rem] text-white placeholder:text-white/40 outline-none transition focus:border-arena-300 focus:bg-white/[0.11] focus:ring-4 focus:ring-arena-300/15 [color-scheme:dark]";
 const flecha =
   "appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22white%22 stroke-width=%222%22><path d=%22m6 9 6 6 6-6%22/></svg>')] bg-[length:16px] bg-[right_1rem_center] bg-no-repeat pr-10";
-const etiqueta = "block text-[13px] font-semibold text-white/85";
+const etiqueta = "block text-[0.8125rem] font-semibold text-white/85";
 
 export function FormularioArea({ division }: { division: Division }) {
   const [comentario, setComentario] = useState("");
@@ -184,14 +184,14 @@ export function FormularioArea({ division }: { division: Division }) {
         />
       </label>
 
-      <label className="mt-4 flex items-start gap-3 text-[13px] sm:mt-5 leading-5 text-white/70">
+      <label className="mt-4 flex items-start gap-3 text-[0.8125rem] sm:mt-5 leading-5 text-white/70">
         <input type="checkbox" required className="mt-0.5 size-4 shrink-0 accent-arena-300" />
         Acepto que Grupo Comalba me contacte para dar seguimiento a mi solicitud.
       </label>
 
       <button
         type="submit"
-        className="mt-5 flex w-full items-center justify-center gap-2.5 rounded-xl bg-dorado-500 px-6 py-3.5 sm:mt-6 sm:py-4 text-[15px] font-bold text-marino-950 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:bg-dorado-400 active:translate-y-0"
+        className="mt-5 flex w-full items-center justify-center gap-2.5 rounded-xl bg-dorado-500 px-6 py-3.5 sm:mt-6 sm:py-4 text-[0.9375rem] font-bold text-marino-950 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:bg-dorado-400 active:translate-y-0"
       >
         <Send size={17} /> Enviar solicitud
       </button>

@@ -11,7 +11,7 @@ const TIPOS = ["Casa", "Departamento", "Terreno", "Local comercial", "Oficina", 
 
 const campo =
   "mt-2 w-full rounded-xl border border-white/15 bg-white/[0.07] px-4 py-3 text-base sm:py-3.5 text-white placeholder:text-white/55 outline-none transition focus:border-arena-300 focus:bg-white/[0.11] focus:ring-4 focus:ring-arena-300/15";
-const etiqueta = "block text-[13px] font-semibold text-white/85";
+const etiqueta = "block text-[0.8125rem] font-semibold text-white/85";
 
 /* Formulario "Cuéntanos sobre tu propiedad": arma el mensaje y lo envía por WhatsApp */
 export function SellForm() {
@@ -114,14 +114,14 @@ export function SellForm() {
         <textarea name="detalles" rows={3} className={`${campo} resize-none`} placeholder="Recámaras, m², estado de la propiedad, etc." />
       </label>
 
-      <label className="mt-4 flex items-start gap-3 text-[13px] sm:mt-5 leading-5 text-white/70">
+      <label className="mt-4 flex items-start gap-3 text-[0.8125rem] sm:mt-5 leading-5 text-white/70">
         <input type="checkbox" required className="mt-0.5 size-4 shrink-0 accent-arena-300" />
         Acepto que Grupo Comalba me contacte para dar seguimiento a mi solicitud.
       </label>
 
       <button
         type="submit"
-        className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-dorado-500 px-4 py-3.5 sm:mt-6 sm:gap-2.5 sm:px-6 sm:py-4 text-[15px] font-bold text-marino-950 shadow-lg shadow-dorado-600/30 transition hover:-translate-y-0.5 hover:bg-dorado-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-arena-300 active:translate-y-0"
+        className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-dorado-500 px-4 py-3.5 sm:mt-6 sm:gap-2.5 sm:px-6 sm:py-4 text-[0.9375rem] font-bold text-marino-950 shadow-lg shadow-dorado-600/30 transition hover:-translate-y-0.5 hover:bg-dorado-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-arena-300 active:translate-y-0"
       >
         <Send size={17} /> Enviar solicitud por WhatsApp
       </button>

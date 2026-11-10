@@ -160,20 +160,20 @@ export function CotizadorMudanza({ division }: { division: Division }) {
                     <span aria-hidden="true" className="relative size-3 shrink-0 rounded-full border-2 border-marino-900 bg-white" />
                     <span className="flex-1">
                       <span className="block text-xs font-semibold text-piedra">Origen</span>
-                      <input required value={origen} onChange={(e) => setOrigen(e.target.value)} placeholder="Colonia y ciudad" className="w-full bg-transparent text-[15px] font-semibold outline-none placeholder:font-normal placeholder:text-piedra/70" />
+                      <input required value={origen} onChange={(e) => setOrigen(e.target.value)} placeholder="Colonia y ciudad" className="w-full bg-transparent text-[0.9375rem] font-semibold outline-none placeholder:font-normal placeholder:text-piedra/70" />
                     </span>
                   </label>
                   <label className="flex items-center gap-4 border-t border-marino-950/10 p-4">
                     <span aria-hidden="true" className="relative size-3 shrink-0 rounded-full bg-marino-900" />
                     <span className="flex-1">
                       <span className="block text-xs font-semibold text-piedra">Destino</span>
-                      <input required value={destino} onChange={(e) => setDestino(e.target.value)} placeholder="Colonia y ciudad" className="w-full bg-transparent text-[15px] font-semibold outline-none placeholder:font-normal placeholder:text-piedra/70" />
+                      <input required value={destino} onChange={(e) => setDestino(e.target.value)} placeholder="Colonia y ciudad" className="w-full bg-transparent text-[0.9375rem] font-semibold outline-none placeholder:font-normal placeholder:text-piedra/70" />
                     </span>
                   </label>
                 </div>
                 <label className="mt-4 block rounded-2xl border border-marino-950/15 bg-white p-4">
                   <span className="block text-xs font-semibold text-piedra">Fecha tentativa (opcional)</span>
-                  <input type="date" min={hoy()} value={fecha} onChange={(e) => setFecha(e.target.value)} className="w-full bg-transparent text-[15px] font-semibold outline-none" />
+                  <input type="date" min={hoy()} value={fecha} onChange={(e) => setFecha(e.target.value)} className="w-full bg-transparent text-[0.9375rem] font-semibold outline-none" />
                 </label>
 
                 <p className="mt-5 text-sm text-piedra">

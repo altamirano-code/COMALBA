@@ -5,12 +5,11 @@
    Paleta: azul marino y dorado, con fondos marfil.
    ========================================================= */
 @theme {
-  /* Dos familias: Source Serif 4 para títulos y cifras destacadas, Manrope para todo lo demás.
-     Source Serif ajusta su dibujo al tamaño (eje óptico): fina en títulos grandes, robusta en pequeños. */
-  --font-display: "Source Serif 4 Variable", ui-serif, Georgia, serif;
+  /* Dos familias: Poppins para títulos y cifras destacadas, Manrope para todo lo demás. */
+  --font-display: "Poppins", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Manrope Variable", ui-sans-serif, system-ui, sans-serif;
-  /* Alias histórico: font-hero ahora usa la misma serif que los títulos */
-  --font-hero: "Source Serif 4 Variable", ui-serif, Georgia, serif;
+  /* Alias histórico: font-hero usa la misma fuente que los títulos */
+  --font-hero: "Poppins", ui-sans-serif, system-ui, sans-serif;
   /* Logotipo "COMALBA" del menú (se conserva el original) */
   --font-marca: "Cormorant Garamond", ui-serif, Georgia, serif;
 
@@ -66,6 +65,15 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 8rem; /* menú fijo (~94px) + respiro */
+}
+
+/* Escala del sitio en computadora: al 100% del navegador se ve como al 80%.
+   Todo lo medido en rem (textos, espacios, anchos) se reduce en la misma proporción.
+   En porcentaje (no en px) para respetar el tamaño de letra que el usuario elija en su navegador. */
+@media (min-width: 1024px) {
+  html {
+    font-size: 80%;
+  }
 }
 
 body {
@@ -139,6 +147,175 @@ button {
 }
 .ken-burns {
   animation: ken-burns 9s ease-out both;
+}
+
+/* Frase de portada: cada palabra sube desde una máscara, se desenfoca y aparece;
+   después un brillo dorado recorre la segunda línea */
+.titulo-efecto .palabra {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.titulo-efecto .palabra > span {
+  display: inline-block;
+  animation: palabra-sube 1.1s cubic-bezier(0.2, 0.75, 0.15, 1) both;
+  animation-delay: calc(0.25s + var(--i, 0) * 0.09s);
+}
+@keyframes palabra-sube {
+  from { opacity: 0; transform: translateY(105%); filter: blur(8px); }
+  to { opacity: 1; transform: none; filter: blur(0); }
+}
+.titulo-efecto .brillo > span {
+  animation:
+    palabra-sube 1.1s cubic-bezier(0.2, 0.75, 0.15, 1) both,
+    brillo 1.6s ease-in-out both;
+  animation-delay: calc(0.25s + var(--i, 0) * 0.09s), calc(1.3s + var(--i, 0) * 0.12s);
+}
+@keyframes brillo {
+  0%, 100% { text-shadow: 0 0 0 transparent; }
+  45% { text-shadow: 0 0 18px rgb(255 240 205 / 0.7); }
+}
+
+/* =========================================================
+   INTRO (componente IntroComalba)
+   0 – 1.95 s    el logo se construye sobre blanco, pieza por pieza
+   2.05 – 3.2 s  un círculo azul marino nace del centro del logo (detrás de él) y cubre la pantalla;
+                 el logo se queda igual y solo sus letras y ventanas oscuras pasan a blanco
+   3.5 – 4.1 s   la intro se desvanece y deja ver el inicio
+   ========================================================= */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: #fff;
+  cursor: pointer;
+  animation: intro-sale 0.6s cubic-bezier(0.4, 0, 0.2, 1) 3.5s forwards;
+}
+.intro.intro-saltada {
+  animation: intro-sale-rapido 0.35s ease-out forwards;
+}
+html.intro-vista .intro {
+  display: none;
+}
+.intro-escena {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+.intro-logo {
+  display: block;
+  width: min(72vw, 24rem);
+  height: auto;
+  aspect-ratio: 1604 / 981;
+}
+
+/* Construcción del logo. Cada pieza es una copia del PNG recortada a su zona
+   (medidas sobre el original de 1604 × 981; el suelo de edificios y casa está en y = 72.3%).
+   La pieza (div) fija la zona; la imagen interior anima cómo aparece dentro de ella. */
+.intro-obra {
+  position: relative;
+}
+.intro-pieza {
+  position: absolute;
+  inset: 0;
+}
+.intro-pieza img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+}
+/* Edificios: separados de la casa por la orilla del techo, que va de (23.4%, 72.3%) a (31%, 59.7%) */
+.intro-pieza-chico { clip-path: polygon(0 0, 20% 0, 20% 72.3%, 0 72.3%); }
+.intro-pieza-alto { clip-path: polygon(20% 0, 31% 0, 31% 59.7%, 23.4% 72.3%, 20% 72.3%); }
+/* Casa con muesca donde va la chimenea */
+.intro-pieza-casa {
+  clip-path: polygon(31% 0, 68.6% 0, 68.6% 58.1%, 76.6% 58.1%, 76.6% 0, 100% 0, 100% 72.3%, 23.4% 72.3%, 31% 59.7%);
+}
+.intro-pieza-chimenea { clip-path: polygon(68.6% 0, 76.6% 0, 76.6% 58.1%, 68.6% 58.1%); }
+.intro-pieza-nombre { clip-path: polygon(0 72.3%, 100% 72.3%, 100% 85%, 0 85%); }
+.intro-pieza-barra { clip-path: polygon(0 85%, 100% 85%, 100% 100%, 0 100%); }
+
+.intro-pieza-chico img { animation-name: obra-sube; animation-duration: 0.6s; animation-delay: 0.05s; }
+.intro-pieza-alto img { animation-name: obra-sube; animation-duration: 0.7s; animation-delay: 0.25s; }
+.intro-pieza-casa img { animation-name: obra-sube; animation-duration: 0.65s; animation-delay: 0.6s; }
+.intro-pieza-chimenea img {
+  animation-name: obra-asienta;
+  animation-duration: 0.4s;
+  animation-delay: 1.15s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+.intro-pieza-nombre img { animation-name: obra-escribe; animation-duration: 0.6s; animation-delay: 1.2s; }
+.intro-pieza-barra img { animation-name: obra-extiende; animation-duration: 0.45s; animation-delay: 1.5s; }
+
+/* Crece desde el suelo hacia arriba, piso por piso */
+@keyframes obra-sube {
+  from { clip-path: inset(72.3% 0 0 0); }
+  to { clip-path: inset(0); }
+}
+/* Baja desde arriba y se asienta en el techo */
+@keyframes obra-asienta {
+  from { opacity: 0; transform: translateY(-14%); }
+  to { opacity: 1; transform: none; }
+}
+/* Se escribe de izquierda a derecha */
+@keyframes obra-escribe {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0); }
+}
+/* Se extiende desde el centro */
+@keyframes obra-extiende {
+  from { clip-path: inset(0 50% 0 50%); }
+  to { clip-path: inset(0); }
+}
+.intro-azul {
+  position: absolute;
+  inset: 0;
+  background: var(--color-marino-900);
+}
+/* El azul y el logo con letras y ventanas blancas crecen con el mismo círculo */
+.intro-azul,
+.intro-recorte {
+  clip-path: circle(0% at 50% 50%);
+  animation: intro-circulo 1.15s cubic-bezier(0.65, 0, 0.35, 1) 2.05s forwards;
+}
+@keyframes intro-circulo {
+  /* 75% del radio de referencia alcanza las esquinas de cualquier pantalla */
+  to { clip-path: circle(75% at 50% 50%); }
+}
+@keyframes intro-sale {
+  to { opacity: 0; visibility: hidden; }
+}
+@keyframes intro-sale-rapido {
+  to { opacity: 0; visibility: hidden; }
+}
+
+/* Mientras corre la intro: sin scroll y las animaciones del inicio esperan (empiezan al desvanecerse) */
+html.intro-activa {
+  overflow: hidden;
+}
+html.intro-activa .fade-up,
+html.intro-activa .titulo-efecto .palabra > span {
+  animation-play-state: paused;
+}
+
+/* Movimiento reducido: sin construcción ni círculo; el logo completo sobre blanco y un fundido corto */
+@media (prefers-reduced-motion: reduce) {
+  .intro {
+    animation-duration: 0.4s !important;
+    animation-delay: 1s !important;
+  }
+  .intro-pieza img {
+    animation: none !important;
+  }
+  .intro-azul,
+  .intro-recorte {
+    display: none;
+  }
 }
 
 /* Barra de progreso del carrusel */

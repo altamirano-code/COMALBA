@@ -135,7 +135,7 @@ export function AqmenPlanos({ division }: { division: Division }) {
                   </button>
                 ))}
               </div>
-              <p className="mt-3 min-h-12 text-[15px] sm:mt-4 leading-6 text-piedra">{elegida.texto}</p>
+              <p className="mt-3 min-h-12 text-[0.9375rem] sm:mt-4 leading-6 text-piedra">{elegida.texto}</p>
             </fieldset>
 
             <div className="mt-4 flex items-center justify-between gap-4 rounded-2xl border border-marino-950/15 p-4">

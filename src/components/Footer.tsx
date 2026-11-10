@@ -25,14 +25,14 @@ export function Footer({ mostrarFrase = false }: { mostrarFrase?: boolean }) {
           <p className="mt-4 max-w-xs text-sm leading-6 sm:mt-5 sm:leading-7">
             Un ecosistema inmobiliario que reúne experiencia, diseño y servicio para acompañarte en cada etapa.
           </p>
-          <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.25em] text-arena-300">Síguenos</p>
+          <p className="mt-6 text-[0.6875rem] font-bold uppercase tracking-[0.25em] text-arena-300">Síguenos</p>
           <div className="mt-3">
             <SocialIcons />
           </div>
         </div>
 
         <nav aria-label="Secciones">
-          <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-arena-300">Explora</p>
+          <p className="text-[0.6875rem] font-bold uppercase tracking-[0.25em] text-arena-300">Explora</p>
           <ul className="mt-5 space-y-3 text-sm">
             {navegacion.map((n) => (
               <li key={n.id}>
@@ -43,7 +43,7 @@ export function Footer({ mostrarFrase = false }: { mostrarFrase?: boolean }) {
         </nav>
 
         <nav aria-label="Servicios">
-          <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-arena-300">Servicios</p>
+          <p className="text-[0.6875rem] font-bold uppercase tracking-[0.25em] text-arena-300">Servicios</p>
           <ul className="mt-5 space-y-3 text-sm">
             {divisiones.map((d) => (
               <li key={d.slug}>
@@ -54,7 +54,7 @@ export function Footer({ mostrarFrase = false }: { mostrarFrase?: boolean }) {
         </nav>
 
         <div className="col-span-2 md:col-span-1">
-          <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-arena-300">Encuéntranos</p>
+          <p className="text-[0.6875rem] font-bold uppercase tracking-[0.25em] text-arena-300">Encuéntranos</p>
           <ul className="mt-5 space-y-4 text-sm">
             <li>
               <a href={`tel:+52${contacto.telefono}`} className="flex items-center gap-3 transition hover:text-white">
@@ -62,7 +62,7 @@ export function Footer({ mostrarFrase = false }: { mostrarFrase?: boolean }) {
               </a>
             </li>
             <li>
-              <a href={`mailto:${contacto.correo}`} className="flex items-center gap-3 text-[13px] transition hover:text-white [overflow-wrap:anywhere]">
+              <a href={`mailto:${contacto.correo}`} className="flex items-center gap-3 text-[0.8125rem] transition hover:text-white [overflow-wrap:anywhere]">
                 <Mail size={16} className="shrink-0 text-arena-300" /> {contacto.correo}
               </a>
             </li>
@@ -81,7 +81,7 @@ export function Footer({ mostrarFrase = false }: { mostrarFrase?: boolean }) {
                 href={`https://www.google.com/maps/search/?api=1&query=${contacto.mapa.lat},${contacto.mapa.lng}`}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-2 inline-flex items-center gap-1.5 text-[13px] font-semibold text-arena-300 transition hover:text-white"
+                className="mt-2 inline-flex items-center gap-1.5 text-[0.8125rem] font-semibold text-arena-300 transition hover:text-white"
               >
                 Abrir en Google Maps <ArrowUpRight size={14} />
               </a>

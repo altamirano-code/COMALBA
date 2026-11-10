@@ -1,3 +1,4 @@
+import { Fragment, type CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Mail, Phone, Search, ShieldCheck, Users } from "lucide-react";
@@ -53,9 +54,25 @@ export default function Home() {
               Grupo Comalba · Más de 10 años
             </p>
 
-            <h1 className="fade-up mt-5 text-balance sm:mt-7 font-display text-portada font-semibold [animation-delay:.25s]">
-              Creamos espacios
-              <span className="mt-1 block font-medium text-arena-200">para vivir el futuro.</span>
+            <h1 aria-label="Creamos espacios para vivir el futuro." className="titulo-efecto mt-5 text-balance sm:mt-7 font-display text-portada font-semibold uppercase">
+              <span aria-hidden="true" className="block">
+                {["Creamos", "espacios"].map((p, i) => (
+                  <Fragment key={p}>
+                  <span className="palabra">
+                    <span style={{ "--i": i } as CSSProperties}>{p}</span>
+                  </span>{" "}
+                  </Fragment>
+                ))}
+              </span>
+              <span aria-hidden="true" className="mt-2 block text-[0.42em] font-light tracking-[0.08em] text-arena-200">
+                {["para", "vivir", "el", "futuro."].map((p, i) => (
+                  <Fragment key={p}>
+                  <span className="palabra brillo">
+                    <span style={{ "--i": i + 2 } as CSSProperties}>{p}</span>
+                  </span>{" "}
+                  </Fragment>
+                ))}
+              </span>
             </h1>
 
             <p className="fade-up mx-auto mt-5 max-w-2xl sm:mt-8 text-base leading-relaxed text-white/85 [animation-delay:.4s] sm:text-lg">
@@ -304,8 +321,8 @@ export default function Home() {
                       <Icono className="size-6" />
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block text-[11px] font-bold uppercase tracking-[0.22em] text-white/50">{etiqueta}</span>
-                      <span className="mt-1 block text-[15px] font-semibold [overflow-wrap:anywhere]">{valor}</span>
+                      <span className="block text-[0.6875rem] font-bold uppercase tracking-[0.22em] text-white/50">{etiqueta}</span>
+                      <span className="mt-1 block text-[0.9375rem] font-semibold [overflow-wrap:anywhere]">{valor}</span>
                     </span>
                     {externo && <ArrowUpRight size={18} className="shrink-0 text-white/35 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-arena-300" />}
                   </a>

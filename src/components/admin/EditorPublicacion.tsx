@@ -23,7 +23,7 @@ async function comprimir(archivo: File): Promise<string> {
 }
 
 const entrada =
-  "mt-1.5 w-full rounded-lg border border-marino-950/15 bg-white px-3 py-2.5 text-[15px] font-normal text-tinta outline-none transition focus:border-dorado-600 focus:ring-4 focus:ring-dorado-500/15";
+  "mt-1.5 w-full rounded-lg border border-marino-950/15 bg-white px-3 py-2.5 text-[0.9375rem] font-normal text-tinta outline-none transition focus:border-dorado-600 focus:ring-4 focus:ring-dorado-500/15";
 
 function Campo({ etiqueta, children, ancho = false }: { etiqueta: string; children: ReactNode; ancho?: boolean }) {
   return (
@@ -269,7 +269,7 @@ export function EditorPublicacion({ inicial, esNueva, destacadasLlenas, onGuarda
                 <li key={i} className="group relative aspect-[4/3] overflow-hidden rounded-lg bg-crema">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={foto} alt={`Foto ${i + 1}`} className="h-full w-full object-cover" />
-                  {i === 0 && <span className="absolute left-1.5 top-1.5 rounded bg-marino-900 px-1.5 py-0.5 text-[10px] font-bold text-white">Portada</span>}
+                  {i === 0 && <span className="absolute left-1.5 top-1.5 rounded bg-marino-900 px-1.5 py-0.5 text-[0.625rem] font-bold text-white">Portada</span>}
                   <div className="absolute inset-x-0 bottom-0 flex justify-between bg-gradient-to-t from-black/60 p-1.5">
                     <span className="flex gap-1">
                       <button type="button" disabled={i === 0} onClick={() => moverFoto(i, -1)} aria-label="Mover a la izquierda" className="grid size-7 place-items-center rounded bg-white/90 text-marino-900 disabled:opacity-30">

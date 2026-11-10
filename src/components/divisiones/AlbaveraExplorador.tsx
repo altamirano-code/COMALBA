@@ -108,7 +108,7 @@ export function AlbaveraExplorador({ division }: { division: Division }) {
             >
               <label className="flex min-w-0 flex-col rounded-xl px-3 py-1.5 focus-within:bg-marfil sm:px-4 sm:py-2.5">
                 <span className="text-xs font-semibold text-piedra">Tipo de inmueble</span>
-                <select value={tipo} onChange={(e) => setTipo(e.target.value)} className="mt-0.5 w-full min-w-0 bg-transparent text-[15px] font-semibold outline-none">
+                <select value={tipo} onChange={(e) => setTipo(e.target.value)} className="mt-0.5 w-full min-w-0 bg-transparent text-[0.9375rem] font-semibold outline-none">
                   <option value="">Todos</option>
                   {TIPOS.map((t) => (
                     <option key={t}>{t}</option>
@@ -117,7 +117,7 @@ export function AlbaveraExplorador({ division }: { division: Division }) {
               </label>
               <label className="flex min-w-0 flex-col rounded-xl px-3 py-1.5 focus-within:bg-marfil sm:px-4 sm:py-2.5 md:border-l md:border-marino-950/10">
                 <span className="text-xs font-semibold text-piedra">Precio</span>
-                <select value={precio} onChange={(e) => setPrecio(e.target.value)} className="mt-0.5 w-full min-w-0 bg-transparent text-[15px] font-semibold outline-none">
+                <select value={precio} onChange={(e) => setPrecio(e.target.value)} className="mt-0.5 w-full min-w-0 bg-transparent text-[0.9375rem] font-semibold outline-none">
                   {RANGOS.map((r) => (
                     <option key={r.id || "todos"} value={r.id}>
                       {r.texto}
@@ -131,7 +131,7 @@ export function AlbaveraExplorador({ division }: { division: Division }) {
                   value={zona}
                   onChange={(e) => setZona(e.target.value)}
                   placeholder="Ej. Cuernavaca, Huitzilac"
-                  className="mt-0.5 bg-transparent text-[15px] font-semibold outline-none placeholder:font-normal placeholder:text-piedra/70"
+                  className="mt-0.5 bg-transparent text-[0.9375rem] font-semibold outline-none placeholder:font-normal placeholder:text-piedra/70"
                 />
               </label>
               <button

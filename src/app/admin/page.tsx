@@ -344,7 +344,7 @@ export default function AdminPage() {
                       value={busqueda}
                       onChange={(e) => setBusqueda(e.target.value)}
                       placeholder="Buscar por clave, título o zona"
-                      className="h-12 w-full rounded-xl border border-marino-950/12 bg-white pl-11 pr-4 text-[15px] outline-none transition focus:border-marino-900"
+                      className="h-12 w-full rounded-xl border border-marino-950/12 bg-white pl-11 pr-4 text-[0.9375rem] outline-none transition focus:border-marino-900"
                     />
                   </label>
                   <button
@@ -544,7 +544,7 @@ function ItemMenu({
       onClick={onClick}
       disabled={proximamente}
       title={proximamente ? `${texto} (próximamente)` : texto}
-      className={`flex w-full items-center gap-3 rounded-xl p-2 text-left text-[15px] transition ${
+      className={`flex w-full items-center gap-3 rounded-xl p-2 text-left text-[0.9375rem] transition ${
         activo ? "bg-white/10 text-arena-300" : proximamente ? "text-white/35" : "text-white/80 hover:bg-white/5 hover:text-white"
       }`}
     >
@@ -555,7 +555,7 @@ function ItemMenu({
         <>
           <span className="flex-1 truncate">{texto}</span>
           {proximamente ? (
-            <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide">Pronto</span>
+            <span className="rounded-full bg-white/10 px-2 py-0.5 text-[0.625rem] font-semibold uppercase tracking-wide">Pronto</span>
           ) : (
             total !== undefined && <span className="text-xs text-white/50">{total}</span>
           )}
@@ -664,11 +664,11 @@ function Fila({
       <div className="relative h-44 shrink-0 overflow-hidden rounded-xl bg-crema sm:h-28 sm:w-40">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         {p.fotos[0] && <img src={p.fotos[0]} alt="" className="h-full w-full object-cover" />}
-        <span className={`absolute left-2 top-2 inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-[11px] font-semibold ${estado.color}`}>
+        <span className={`absolute left-2 top-2 inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-[0.6875rem] font-semibold ${estado.color}`}>
           <span className={`size-1.5 rounded-full ${estado.punto}`} /> {estado.texto}
         </span>
         {p.destacada && (
-          <span className="absolute bottom-2 left-2 inline-flex items-center gap-1 rounded-full bg-marino-900 px-2 py-0.5 text-[10px] font-bold text-arena-200">
+          <span className="absolute bottom-2 left-2 inline-flex items-center gap-1 rounded-full bg-marino-900 px-2 py-0.5 text-[0.625rem] font-bold text-arena-200">
             <Star size={11} className="fill-current" /> Inicio
           </span>
         )}

@@ -102,7 +102,7 @@ export function AsesoriaProyectos({ division }: { division: Division }) {
                 <h2 className="font-display text-2xl font-semibold text-marino-900 sm:text-4xl">{s.nombre}</h2>
                 <p className="mt-2 max-w-md text-cuerpo sm:mt-3 text-piedra">{s.texto}</p>
               </div>
-              <ul className="grid gap-x-8 gap-y-2 text-[15px] sm:gap-y-3 text-tinta sm:grid-cols-2 lg:grid-cols-1">
+              <ul className="grid gap-x-8 gap-y-2 text-[0.9375rem] sm:gap-y-3 text-tinta sm:grid-cols-2 lg:grid-cols-1">
                 {s.incluye.map((i) => (
                   <li key={i} className="flex gap-3">
                     <span aria-hidden="true" className="mt-2.5 h-px w-4 shrink-0 bg-dorado-500" />
