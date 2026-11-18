@@ -64,11 +64,17 @@
    BASE
    ========================================================= */
 html {
-  scroll-behavior: smooth;
   scroll-padding-top: 8rem; /* menú fijo (~94px) + respiro */
   /* Reserva siempre el espacio de la barra de desplazamiento: al terminar la intro (que bloquea el scroll)
      la barra aparece sin angostar la página ni mover el contenido */
   scrollbar-gutter: stable;
+}
+/* Desplazamiento suave solo después de cargar (la clase la pone el script de layout.tsx).
+   Si estuviera activo desde el inicio, al recargar una URL con #ancla el navegador anima el salto
+   mientras la página aún cambia de alto; en iPhone (Safari) se corta y deja la página en el footer
+   o más abajo, en blanco, y cada recarga repite el error. */
+html.scroll-suave {
+  scroll-behavior: smooth;
 }
 
 /* Escala del sitio en computadora: al 100% del navegador se ve como al 80%.

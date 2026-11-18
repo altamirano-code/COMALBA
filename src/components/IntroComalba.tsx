@@ -86,5 +86,8 @@ export function IntroComalba() {
   );
 }
 
-/* Se ejecuta en <head> antes de pintar: decide si esta visita ve la intro. */
-export const scriptIntro = `(function(){try{var h=document.documentElement;if(location.pathname.indexOf("/admin")===0)return;if(sessionStorage.getItem("${CLAVE_INTRO}")){h.classList.add("intro-vista")}else{h.classList.add("intro-activa")}}catch(e){}})();`;
+/* Se ejecuta en <head> antes de pintar:
+   1. Activa el desplazamiento suave (clase "scroll-suave") hasta que la página terminó de cargar, para que
+      el navegador coloque las #anclas y la posición al recargar de un solo golpe (ver globals.css).
+   2. Decide si esta visita ve la intro. */
+export const scriptIntro = `(function(){var h=document.documentElement;function suave(){requestAnimationFrame(function(){requestAnimationFrame(function(){h.classList.add("scroll-suave")})})}if(document.readyState==="complete")suave();else addEventListener("load",suave);try{if(location.pathname.indexOf("/admin")===0)return;if(sessionStorage.getItem("${CLAVE_INTRO}")){h.classList.add("intro-vista")}else{h.classList.add("intro-activa")}}catch(e){}})();`;
