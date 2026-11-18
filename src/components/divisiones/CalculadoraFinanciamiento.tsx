@@ -6,9 +6,12 @@ import { MarcaDivision } from "@/components/divisiones/MarcaDivision";
 import { WhatsAppIcon } from "@/components/WhatsAppButton";
 import { whatsappUrl, type Division } from "@/lib/site";
 
-const TASA_ANUAL = 0.04;
+/* Valores del "Simulador Alianzas" (Excel, hoja ALIANZAS) */
+const TASA_ANUAL = 0.04; // Tasa anual fija
 const PLAZO_ANIOS = 10; // Plazo fijo: no se modifica
-const ENGANCHE = 0.333; // Siempre 33.3% sobre el precio
+const APERTURA = 0.02; // Comisión por apertura
+const FACTOR_MENSUALIDAD = 10_101.78 / 1_000_000; // =G7*10101.78/1000000
+const FACTOR_ADELANTADA = 7_179.56 / 1_000_000; // =G7*7179.56/1000000
 const PRECIO_MIN = 200_000;
 const PRECIO_MAX = 5_000_000;
 
@@ -22,12 +25,7 @@ const pesos = new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN
 const numero = new Intl.NumberFormat("es-MX", { maximumFractionDigits: 0 });
 const limitar = (n: number) => Math.min(PRECIO_MAX, Math.max(PRECIO_MIN, n));
 
-/* Pago fijo mensual (amortización francesa) */
-const mensualidad = (monto: number, anios: number) => {
-  const r = TASA_ANUAL / 12;
-  const n = anios * 12;
-  return (monto * r) / (1 - Math.pow(1 + r, -n));
-};
+const porcentaje = (n: number) => `${(n * 100).toLocaleString("es-MX", { maximumFractionDigits: 1 })}%`;
 
 export function CalculadoraFinanciamiento({ division }: { division: Division }) {
   const [proposito, setProposito] = useState(PROPOSITOS[0]);
@@ -35,12 +33,14 @@ export function CalculadoraFinanciamiento({ division }: { division: Division }) 
   const [editando, setEditando] = useState<string | null>(null); // texto mientras se escribe el precio
   const idPrecio = useId();
 
-  const enganche = Math.round(precio * ENGANCHE);
-  const financiado = precio - enganche;
-  const pago = mensualidad(financiado, PLAZO_ANIOS);
-  const total = enganche + pago * PLAZO_ANIOS * 12;
+  // Misma lógica que el Excel: capital = valor / 3, financiado = valor - capital,
+  // mensualidades = valor × factor por millón.
+  const capital = precio / 3;
+  const financiado = precio - capital;
+  const pago = precio * FACTOR_MENSUALIDAD;
+  const pagoAdelantado = precio * FACTOR_ADELANTADA;
 
-  const mensaje = `Hola, quiero información de financiamiento para ${proposito.verbo}: ${proposito.precio.toLowerCase()} de ${pesos.format(precio)}, enganche de ${pesos.format(enganche)} (33.3%), a ${PLAZO_ANIOS} años (mensualidad estimada de ${pesos.format(pago)}).`;
+  const mensaje = `Hola, quiero información de financiamiento para ${proposito.verbo}: ${proposito.precio.toLowerCase()} de ${pesos.format(precio)}, capital requerido de ${pesos.format(capital)}, monto a financiar de ${pesos.format(financiado)} a ${PLAZO_ANIOS} años (mensualidad estimada de ${pesos.format(pago)} o ${pesos.format(pagoAdelantado)} adelantada).`;
 
   return (
     <section className="bg-marfil px-6 pb-12 pt-28 sm:px-10 sm:pb-16 sm:pt-36 lg:pb-24">
@@ -67,7 +67,7 @@ export function CalculadoraFinanciamiento({ division }: { division: Division }) 
           </dl>
 
           <p className="mt-4 max-w-md text-cuerpo sm:mt-8 text-piedra">
-            Calcula tu enganche y tu mensualidad aproximada. Un asesor revisa tu caso y te explica los requisitos para integrar tu expediente.
+            Calcula tu capital requerido y tu mensualidad aproximada. Un asesor revisa tu caso y te explica los requisitos para integrar tu expediente.
           </p>
         </div>
 
@@ -148,28 +148,39 @@ export function CalculadoraFinanciamiento({ division }: { division: Division }) 
           </div>
 
           <div aria-live="polite" className="mt-5 overflow-hidden rounded-2xl bg-white/[0.06] ring-1 sm:mt-7 ring-white/10">
-            {/* Enganche y plazo lado a lado para no alargar la tarjeta */}
+            {/* Capital requerido y monto a financiar lado a lado para no alargar la tarjeta */}
             <dl className="grid grid-cols-2 divide-x divide-white/10 border-b border-white/10">
               <div className="p-4 sm:px-6 sm:py-5">
-                <dt className="text-sm text-white/70">Enganche (33.3%)</dt>
-                <dd className="mt-1 font-hero text-2xl font-semibold tracking-tight sm:text-3xl">{pesos.format(enganche)}</dd>
-                <dd className="mt-1 text-xs leading-5 text-white/60 sm:text-sm">Financias {pesos.format(financiado)} a {PLAZO_ANIOS} años.</dd>
+                <dt className="text-sm text-white/70">Capital requerido (1/3)</dt>
+                <dd className="mt-1 font-hero text-2xl font-semibold tracking-tight sm:text-3xl">{pesos.format(capital)}</dd>
               </div>
               <div className="p-4 sm:px-6 sm:py-5">
-                <dt className="text-sm text-white/70">Plazo</dt>
-                <dd className="mt-1 font-hero text-2xl font-semibold tracking-tight sm:text-3xl">
-                  {PLAZO_ANIOS} años <span className="text-sm font-medium text-white/55">fijo</span>
-                </dd>
-              </div>
+                <dt className="text-sm text-white/70">Monto a financiar</dt>
+                <dd className="mt-1 font-hero text-2xl font-semibold tracking-tight sm:text-3xl">{pesos.format(financiado)}</dd>              </div>
             </dl>
 
             <div className="p-4 sm:px-6 sm:py-5">
               <p className="text-sm text-white/70">Mensualidad estimada</p>
               <p className="mt-1 font-hero text-4xl font-semibold tracking-tight text-arena-200 sm:text-6xl">{pesos.format(pago)}</p>
-              <p className="mt-3 text-sm text-white/60">
-                Pago total aproximado de {pesos.format(total)}, incluyendo el enganche, con tasa de 4% anual.
+              <p className="mt-3 text-sm text-white/70">
+                Mensualidad adelantada:{" "}
+                <span className="font-hero text-lg font-semibold text-white">{pesos.format(pagoAdelantado)}</span>
               </p>
             </div>
+
+            {/* Condiciones fijas del simulador */}
+            <dl className="grid grid-cols-3 divide-x divide-white/10 border-t border-white/10 text-center">
+              {[
+                { etiqueta: "Plazo fijo", valor: `${PLAZO_ANIOS} años` },
+                { etiqueta: "Tasa anual fija", valor: porcentaje(TASA_ANUAL) },
+                { etiqueta: "Apertura", valor: porcentaje(APERTURA) },
+              ].map((c) => (
+                <div key={c.etiqueta} className="flex flex-col px-2 py-4 sm:py-5">
+                  <dt className="order-2 mt-1 text-sm font-medium text-white/70 sm:text-base">{c.etiqueta}</dt>
+                  <dd className="font-hero text-xl font-semibold sm:text-2xl">{c.valor}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
 
           <a
