@@ -17,6 +17,7 @@ import {
   Filter,
   Inbox,
   LayoutDashboard,
+  LogOut,
   MapPin,
   Maximize2,
   Menu,
@@ -33,6 +34,7 @@ import {
 } from "lucide-react";
 import { EditorPublicacion } from "@/components/admin/EditorPublicacion";
 import { eliminarDefinitivo, guardarPublicacion, listarPublicaciones } from "@/lib/almacenPublicaciones";
+import { cerrarSesion, iniciarSesion } from "@/lib/sesion";
 import {
   CATEGORIAS,
   CATEGORIAS_AQMEN,
@@ -187,6 +189,11 @@ export default function AdminPage() {
     recargar();
   }, [recargar]);
 
+  /* Sesión simulada: entrar al panel "inicia sesión" y habilita el botón Panel en el sitio */
+  useEffect(() => {
+    iniciarSesion();
+  }, []);
+
   const activas = publicaciones.filter((p) => !p.eliminadaEn);
   const papelera = publicaciones.filter((p) => p.eliminadaEn);
   const destacadas = activas.filter((p) => p.destacada);
@@ -289,6 +296,15 @@ export default function AdminPage() {
                 <span className="block truncate text-xs text-white/50">Sesión de prueba</span>
               </span>
             )}
+            <Link
+              href="/"
+              onClick={cerrarSesion}
+              aria-label="Cerrar sesión"
+              title="Cerrar sesión"
+              className={`grid size-9 shrink-0 place-items-center rounded-lg text-white/60 transition hover:bg-white/10 hover:text-white ${compacto ? "hidden" : "ml-auto"}`}
+            >
+              <LogOut size={16} />
+            </Link>
           </div>
         </aside>
 

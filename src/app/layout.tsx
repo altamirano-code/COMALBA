@@ -34,6 +34,7 @@ const cormorant = localFont({
 });
 import "./globals.css";
 import { IntroComalba, scriptIntro } from "@/components/IntroComalba";
+import { AccesoPanel } from "@/components/AccesoPanel";
 
 export const metadata: Metadata = {
   title: "Grupo Comalba | Espacios para nuevas posibilidades",
@@ -55,6 +56,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <IntroComalba />
         {children}
+        <AccesoPanel />
       </body>
     </html>
   );
