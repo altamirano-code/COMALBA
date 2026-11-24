@@ -2,71 +2,67 @@
 
 import { useEffect, useState } from "react";
 import { publicacionesIniciales, type Publicacion } from "@/lib/publicaciones";
+import { supabaseNavegador } from "@/lib/supabase/cliente";
+import { BUCKET_FOTOS, supabaseConfigurado } from "@/lib/supabase/config";
+import { aFila, deFila, type FilaPublicacion } from "@/lib/filaPublicacion";
+import { esRegreso, restaurarPosicion } from "@/lib/navegacion";
 
 /* =========================================================
-   ALMACÉN DE PUBLICACIONES
-   Versión temporal: guarda en el navegador (IndexedDB), así que
-   lo publicado solo se ve en el mismo navegador donde se capturó.
-   Cuando se elija la base de datos, solo se reemplaza el cuerpo de
-   estas funciones por llamadas al servidor; el panel y las páginas
-   no cambian.
+   ALMACÉN DE PUBLICACIONES (Supabase)
+   Tabla "publicaciones" + fotos en el bucket "fotos".
+   Qué puede leer o escribir cada quien lo deciden las políticas
+   RLS de supabase/esquema.sql: el público solo ve lo publicado;
+   el equipo con sesión ve y edita todo.
+   Sin Supabase configurado se muestran las publicaciones de ejemplo.
    ========================================================= */
 
-const BD = "grupo-comalba";
-const TABLA = "publicaciones";
-const META = "meta";
 const canal = typeof BroadcastChannel !== "undefined" ? new BroadcastChannel("comalba-publicaciones") : null;
-
-let conexion: Promise<IDBDatabase> | null = null;
-
-function abrir() {
-  conexion ??= new Promise((resolve, reject) => {
-    const solicitud = indexedDB.open(BD, 1);
-    solicitud.onupgradeneeded = () => {
-      solicitud.result.createObjectStore(TABLA, { keyPath: "id" });
-      solicitud.result.createObjectStore(META);
-    };
-    solicitud.onsuccess = () => resolve(solicitud.result);
-    solicitud.onerror = () => {
-      conexion = null;
-      reject(solicitud.error);
-    };
-  });
-  return conexion;
-}
-
-async function operar<T>(tabla: string, modo: IDBTransactionMode, accion: (t: IDBObjectStore) => IDBRequest<T>) {
-  const bd = await abrir();
-  return new Promise<T>((resolve, reject) => {
-    const solicitud = accion(bd.transaction(tabla, modo).objectStore(tabla));
-    solicitud.onsuccess = () => resolve(solicitud.result);
-    solicitud.onerror = () => reject(solicitud.error);
-  });
-}
-
-/* La primera vez carga las publicaciones de ejemplo (solo una vez, aunque luego se borren) */
-async function sembrar() {
-  if (await operar(META, "readonly", (t) => t.get("sembrado"))) return;
-  for (const p of publicacionesIniciales) await operar(TABLA, "readwrite", (t) => t.put(p));
-  await operar(META, "readwrite", (t) => t.put(true, "sembrado"));
-}
-
 const avisar = () => canal?.postMessage("cambio");
 
-/* Todas, incluidas ocultas y en papelera (para el panel). Más recientes primero. */
+/* Todas las que la sesión actual puede ver (el panel ve también ocultas y papelera). Más recientes primero. */
 export async function listarPublicaciones(): Promise<Publicacion[]> {
-  await sembrar();
-  const todas = await operar<Publicacion[]>(TABLA, "readonly", (t) => t.getAll());
-  return todas.sort((a, b) => b.actualizadaEn.localeCompare(a.actualizadaEn));
+  if (!supabaseConfigurado) return publicacionesIniciales;
+  const { data, error } = await supabaseNavegador().from("publicaciones").select("*").order("actualizada_en", { ascending: false });
+  if (error) throw error;
+  return (data as FilaPublicacion[]).map(deFila);
+}
+
+/* Las fotos nuevas llegan del editor como data URL (JPEG ya reducido): se suben a Storage
+   con un nombre aleatorio, así la URL pública no dice nada de la empresa. */
+async function subirFotos(fotos: string[]) {
+  const supabase = supabaseNavegador();
+  return Promise.all(
+    fotos.map(async (foto) => {
+      if (!foto.startsWith("data:")) return foto;
+      const archivo = await (await fetch(foto)).blob();
+      const ruta = `${crypto.randomUUID()}.jpg`;
+      const { error } = await supabase.storage.from(BUCKET_FOTOS).upload(ruta, archivo, { contentType: "image/jpeg", cacheControl: "31536000" });
+      if (error) throw error;
+      return supabase.storage.from(BUCKET_FOTOS).getPublicUrl(ruta).data.publicUrl;
+    }),
+  );
 }
 
 export async function guardarPublicacion(p: Publicacion) {
-  await operar(TABLA, "readwrite", (t) => t.put({ ...p, actualizadaEn: new Date().toISOString() }));
+  if (!supabaseConfigurado) throw new Error("Supabase no está configurado");
+  const fotos = await subirFotos(p.fotos);
+  const { error } = await supabaseNavegador()
+    .from("publicaciones")
+    .upsert(aFila({ ...p, fotos, actualizadaEn: new Date().toISOString() }));
+  if (error) throw error;
   avisar();
 }
 
+/* Borra la publicación y sus fotos de Storage (las de /public, como las de ejemplo, no se tocan) */
 export async function eliminarDefinitivo(id: string) {
-  await operar(TABLA, "readwrite", (t) => t.delete(id));
+  if (!supabaseConfigurado) throw new Error("Supabase no está configurado");
+  const supabase = supabaseNavegador();
+  const { data } = await supabase.from("publicaciones").select("fotos").eq("id", id).maybeSingle();
+  const { error } = await supabase.from("publicaciones").delete().eq("id", id);
+  if (error) throw error;
+  const marcador = `/object/public/${BUCKET_FOTOS}/`;
+  const rutas = ((data?.fotos as string[] | undefined) ?? []).filter((f) => f.includes(marcador)).map((f) => f.split(marcador)[1]!);
+  if (rutas.length) await supabase.storage.from(BUCKET_FOTOS).remove(rutas);
   avisar();
 }
 
@@ -77,11 +73,18 @@ export function usePublicacionesPublicas() {
 
   useEffect(() => {
     let activo = true;
+    // Si se llegó con «Regresar», al terminar de cargar se vuelve a la altura donde estabas
+    let volver = esRegreso();
     const cargar = () =>
       listarPublicaciones()
         .then((todas) => activo && setPublicaciones(todas.filter((p) => p.publicada && !p.eliminadaEn)))
         .catch(() => activo && setPublicaciones(publicacionesIniciales))
-        .finally(() => activo && setCargando(false));
+        .finally(() => {
+          if (!activo) return;
+          setCargando(false);
+          if (volver) restaurarPosicion();
+          volver = false;
+        });
     cargar();
     canal?.addEventListener("message", cargar);
     return () => {

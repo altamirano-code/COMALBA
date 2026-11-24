@@ -54,7 +54,7 @@ export function AsesoriaProyectos({ division }: { division: Division }) {
           </div>
 
           {/* Índice de servicios */}
-          <nav aria-label="Servicios de asesoría" className="self-end">
+          <nav aria-label="Servicios de asesoría" className="self-center lg:translate-y-3">
             <ul className="border-t-2 border-marino-900">
               {SERVICIOS.map((s) => (
                 <li key={s.id} className="border-b border-marino-950/15">

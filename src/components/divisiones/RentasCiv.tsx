@@ -5,6 +5,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { CalendarDays, Factory, Home, Minus, Plus, Store, Sun } from "lucide-react";
 import { MarcaDivision } from "@/components/divisiones/MarcaDivision";
 import { ListadoPublicaciones } from "@/components/ListadoPublicaciones";
+import { SeccionCatalogo } from "@/components/SeccionCatalogo";
 import { WhatsAppIcon } from "@/components/WhatsAppButton";
 import { whatsappUrl, type Division } from "@/lib/site";
 
@@ -110,6 +111,27 @@ export function RentasCiv({ division }: { division: Division }) {
           {modo === "anual" ? <PanelAnual division={division} /> : <PanelVacacional division={division} />}
         </div>
       </div>
+
+      {/* Catálogo en su propia sección: no es continuación del buscador */}
+      {modo === "anual" ? (
+        <SeccionCatalogo
+          id="catalogo"
+          etiqueta="Catálogo CIV"
+          titulo="Rentas anuales disponibles"
+          texto="Casas, departamentos, locales y bodegas listos para rentar por año en Morelos."
+        >
+          <ListadoPublicaciones seccion="civ-rentas" operacion="Renta anual" />
+        </SeccionCatalogo>
+      ) : (
+        <SeccionCatalogo
+          id="catalogo"
+          etiqueta="Catálogo CIV"
+          titulo="Rentas vacacionales disponibles"
+          texto="Casas y departamentos para escaparte por noche o por semana."
+        >
+          <ListadoPublicaciones seccion="civ-rentas" operacion="Renta vacacional" />
+        </SeccionCatalogo>
+      )}
     </>
   );
 }
@@ -207,12 +229,6 @@ function PanelAnual({ division }: { division: Division }) {
         </button>
       </form>
 
-      <div className="lg:col-span-2">
-        <h3 className="font-display text-2xl font-semibold text-marino-900 sm:text-3xl">Disponibles para renta</h3>
-        <div className="mt-4 sm:mt-6">
-          <ListadoPublicaciones seccion="civ-rentas" operacion="Renta anual" />
-        </div>
-      </div>
     </div>
   );
 }
@@ -303,12 +319,6 @@ function PanelVacacional({ division }: { division: Division }) {
         </button>
       </form>
 
-      <div className="lg:col-span-2">
-        <h3 className="font-display text-2xl font-semibold text-marino-900 sm:text-3xl">Disponibles para vacacionar</h3>
-        <div className="mt-4 sm:mt-6">
-          <ListadoPublicaciones seccion="civ-rentas" operacion="Renta vacacional" />
-        </div>
-      </div>
     </div>
   );
 }

@@ -109,10 +109,12 @@ const pesos = new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN
 
 const PERIODO: Record<Operacion, string> = { Venta: "", "Renta anual": " /mes", "Renta vacacional": " /noche", Proyecto: "" };
 
-export function precioTexto(p: Publicacion) {
-  if (p.precio === null) return "Consultar precio";
-  return `${p.precioDesde ? "Desde " : ""}${pesos.format(p.precio)}${PERIODO[p.operacion]}`;
+export function formatoPrecio(precio: number | null, desde: boolean, operacion: Operacion) {
+  if (precio === null) return "Consultar precio";
+  return `${desde ? "Desde " : ""}${pesos.format(precio)}${PERIODO[operacion] ?? ""}`;
 }
+
+export const precioTexto = (p: Publicacion) => formatoPrecio(p.precio, p.precioDesde, p.operacion);
 
 export const ubicacionTexto = (p: Publicacion) => [p.colonia, p.municipio, p.estado].filter(Boolean).join(", ") || "Ubicación a consultar";
 

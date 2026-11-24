@@ -13,12 +13,21 @@ export function AccesoPanel() {
   const [usuario, setUsuario] = useState<UsuarioEquipo | null>(null);
 
   useEffect(() => {
-    const actualizar = () => setUsuario(leerSesion());
-    actualizar();
-    return alCambiarSesion(actualizar);
+    let activo = true;
+    leerSesion().then((u) => activo && setUsuario(u));
+    const quitar = alCambiarSesion(setUsuario);
+    return () => {
+      activo = false;
+      quitar();
+    };
   }, []);
 
   if (!usuario || ruta?.startsWith("/admin")) return null;
+
+  async function salir() {
+    await cerrarSesion();
+    setUsuario(null);
+  }
 
   return (
     <div className="fixed bottom-5 left-5 z-40 flex items-center gap-1 rounded-full bg-marino-950 p-1.5 text-white shadow-xl shadow-black/25 ring-1 ring-white/15">
@@ -37,7 +46,7 @@ export function AccesoPanel() {
       </Link>
       <button
         type="button"
-        onClick={cerrarSesion}
+        onClick={salir}
         aria-label="Cerrar sesión"
         title="Cerrar sesión"
         className="grid size-10 place-items-center rounded-full text-white/60 transition hover:bg-white/10 hover:text-white"
