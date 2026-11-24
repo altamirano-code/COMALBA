@@ -42,7 +42,7 @@ export function CotizadorMudanza({ division }: { division: Division }) {
   };
 
   const opcion = (activo: boolean) =>
-    `flex items-center gap-3 rounded-2xl border p-3 text-left sm:gap-4 sm:p-4 transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dorado-500 ${
+    `flex items-center gap-3 rounded-2xl border p-3 text-left sm:gap-4 sm:p-5 transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dorado-500 ${
       activo ? "border-marino-900 bg-marino-900 text-white" : "border-marino-950/15 bg-white text-marino-900 hover:border-marino-900"
     }`;
 
@@ -73,7 +73,7 @@ export function CotizadorMudanza({ division }: { division: Division }) {
           </ul>
         </div>
 
-        <form onSubmit={enviar} className="rounded-3xl bg-marfil p-4 text-marino-900 shadow-2xl shadow-black/40 sm:p-8">
+        <form onSubmit={enviar} className="flex flex-col self-center rounded-3xl bg-marfil p-4 text-marino-900 shadow-2xl shadow-black/40 sm:p-8">
           {/* Progreso: es un proceso de verdad, por eso va numerado */}
           <ol className="grid grid-cols-3 gap-2">
             {pasos.map((p, i) => {
@@ -97,7 +97,8 @@ export function CotizadorMudanza({ division }: { division: Division }) {
             })}
           </ol>
 
-          <div className="mt-5 min-h-[17rem] sm:mt-7 sm:min-h-[19rem]">
+          {/* Alto fijo para que el formulario no cambie de tamaño entre pasos; el paso se centra en ese espacio */}
+          <div className="mt-5 flex min-h-[16rem] flex-1 flex-col justify-center sm:mt-6 sm:min-h-[17.5rem]">
             {paso === 0 && (
               <fieldset>
                 <legend className="font-display text-2xl font-semibold sm:text-3xl">¿Qué necesitas?</legend>
@@ -187,12 +188,12 @@ export function CotizadorMudanza({ division }: { division: Division }) {
           </div>
 
           {paso === 2 ? (
-            <button type="submit" disabled={!listoRuta} className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-marino-900 px-6 py-3.5 sm:mt-8 sm:py-4 text-sm font-bold text-white transition hover:bg-marino-700 disabled:opacity-40">
+            <button type="submit" disabled={!listoRuta} className="mt-5 flex w-full shrink-0 items-center justify-center gap-2 rounded-full bg-marino-900 px-6 py-3.5 sm:mt-8 sm:py-4 text-sm font-bold text-white transition hover:bg-marino-700 disabled:opacity-40">
               <WhatsAppIcon className="size-[18px]" /> Recibir mi cotización
             </button>
           ) : (
-            <>
-              <p className="mt-5 text-center text-sm text-piedra sm:mt-0">Elige una opción para continuar.</p>
+            <div className="shrink-0">
+              <p className="mt-5 text-center text-sm text-piedra sm:mt-4">Elige una opción para continuar.</p>
               <div className="mt-3 grid grid-cols-2 gap-3 sm:mt-5">
                 <button
                   type="button"
@@ -211,7 +212,7 @@ export function CotizadorMudanza({ division }: { division: Division }) {
                   Continuar <ChevronRight size={17} />
                 </button>
               </div>
-            </>
+            </div>
           )}
         </form>
       </div>

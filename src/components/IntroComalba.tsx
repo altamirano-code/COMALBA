@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
    azul marino que crece detrás del logo hasta cubrir la pantalla, y luego todo se desvanece.
    - Toda la secuencia es CSS (globals.css, bloque "INTRO"): si el JavaScript falla, la intro termina sola.
    - Se muestra una vez por visita: el script de layout.tsx marca <html> antes de pintar.
-   - Clic o cualquier tecla la saltan. No aparece en /admin. */
+   - Clic o cualquier tecla la saltan. No aparece en /admin ni con ?sinIntro=1 (enlaces del panel). */
 export const CLAVE_INTRO = "comalba-intro-vista";
 
 // Orden de obra: edificio chico, edificio alto, casa, chimenea, nombre, barra GRUPO
@@ -90,4 +90,4 @@ export function IntroComalba() {
    1. Activa el desplazamiento suave (clase "scroll-suave") hasta que la página terminó de cargar, para que
       el navegador coloque las #anclas y la posición al recargar de un solo golpe (ver globals.css).
    2. Decide si esta visita ve la intro. */
-export const scriptIntro = `(function(){var h=document.documentElement;function suave(){requestAnimationFrame(function(){requestAnimationFrame(function(){h.classList.add("scroll-suave")})})}if(document.readyState==="complete")suave();else addEventListener("load",suave);try{if(location.pathname.indexOf("/admin")===0)return;if(sessionStorage.getItem("${CLAVE_INTRO}")){h.classList.add("intro-vista")}else{h.classList.add("intro-activa")}}catch(e){}})();`;
+export const scriptIntro = `(function(){var h=document.documentElement;function suave(){requestAnimationFrame(function(){requestAnimationFrame(function(){h.classList.add("scroll-suave")})})}if(document.readyState==="complete")suave();else addEventListener("load",suave);try{if(location.pathname.indexOf("/admin")===0)return;if(/[?&]sinIntro=1/.test(location.search)){sessionStorage.setItem("${CLAVE_INTRO}","1")}if(sessionStorage.getItem("${CLAVE_INTRO}")){h.classList.add("intro-vista")}else{h.classList.add("intro-activa")}}catch(e){}})();`;

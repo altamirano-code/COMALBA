@@ -95,6 +95,26 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Manita en todo lo que se puede presionar (Tailwind 4 deja la flecha por defecto en los botones) */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+[role="tab"],
+[role="switch"],
+summary,
+select:not(:disabled),
+label:has(> input[type="checkbox"], > input[type="radio"]),
+input[type="checkbox"]:not(:disabled),
+input[type="radio"]:not(:disabled),
+input[type="date"]:not(:disabled),
+input[type="file"]:not(:disabled) {
+  cursor: pointer;
+}
+button:disabled,
+select:disabled,
+input:disabled {
+  cursor: not-allowed;
+}
+
 ::selection {
   background: var(--color-arena-300);
   color: var(--color-marino-950);

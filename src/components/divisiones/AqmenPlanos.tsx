@@ -76,13 +76,13 @@ export function AqmenPlanos({ division }: { division: Division }) {
     <section className="bg-marfil px-6 pb-12 pt-28 sm:px-10 sm:pb-16 sm:pt-36 lg:pb-24">
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col justify-between gap-4 sm:gap-8 md:flex-row md:items-end">
-          <div>
+          <div className="min-w-0 md:flex-1">
             <MarcaDivision division={division} className="h-16 w-36 ring-1 sm:h-20 sm:w-44 ring-marino-950/10" />
-            <h1 className="fade-up mt-5 max-w-2xl sm:mt-8 text-balance font-display text-4xl font-semibold leading-[1.02] text-marino-900 sm:text-6xl lg:text-7xl">
+            <h1 className="fade-up mt-5 max-w-5xl sm:mt-8 text-balance font-display text-4xl font-semibold leading-[1.12] text-marino-900 sm:text-6xl lg:text-[4rem]">
               Cocinas y clósets hechos a la medida de tu casa.
             </h1>
           </div>
-          <p className="max-w-sm text-cuerpo-lg text-piedra">
+          <p className="max-w-sm text-cuerpo-lg text-piedra md:shrink-0">
             Elige la forma de tu espacio en el plano. Con eso preparamos la visita de medición y tu propuesta de diseño.
           </p>
         </div>

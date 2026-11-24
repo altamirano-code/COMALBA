@@ -122,7 +122,7 @@ export function EditorPublicacion({ inicial, esNueva, destacadasLlenas, onGuarda
         extras: extras.split(",").map((x) => x.trim()).filter(Boolean),
       });
     } catch {
-      setAviso("No se pudo guardar. Revisa el espacio disponible del navegador.");
+      setAviso("No se pudo guardar. Revisa tu conexión e intenta de nuevo.");
       setGuardando(false);
     }
   }
@@ -184,8 +184,15 @@ export function EditorPublicacion({ inicial, esNueva, destacadasLlenas, onGuarda
             <Campo etiqueta="Título *" ancho>
               <input required maxLength={100} value={p.titulo} onChange={(e) => cambiar("titulo", e.target.value)} className={entrada} placeholder="Casa con jardín en Cuernavaca" />
             </Campo>
-            <Campo etiqueta="Descripción" ancho>
-              <textarea rows={4} value={p.descripcion} onChange={(e) => cambiar("descripcion", e.target.value)} className={`${entrada} resize-y`} placeholder="Lo más importante del inmueble, en pocas líneas." />
+            <Campo etiqueta="Acerca de la propiedad (descripción)" ancho>
+              <textarea
+                rows={6}
+                maxLength={3000}
+                value={p.descripcion}
+                onChange={(e) => cambiar("descripcion", e.target.value)}
+                className={`${entrada} resize-y`}
+                placeholder="Describe el inmueble: distribución, acabados, estado, entorno… Aparece en la ficha y en el enlace sin datos (no pongas teléfonos ni el nombre de la empresa)."
+              />
             </Campo>
             <Campo etiqueta="Clave de la propiedad">
               <input value={p.clave} onChange={(e) => cambiar("clave", e.target.value.toUpperCase())} className={entrada} />

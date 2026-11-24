@@ -4,6 +4,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { ListadoPublicaciones } from "@/components/ListadoPublicaciones";
+import { SeccionCatalogo } from "@/components/SeccionCatalogo";
 import { AlbaveraExplorador } from "@/components/divisiones/AlbaveraExplorador";
 import { RentasCiv } from "@/components/divisiones/RentasCiv";
 import { AsesoriaProyectos } from "@/components/divisiones/AsesoriaProyectos";
@@ -70,14 +71,15 @@ function Contenido({ division }: { division: Division }) {
         <>
           <AqmenPlanos division={division} />
           <Pasos titulo="De la medición a la instalación." pasos={pasosAqmen} />
-          <section className="bg-marfil px-6 py-12 sm:px-10 sm:py-16 lg:py-20">
-            <div className="mx-auto max-w-7xl">
-              <h2 className="font-display text-3xl font-semibold text-marino-900 sm:text-4xl">Proyectos AQMEN</h2>
-              <div className="mt-6 sm:mt-8">
-                <ListadoPublicaciones seccion="aqmen" />
-              </div>
-            </div>
-          </section>
+          <SeccionCatalogo
+            id="proyectos"
+            etiqueta="Portafolio"
+            titulo="Proyectos AQMEN"
+            texto="Cocinas integrales y clósets diseñados, fabricados e instalados a la medida."
+            fondo="bg-marfil"
+          >
+            <ListadoPublicaciones seccion="aqmen" />
+          </SeccionCatalogo>
         </>
       );
     case "immor":

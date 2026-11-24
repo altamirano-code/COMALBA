@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Bath,
   BedDouble,
@@ -17,6 +18,8 @@ import {
   Filter,
   Inbox,
   LayoutDashboard,
+  Link2,
+  LogOut,
   MapPin,
   Maximize2,
   Menu,
@@ -24,6 +27,7 @@ import {
   Plus,
   RotateCcw,
   Search,
+  Share2,
   Star,
   Trash2,
   Upload,
@@ -32,7 +36,12 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { EditorPublicacion } from "@/components/admin/EditorPublicacion";
+import { CompartirPropiedad } from "@/components/admin/CompartirPropiedad";
+import { ListaSolicitudes } from "@/components/admin/ListaSolicitudes";
+import { eliminarSolicitud, listarSolicitudes, marcarAtendida, type Solicitud } from "@/lib/solicitudes";
+import { estadoEnlace, listarEnlaces, type Enlace } from "@/lib/enlaces";
 import { eliminarDefinitivo, guardarPublicacion, listarPublicaciones } from "@/lib/almacenPublicaciones";
+import { cerrarSesion, leerSesion, type UsuarioEquipo } from "@/lib/sesion";
 import {
   CATEGORIAS,
   CATEGORIAS_AQMEN,
@@ -50,12 +59,13 @@ import {
    PANEL DE ADMINISTRACIÓN
    Administra todas las publicaciones del sitio: ALBAVERA,
    CIV Rentas, AQMEN y las destacadas del inicio.
-   Pendiente al definir servidor: inicio de sesión y roles
-   (Marketing / Dirección General), registro de cambios por
-   usuario y solicitudes de clientes.
+   Acceso protegido con Supabase Auth (ver src/middleware.ts).
+   Solicitudes: interesados del formulario «Solicitar una visita».
+   Pendiente: roles (Marketing / Dirección General) y registro
+   de cambios por usuario.
    ========================================================= */
 
-type Vista = "resumen" | "publicaciones" | "destacadas" | "papelera";
+type Vista = "resumen" | "publicaciones" | "destacadas" | "papelera" | "solicitudes";
 
 type Filtros = {
   seccion: "" | Seccion;
@@ -172,12 +182,24 @@ export default function AdminPage() {
   const [aviso, setAviso] = useState("");
   const [menuMovil, setMenuMovil] = useState(false);
   const [compacto, setCompacto] = useState(false);
+  const [usuario, setUsuario] = useState<UsuarioEquipo | null>(null);
+  const [enlaces, setEnlaces] = useState<Record<string, Enlace>>({});
+  const [compartiendo, setCompartiendo] = useState<Publicacion | null>(null);
+  const [solicitudes, setSolicitudes] = useState<Solicitud[]>([]);
+  const router = useRouter();
 
   const recargar = useCallback(async () => {
     try {
-      setPublicaciones(await listarPublicaciones());
+      const [lista, listaEnlaces, listaSolicitudes] = await Promise.all([
+        listarPublicaciones(),
+        listarEnlaces().catch(() => []),
+        listarSolicitudes().catch(() => []),
+      ]);
+      setPublicaciones(lista);
+      setSolicitudes(listaSolicitudes);
+      setEnlaces(Object.fromEntries(listaEnlaces.map((e) => [e.publicacionId, e])));
     } catch {
-      setAviso("No se pudieron leer las publicaciones de este navegador.");
+      setAviso("No se pudieron leer las publicaciones. Revisa tu conexión.");
     } finally {
       setCargando(false);
     }
@@ -186,6 +208,15 @@ export default function AdminPage() {
   useEffect(() => {
     recargar();
   }, [recargar]);
+
+  useEffect(() => {
+    leerSesion().then(setUsuario);
+  }, []);
+
+  async function salir() {
+    await cerrarSesion();
+    router.replace("/admin/entrar");
+  }
 
   const activas = publicaciones.filter((p) => !p.eliminadaEn);
   const papelera = publicaciones.filter((p) => p.eliminadaEn);
@@ -208,9 +239,13 @@ export default function AdminPage() {
   }
 
   async function guardar(p: Publicacion, mensaje: string) {
-    await guardarPublicacion(p);
+    try {
+      await guardarPublicacion(p);
+      setAviso(mensaje);
+    } catch {
+      setAviso("No se pudo guardar. Revisa tu conexión e intenta de nuevo.");
+    }
     await recargar();
-    setAviso(mensaje);
   }
 
   function crear() {
@@ -228,10 +263,35 @@ export default function AdminPage() {
 
   async function borrarDefinitivo(p: Publicacion) {
     if (!confirm(`¿Eliminar ${p.clave} "${p.titulo}" para siempre? Esta acción no se puede deshacer.`)) return;
-    await eliminarDefinitivo(p.id);
+    try {
+      await eliminarDefinitivo(p.id);
+      setAviso(`${p.clave} se eliminó definitivamente.`);
+    } catch {
+      setAviso("No se pudo eliminar. Intenta de nuevo.");
+    }
     await recargar();
-    setAviso(`${p.clave} se eliminó definitivamente.`);
   }
+
+  async function alternarAtendida(sol: Solicitud) {
+    try {
+      await marcarAtendida(sol.id, !sol.atendida);
+      setSolicitudes((lista) => lista.map((x) => (x.id === sol.id ? { ...x, atendida: !x.atendida } : x)));
+    } catch {
+      setAviso("No se pudo actualizar la solicitud.");
+    }
+  }
+
+  async function borrarSolicitud(sol: Solicitud) {
+    if (!confirm(`¿Eliminar la solicitud de ${sol.nombre}? No se puede deshacer.`)) return;
+    try {
+      await eliminarSolicitud(sol.id);
+      setSolicitudes((lista) => lista.filter((x) => x.id !== sol.id));
+    } catch {
+      setAviso("No se pudo eliminar la solicitud.");
+    }
+  }
+
+  const pendientes = solicitudes.filter((x) => !x.atendida).length;
 
   function irA(v: Vista) {
     setVista(v);
@@ -243,6 +303,7 @@ export default function AdminPage() {
     publicaciones: "Publicaciones",
     destacadas: "Destacadas en el inicio",
     papelera: "Papelera",
+    solicitudes: "Solicitudes",
   };
 
   return (
@@ -277,18 +338,27 @@ export default function AdminPage() {
             <ItemMenu icono={Star} texto="Destacadas en inicio" activo={vista === "destacadas"} compacto={compacto} onClick={() => irA("destacadas")} total={`${destacadas.length}/${MAX_DESTACADAS}`} />
             <ItemMenu icono={Trash2} texto="Papelera" activo={vista === "papelera"} compacto={compacto} onClick={() => irA("papelera")} total={papelera.length || undefined} />
             <div className="my-3 border-t border-white/10" />
-            <ItemMenu icono={Inbox} texto="Solicitudes" compacto={compacto} proximamente />
+            <ItemMenu icono={Inbox} texto="Solicitudes" activo={vista === "solicitudes"} compacto={compacto} onClick={() => irA("solicitudes")} total={pendientes || undefined} />
             <ItemMenu icono={Users} texto="Usuarios" compacto={compacto} proximamente />
           </nav>
 
           <div className="flex items-center gap-3 border-t border-white/10 p-4">
-            <span className="grid size-10 shrink-0 place-items-center rounded-full bg-dorado-500 text-sm font-bold text-marino-950">DG</span>
+            <span className="grid size-10 shrink-0 place-items-center rounded-full bg-dorado-500 text-sm font-bold text-marino-950">{usuario?.iniciales ?? "··"}</span>
             {!compacto && (
               <span className="min-w-0 leading-tight">
-                <span className="block truncate text-sm font-semibold">Dirección General</span>
-                <span className="block truncate text-xs text-white/50">Sesión de prueba</span>
+                <span className="block truncate text-sm font-semibold">{usuario?.nombre ?? "Equipo"}</span>
+                <span className="block truncate text-xs text-white/50">{usuario?.correo ?? ""}</span>
               </span>
             )}
+            <button
+              type="button"
+              onClick={salir}
+              aria-label="Cerrar sesión"
+              title="Cerrar sesión"
+              className={`grid size-9 shrink-0 place-items-center rounded-lg text-white/60 transition hover:bg-white/10 hover:text-white ${compacto ? "hidden" : "ml-auto"}`}
+            >
+              <LogOut size={16} />
+            </button>
           </div>
         </aside>
 
@@ -318,11 +388,9 @@ export default function AdminPage() {
           </header>
 
           <main className="flex-1 bg-white p-4 sm:p-6 lg:rounded-2xl">
-            <div className="mb-5 rounded-xl border border-dorado-500/40 bg-dorado-500/10 px-4 py-2.5 text-sm text-marino-900">
-              <strong>Versión de prueba:</strong> los cambios se guardan solo en este navegador. Al conectar el servidor se verán en todos los dispositivos.
-            </div>
-
-            {vista === "resumen" ? (
+            {vista === "solicitudes" ? (
+              <ListaSolicitudes solicitudes={solicitudes} publicaciones={publicaciones} onAtendida={alternarAtendida} onEliminar={borrarSolicitud} />
+            ) : vista === "resumen" ? (
               <Resumen
                 activas={activas}
                 destacadas={destacadas.length}
@@ -493,6 +561,8 @@ export default function AdminPage() {
                         onPapelera={() => guardar({ ...p, eliminadaEn: new Date().toISOString(), destacada: false }, `${p.clave} se movió a la papelera.`)}
                         onRestaurar={() => guardar({ ...p, eliminadaEn: null, publicada: false }, `${p.clave} se restauró como oculta. Publícala cuando esté lista.`)}
                         onBorrar={() => borrarDefinitivo(p)}
+                        enlace={enlaces[p.id]}
+                        onCompartir={() => setCompartiendo(p)}
                       />
                     ))}
                   </ul>
@@ -511,9 +581,22 @@ export default function AdminPage() {
           destacadasLlenas={destacadas.length >= MAX_DESTACADAS && !editando.publicacion.destacada}
           onCerrar={() => setEditando(null)}
           onGuardar={async (p) => {
-            await guardar(p, editando.esNueva ? `${p.clave} se creó.` : `${p.clave} se actualizó.`);
+            // Si falla, el error llega al editor y se queda abierto con lo capturado
+            await guardarPublicacion(p);
+            await recargar();
+            setAviso(editando.esNueva ? `${p.clave} se creó.` : `${p.clave} se actualizó.`);
             setEditando(null);
           }}
+        />
+      )}
+
+      {compartiendo && (
+        <CompartirPropiedad
+          key={compartiendo.id}
+          publicacion={compartiendo}
+          enlace={enlaces[compartiendo.id]}
+          onCerrar={() => setCompartiendo(null)}
+          onCambio={(e) => setEnlaces((actual) => ({ ...actual, [e.publicacionId]: e }))}
         />
       )}
     </div>
@@ -643,8 +726,12 @@ function Fila({
   onPapelera,
   onRestaurar,
   onBorrar,
+  enlace,
+  onCompartir,
 }: {
   p: Publicacion;
+  enlace?: Enlace;
+  onCompartir: () => void;
   onEditar: () => void;
   onDestacar: () => void;
   onPublicar: () => void;
@@ -652,6 +739,7 @@ function Fila({
   onRestaurar: () => void;
   onBorrar: () => void;
 }) {
+  const enlaceActivo = enlace && estadoEnlace(enlace) === "activo";
   const m2 = p.construccionM2 ?? p.terrenoM2;
   const estado = p.eliminadaEn
     ? { texto: "En papelera", punto: "bg-red-500", color: "text-red-700" }
@@ -689,6 +777,7 @@ function Fila({
           {m2 !== null && <Chip icono={Maximize2}>{m2} m²</Chip>}
           <Chip icono={Camera}>{p.fotos.length}</Chip>
           <Chip icono={CalendarClock}>{fecha(p.actualizadaEn)}</Chip>
+          {enlaceActivo && <Chip icono={Link2}>Enlace sin datos</Chip>}
         </div>
       </div>
 
@@ -712,6 +801,9 @@ function Fila({
               )}
               <BotonIcono etiqueta={p.publicada ? "Ocultar" : "Publicar"} onClick={onPublicar}>
                 {p.publicada ? <EyeOff size={17} /> : <Eye size={17} />}
+              </BotonIcono>
+              <BotonIcono etiqueta="Compartir propiedad" onClick={onCompartir}>
+                <Share2 size={17} className={enlaceActivo ? "text-emerald-700" : ""} />
               </BotonIcono>
               <BotonIcono etiqueta="Editar" onClick={onEditar}>
                 <Pencil size={17} />

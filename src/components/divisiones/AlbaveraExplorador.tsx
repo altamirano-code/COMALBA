@@ -2,11 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState, type FormEvent } from "react";
-import { Bath, BedDouble, Car, MapPin, Maximize2, Search, Sparkles, Users } from "lucide-react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { Bath, BedDouble, Car, ChevronLeft, ChevronRight, MapPin, Maximize2, Search, Sparkles, Users } from "lucide-react";
 import { MarcaDivision } from "@/components/divisiones/MarcaDivision";
 import { WhatsAppIcon } from "@/components/WhatsAppButton";
 import { usePublicacionesPublicas } from "@/lib/almacenPublicaciones";
+import { esRegreso, guardarEstado, leerEstado } from "@/lib/navegacion";
 import { CATEGORIAS, caracteristicasDe, precioTexto, ubicacionTexto, type Caracteristica } from "@/lib/publicaciones";
 import { whatsappUrl, type Division } from "@/lib/site";
 
@@ -46,6 +47,8 @@ export function AlbaveraExplorador({ division }: { division: Division }) {
   const [zona, setZona] = useState("");
   const [precio, setPrecio] = useState("");
   const [filtro, setFiltro] = useState({ tipo: "", zona: "", precio: "" });
+  // En lista se muestran de 3 en 3 y se avanza con las flechas
+  const [pagina, setPagina] = useState(0);
 
   const visibles = useMemo(
     () =>
@@ -58,17 +61,46 @@ export function AlbaveraExplorador({ division }: { division: Division }) {
     [propiedades, filtro],
   );
 
+  const POR_PAGINA = 3;
+  const paginas = Math.max(1, Math.ceil(visibles.length / POR_PAGINA));
+  const enPagina = visibles.slice(pagina * POR_PAGINA, pagina * POR_PAGINA + POR_PAGINA);
+
+  // Al regresar de una propiedad, la página queda como la dejaste
+  type Estado = { tipo: string; zona: string; precio: string; filtro: typeof filtro; pagina: number };
+  const [listo, setListo] = useState(false);
+  useEffect(() => {
+    const previo = esRegreso() ? leerEstado<Estado>("albavera") : null;
+    if (previo) {
+      setTipo(previo.tipo);
+      setZona(previo.zona);
+      setPrecio(previo.precio);
+      setFiltro(previo.filtro);
+      setPagina(previo.pagina);
+    }
+    setListo(true);
+  }, []);
+  useEffect(() => {
+    if (listo) guardarEstado<Estado>("albavera", { tipo, zona, precio, filtro, pagina });
+  }, [listo, tipo, zona, precio, filtro, pagina]);
+
+  const irAPagina = (n: number) => {
+    setPagina(Math.min(Math.max(n, 0), paginas - 1));
+    document.getElementById("resultados")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   const conteo = (t: string) => propiedades.filter((p) => (!t || p.categoria === t) && enRango(p.precio, filtro.precio)).length;
 
   const buscar = (e: FormEvent) => {
     e.preventDefault();
     setFiltro({ tipo, zona: zona.trim(), precio });
+    setPagina(0);
     document.getElementById("resultados")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const elegirTipo = (t: string) => {
     setTipo(t);
     setFiltro((f) => ({ ...f, tipo: t }));
+    setPagina(0);
   };
 
   const rangoElegido = RANGOS.find((r) => r.id === filtro.precio && r.id);
@@ -180,9 +212,9 @@ export function AlbaveraExplorador({ division }: { division: Division }) {
 
           {visibles.length > 0 ? (
             <ul className="mt-5 space-y-4 sm:mt-8 sm:space-y-5">
-              {visibles.map((p) => (
+              {enPagina.map((p) => (
                 <li key={p.id}>
-                  <article className="grid overflow-hidden rounded-2xl bg-white ring-1 ring-marino-950/8 sm:grid-cols-[minmax(0,320px)_1fr]">
+                  <article className="relative grid overflow-hidden rounded-2xl bg-white ring-1 ring-marino-950/8 transition hover:shadow-lg sm:grid-cols-[minmax(0,320px)_1fr]">
                     <div className="relative aspect-[16/9] bg-crema sm:aspect-auto sm:min-h-56">
                       {p.fotos[0] && (
                         // eslint-disable-next-line @next/next/no-img-element
@@ -192,7 +224,11 @@ export function AlbaveraExplorador({ division }: { division: Division }) {
                     </div>
                     <div className="flex flex-col p-4 sm:p-7">
                       <p className="font-hero text-2xl font-semibold text-marino-900 sm:text-3xl">{precioTexto(p)}</p>
-                      <h3 className="mt-1.5 text-base font-bold leading-snug text-tinta sm:mt-2 sm:text-lg">{p.titulo}</h3>
+                      <h3 className="mt-1.5 text-base font-bold leading-snug text-tinta sm:mt-2 sm:text-lg">
+                        <Link href={`/propiedad/${p.id}`} className="after:absolute after:inset-0 after:z-[1] after:content-[''] focus-visible:outline-none">
+                          {p.titulo}
+                        </Link>
+                      </h3>
                       <p className="mt-1.5 flex items-center gap-1.5 text-sm text-piedra">
                         <MapPin size={15} className="shrink-0" /> {ubicacionTexto(p)}
                       </p>
@@ -213,10 +249,11 @@ export function AlbaveraExplorador({ division }: { division: Division }) {
                           href={whatsappUrl(`Hola, me interesa la propiedad ${p.clave} "${p.titulo}" (${ubicacionTexto(p)}). ¿Sigue disponible?`, division.telefono)}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-2 rounded-full bg-[#25d366] px-5 py-2.5 text-sm font-bold text-white transition hover:brightness-95"
+                          className="relative z-[2] inline-flex items-center gap-2 rounded-full bg-[#25d366] px-5 py-2.5 text-sm font-bold text-white transition hover:brightness-95"
                         >
                           <WhatsAppIcon className="size-4" /> Preguntar por esta propiedad
                         </a>
+                        <span className="text-sm font-semibold text-marino-900 underline-offset-4">Ver fotos y detalles →</span>
                       </div>
                     </div>
                   </article>
@@ -249,6 +286,33 @@ export function AlbaveraExplorador({ division }: { division: Division }) {
               <p className="font-display text-2xl font-semibold text-marino-900">No hay publicaciones con esos filtros.</p>
               <p className="mt-2 text-sm text-piedra">Prueba con otro tipo, precio o zona, o pide a un asesor opciones que aún no publicamos.</p>
             </div>
+          )}
+
+          {/* Flechas de la lista: de 3 en 3 */}
+          {paginas > 1 && (
+            <nav aria-label="Páginas de resultados" className="mt-8 flex items-center justify-center gap-4 sm:mt-10">
+              <button
+                type="button"
+                onClick={() => irAPagina(pagina - 1)}
+                disabled={pagina === 0}
+                aria-label="3 propiedades anteriores"
+                className="grid size-12 place-items-center rounded-full border border-marino-950/15 bg-white text-marino-900 shadow-sm transition hover:bg-marino-900 hover:text-white disabled:pointer-events-none disabled:opacity-35"
+              >
+                <ChevronLeft size={20} />
+              </button>
+              <p aria-live="polite" className="min-w-36 text-center text-sm font-semibold text-marino-900">
+                {pagina * POR_PAGINA + 1}–{Math.min((pagina + 1) * POR_PAGINA, visibles.length)} de {visibles.length}
+              </p>
+              <button
+                type="button"
+                onClick={() => irAPagina(pagina + 1)}
+                disabled={pagina >= paginas - 1}
+                aria-label="3 propiedades siguientes"
+                className="grid size-12 place-items-center rounded-full border border-marino-950/15 bg-white text-marino-900 shadow-sm transition hover:bg-marino-900 hover:text-white disabled:pointer-events-none disabled:opacity-35"
+              >
+                <ChevronRight size={20} />
+              </button>
+            </nav>
           )}
 
           <div className="mt-6 flex flex-col items-start justify-between gap-4 rounded-2xl bg-marino-900 p-5 text-white sm:mt-10 sm:flex-row sm:items-center sm:gap-5 sm:p-8">
