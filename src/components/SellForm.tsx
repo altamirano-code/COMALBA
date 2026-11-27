@@ -3,9 +3,14 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { ShieldCheck, Send } from "lucide-react";
 import { whatsappUrl } from "@/lib/site";
+import { registrarLead } from "@/lib/solicitudes";
 
 const OPERACIONES = ["Vender", "Rentar", "Valuar"] as const;
 type Operacion = (typeof OPERACIONES)[number];
+
+/* Quién atiende al propietario: rentar es de CIV Rentas; vender y valuar, de ALBAVERA */
+const AREA: Record<Operacion, string> = { Vender: "albavera", Rentar: "civ-rentas", Valuar: "albavera" };
+const MAX_DETALLES = 100; // Cuestionario 5.3: cuadro de texto de 100 caracteres
 
 const TIPOS = ["Casa", "Departamento", "Terreno", "Local comercial", "Oficina", "Bodega", "Otro"];
 
@@ -43,6 +48,7 @@ export function SellForm() {
     e.preventDefault();
     const datos = new FormData(e.currentTarget);
     const v = (k: string) => String(datos.get(k) ?? "").trim();
+    if (v("sitio_web")) return setEnviado(true); // Campo trampa: solo un robot lo llena
 
     const mensaje = [
       `Hola, quiero *${operacion.toLowerCase()}* una propiedad.`,
@@ -57,12 +63,30 @@ export function SellForm() {
       .filter(Boolean)
       .join("\n");
 
+    // WhatsApp se abre antes de esperar a la base: si no, el navegador bloquea la ventana
     window.open(whatsappUrl(mensaje), "_blank", "noopener");
     setEnviado(true);
+    registrarLead({
+      formulario: "propietario",
+      area: AREA[operacion],
+      nombre: v("nombre"),
+      telefono: v("telefono"),
+      correo: v("correo"),
+      mensaje: v("detalles"),
+      datos: [
+        { etiqueta: "Quiere", valor: operacion },
+        { etiqueta: "Tipo de propiedad", valor: v("tipo") },
+        { etiqueta: "Ubicación", valor: v("ubicacion") },
+      ],
+    });
   }
 
   return (
-    <form onSubmit={enviar} className="rounded-[1.6rem] border border-white/15 bg-marino-950/55 p-5 shadow-2xl shadow-black/30 backdrop-blur-xl sm:p-8">
+    <form onSubmit={enviar} className="relative rounded-[1.6rem] border border-white/15 bg-marino-950/55 p-5 shadow-2xl shadow-black/30 backdrop-blur-xl sm:p-8">
+      <label aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+        Sitio web
+        <input name="sitio_web" tabIndex={-1} autoComplete="off" />
+      </label>
       <fieldset>
         <legend className={etiqueta}>¿Qué te gustaría hacer?</legend>
         <div className="mt-2 grid grid-cols-3 gap-1 rounded-xl bg-white/[0.07] p-1">
@@ -111,7 +135,7 @@ export function SellForm() {
 
       <label className={`${etiqueta} mt-4 sm:mt-5`}>
         Cuéntanos más <span className="font-normal text-white/60">(opcional)</span>
-        <textarea name="detalles" rows={3} className={`${campo} resize-none`} placeholder="Recámaras, m², estado de la propiedad, etc." />
+        <textarea name="detalles" rows={3} maxLength={MAX_DETALLES} className={`${campo} resize-none`} placeholder="Recámaras, m², estado de la propiedad, etc." />
       </label>
 
       <label className="mt-4 flex items-start gap-3 text-[0.8125rem] sm:mt-5 leading-5 text-white/70">
@@ -128,7 +152,7 @@ export function SellForm() {
 
       <p className="mt-4 flex items-center justify-center gap-2 text-center text-xs text-white/65" aria-live="polite">
         <ShieldCheck size={14} />
-        {enviado ? "¡Listo! Se abrió WhatsApp con tu solicitud." : "Tus datos solo se usan para contactarte."}
+        {enviado ? "¡Listo! Recibimos tu solicitud y se abrió WhatsApp." : "Tus datos solo se usan para contactarte."}
       </p>
     </form>
   );

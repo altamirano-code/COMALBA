@@ -38,7 +38,7 @@ import {
 import { EditorPublicacion } from "@/components/admin/EditorPublicacion";
 import { CompartirPropiedad } from "@/components/admin/CompartirPropiedad";
 import { ListaSolicitudes } from "@/components/admin/ListaSolicitudes";
-import { eliminarSolicitud, listarSolicitudes, marcarAtendida, type Solicitud } from "@/lib/solicitudes";
+import { eliminarSolicitud, listarSolicitudes, marcarAtendida, papeleraSolicitud, type Solicitud } from "@/lib/solicitudes";
 import { estadoEnlace, listarEnlaces, type Enlace } from "@/lib/enlaces";
 import { eliminarDefinitivo, guardarPublicacion, listarPublicaciones } from "@/lib/almacenPublicaciones";
 import { cerrarSesion, leerSesion, type UsuarioEquipo } from "@/lib/sesion";
@@ -60,7 +60,7 @@ import {
    Administra todas las publicaciones del sitio: ALBAVERA,
    CIV Rentas, AQMEN y las destacadas del inicio.
    Acceso protegido con Supabase Auth (ver src/middleware.ts).
-   Solicitudes: interesados del formulario «Solicitar una visita».
+   Solicitudes: leads de todos los formularios del sitio (visitas, áreas, propietarios y mudanzas).
    Pendiente: roles (Marketing / Dirección General) y registro
    de cambios por usuario.
    ========================================================= */
@@ -281,20 +281,34 @@ export default function AdminPage() {
     }
   }
 
+  /* Mandar a la papelera o restaurar (no pide confirmación: se puede deshacer) */
+  async function moverSolicitud(sol: Solicitud, aPapelera: boolean) {
+    try {
+      await papeleraSolicitud(sol.id, aPapelera);
+      const eliminadaEn = aPapelera ? new Date().toISOString() : null;
+      setSolicitudes((lista) => lista.map((x) => (x.id === sol.id ? { ...x, eliminadaEn } : x)));
+      setAviso(aPapelera ? `La solicitud de ${sol.nombre} se movió a la papelera.` : `La solicitud de ${sol.nombre} se restauró.`);
+    } catch {
+      setAviso(aPapelera ? "No se pudo mover a la papelera." : "No se pudo restaurar la solicitud.");
+    }
+  }
+
   async function borrarSolicitud(sol: Solicitud) {
-    if (!confirm(`¿Eliminar la solicitud de ${sol.nombre}? No se puede deshacer.`)) return;
+    if (!confirm(`¿Eliminar para siempre la solicitud de ${sol.nombre}? Esta acción no se puede deshacer.`)) return;
     try {
       await eliminarSolicitud(sol.id);
       setSolicitudes((lista) => lista.filter((x) => x.id !== sol.id));
+      setAviso(`La solicitud de ${sol.nombre} se eliminó definitivamente.`);
     } catch {
       setAviso("No se pudo eliminar la solicitud.");
     }
   }
 
-  const pendientes = solicitudes.filter((x) => !x.atendida).length;
+  const pendientes = solicitudes.filter((x) => !x.atendida && !x.eliminadaEn).length;
 
   function irA(v: Vista) {
     setVista(v);
+    setAviso(""); // El aviso es de la vista anterior
     setMenuMovil(false);
   }
 
@@ -302,7 +316,7 @@ export default function AdminPage() {
     resumen: "Resumen",
     publicaciones: "Publicaciones",
     destacadas: "Destacadas en el inicio",
-    papelera: "Papelera",
+    papelera: "Papelera de propiedades",
     solicitudes: "Solicitudes",
   };
 
@@ -389,7 +403,21 @@ export default function AdminPage() {
 
           <main className="flex-1 bg-white p-4 sm:p-6 lg:rounded-2xl">
             {vista === "solicitudes" ? (
-              <ListaSolicitudes solicitudes={solicitudes} publicaciones={publicaciones} onAtendida={alternarAtendida} onEliminar={borrarSolicitud} />
+              <>
+              {aviso && (
+                <p className="mb-4 rounded-xl bg-marfil px-4 py-2.5 text-sm text-marino-900" aria-live="polite">
+                  {aviso}
+                </p>
+              )}
+              <ListaSolicitudes
+                solicitudes={solicitudes}
+                publicaciones={publicaciones}
+                onAtendida={alternarAtendida}
+                onPapelera={(s) => moverSolicitud(s, true)}
+                onRestaurar={(s) => moverSolicitud(s, false)}
+                onEliminar={borrarSolicitud}
+              />
+              </>
             ) : vista === "resumen" ? (
               <Resumen
                 activas={activas}

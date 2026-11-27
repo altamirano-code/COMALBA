@@ -5,6 +5,7 @@ import { Armchair, Boxes, Building2, ChevronLeft, ChevronRight, Home, Package, R
 import { MarcaDivision } from "@/components/divisiones/MarcaDivision";
 import { WhatsAppIcon } from "@/components/WhatsAppButton";
 import { whatsappUrl, type Division } from "@/lib/site";
+import { registrarLead } from "@/lib/solicitudes";
 
 const SERVICIOS = [
   { id: "Mudanza local", texto: "Dentro de Cuernavaca y zona metropolitana", Icono: Truck },
@@ -30,15 +31,33 @@ export function CotizadorMudanza({ division }: { division: Division }) {
   const [origen, setOrigen] = useState("");
   const [destino, setDestino] = useState("");
   const [fecha, setFecha] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [telefono, setTelefono] = useState("");
 
   const pasos = ["Servicio", "Volumen", "Ruta y fecha"];
-  const listoRuta = origen.trim() && destino.trim();
+  const listoRuta = origen.trim() && destino.trim() && nombre.trim() && telefono.trim();
 
+  /* Guarda el lead (panel → Solicitudes) y abre WhatsApp con la cotización */
   const enviar = (e: FormEvent) => {
     e.preventDefault();
     if (!listoRuta) return;
-    const msg = `Hola IMMOR, quiero cotizar: ${servicio.toLowerCase()} (${tamano.toLowerCase()}) de ${origen.trim()} a ${destino.trim()}${fecha ? ` para el ${fecha}` : ""}.`;
+    const msg = `Hola IMMOR, soy ${nombre.trim()} y quiero cotizar: ${servicio.toLowerCase()} (${tamano.toLowerCase()}) de ${origen.trim()} a ${destino.trim()}${fecha ? ` para el ${fecha}` : ""}.`;
+    // WhatsApp se abre antes de esperar a la base: si no, el navegador bloquea la ventana
     window.open(whatsappUrl(msg, division.telefono), "_blank", "noopener");
+    registrarLead({
+      formulario: "mudanza",
+      area: division.slug,
+      nombre: nombre.trim(),
+      telefono: telefono.trim(),
+      correo: "",
+      datos: [
+        { etiqueta: "Servicio", valor: servicio },
+        { etiqueta: "Volumen", valor: tamano },
+        { etiqueta: "Origen", valor: origen.trim() },
+        { etiqueta: "Destino", valor: destino.trim() },
+        { etiqueta: "Fecha tentativa", valor: fecha },
+      ],
+    });
   };
 
   const opcion = (activo: boolean) =>
@@ -176,6 +195,16 @@ export function CotizadorMudanza({ division }: { division: Division }) {
                   <span className="block text-xs font-semibold text-piedra">Fecha tentativa (opcional)</span>
                   <input type="date" min={hoy()} value={fecha} onChange={(e) => setFecha(e.target.value)} className="w-full bg-transparent text-[0.9375rem] font-semibold outline-none" />
                 </label>
+                <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                  <label className="block rounded-2xl border border-marino-950/15 bg-white p-4">
+                    <span className="block text-xs font-semibold text-piedra">Tu nombre</span>
+                    <input required maxLength={120} autoComplete="name" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Nombre completo" className="w-full bg-transparent text-[0.9375rem] font-semibold outline-none placeholder:font-normal placeholder:text-piedra/70" />
+                  </label>
+                  <label className="block rounded-2xl border border-marino-950/15 bg-white p-4">
+                    <span className="block text-xs font-semibold text-piedra">Tu teléfono</span>
+                    <input required type="tel" inputMode="tel" autoComplete="tel" maxLength={40} pattern="[0-9+ ()-]{10,}" value={telefono} onChange={(e) => setTelefono(e.target.value)} placeholder="777 123 4567" className="w-full bg-transparent text-[0.9375rem] font-semibold outline-none placeholder:font-normal placeholder:text-piedra/70" />
+                  </label>
+                </div>
 
                 <p className="mt-5 text-sm text-piedra">
                   <span className="font-semibold text-marino-900">{servicio}</span>, {tamano.toLowerCase()}.{" "}

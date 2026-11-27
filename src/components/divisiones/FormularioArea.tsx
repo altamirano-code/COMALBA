@@ -3,13 +3,14 @@
 import { useState, type FormEvent } from "react";
 import { Send, ShieldCheck } from "lucide-react";
 import { whatsappUrl, type Division } from "@/lib/site";
+import { registrarLead } from "@/lib/solicitudes";
 
 /* =========================================================
    FORMULARIO DE SOLICITUD POR ÁREA
    Todas las áreas piden nombre, teléfono, correo, presupuesto
    y un comentario corto. Cada área agrega sus propios campos.
-   Por ahora la solicitud se envía por WhatsApp al número de la
-   división; al conectar la base de datos se guardará también ahí.
+   Al enviar se guarda el lead (panel → Solicitudes) y se abre
+   WhatsApp con el número de la división.
    ========================================================= */
 
 type Campo =
@@ -106,6 +107,7 @@ export function FormularioArea({ division }: { division: Division }) {
     e.preventDefault();
     const datos = new FormData(e.currentTarget);
     const v = (k: string) => String(datos.get(k) ?? "").trim();
+    if (v("sitio_web")) return setEnviado(true); // Campo trampa: solo un robot lo llena
 
     const mensaje = [
       `Hola, quiero ${config.asunto} con *${division.nombre}*.`,
@@ -120,12 +122,29 @@ export function FormularioArea({ division }: { division: Division }) {
       .filter(Boolean)
       .join("\n");
 
+    // WhatsApp se abre antes de esperar a la base: si no, el navegador bloquea la ventana
     window.open(whatsappUrl(mensaje, division.telefono), "_blank", "noopener");
     setEnviado(true);
+    registrarLead({
+      formulario: "area",
+      area: division.slug,
+      nombre: v("nombre"),
+      telefono: v("telefono"),
+      correo: v("correo"),
+      mensaje: comentario.trim(),
+      datos: [
+        ...config.campos.map((c) => ({ etiqueta: c.nombre, valor: v(c.nombre) })),
+        { etiqueta: config.presupuesto.etiqueta, valor: v("presupuesto") },
+      ],
+    });
   }
 
   return (
-    <form onSubmit={enviar} className="rounded-[1.6rem] border border-white/15 bg-marino-950/40 p-5 shadow-2xl shadow-black/20 sm:p-8">
+    <form onSubmit={enviar} className="relative rounded-[1.6rem] border border-white/15 bg-marino-950/40 p-5 shadow-2xl shadow-black/20 sm:p-8">
+      <label aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+        Sitio web
+        <input name="sitio_web" tabIndex={-1} autoComplete="off" />
+      </label>
       <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
         <label className={etiqueta}>
           Nombre completo *
@@ -198,7 +217,7 @@ export function FormularioArea({ division }: { division: Division }) {
 
       <p className="mt-4 flex items-center justify-center gap-2 text-center text-xs text-white/50" aria-live="polite">
         <ShieldCheck size={14} />
-        {enviado ? "¡Listo! Se abrió WhatsApp con tu solicitud." : "Se enviará por WhatsApp. Tus datos solo se usan para contactarte."}
+        {enviado ? "¡Listo! Recibimos tu solicitud y se abrió WhatsApp." : "También se abrirá WhatsApp. Tus datos solo se usan para contactarte."}
       </p>
     </form>
   );
