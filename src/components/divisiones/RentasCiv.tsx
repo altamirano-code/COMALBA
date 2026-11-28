@@ -211,11 +211,11 @@ function PanelAnual({ division }: { division: Division }) {
 
         <label className="mt-4 block text-sm font-semibold sm:mt-6 text-marino-900">
           Zona
-          <input value={zona} onChange={(e) => setZona(e.target.value)} placeholder="Ej. Cuernavaca, Jiutepec" className="mt-2 w-full rounded-xl border border-marino-950/15 bg-marfil px-4 py-3 font-normal outline-none focus:border-marino-900" />
+          <input value={zona} onChange={(e) => setZona(e.target.value)} placeholder="Ej. Cuernavaca, Jiutepec" className="mt-2 w-full rounded-lg border border-marino-950/15 bg-marfil px-4 py-3 font-normal outline-none focus:border-marino-900" />
         </label>
         <label className="mt-4 block text-sm font-semibold sm:mt-5 text-marino-900">
           Presupuesto mensual
-          <select value={presupuesto} onChange={(e) => setPresupuesto(e.target.value)} className="mt-2 w-full rounded-xl border border-marino-950/15 bg-marfil px-4 py-3 font-normal outline-none focus:border-marino-900">
+          <select value={presupuesto} onChange={(e) => setPresupuesto(e.target.value)} className="mt-2 w-full rounded-lg border border-marino-950/15 bg-marfil px-4 py-3 font-normal outline-none focus:border-marino-900">
             <option value="">Prefiero comentarlo con el asesor</option>
             <option>hasta $10,000</option>
             <option>$10,000 a $25,000</option>
@@ -224,7 +224,7 @@ function PanelAnual({ division }: { division: Division }) {
           </select>
         </label>
 
-        <button type="submit" className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-marino-900 px-6 py-3.5 sm:mt-8 sm:py-4 text-sm font-bold text-white transition hover:bg-marino-700">
+        <button type="submit" className="boton boton-principal mt-6 w-full sm:mt-8">
           <WhatsAppIcon className="size-[18px]" /> Enviar mi búsqueda
         </button>
       </form>
@@ -265,7 +265,7 @@ function PanelVacacional({ division }: { division: Division }) {
       <form onSubmit={enviar} className="rounded-3xl bg-white p-5 ring-1 ring-marino-950/10 sm:p-9">
         <p className="font-display text-2xl font-semibold text-marino-900 sm:text-3xl">Consulta disponibilidad</p>
 
-        <div className="mt-5 grid grid-cols-2 overflow-hidden rounded-2xl sm:mt-7 border border-marino-950/15">
+        <div className="mt-5 grid grid-cols-2 overflow-hidden rounded-lg sm:mt-7 border border-marino-950/15">
           <label className="block p-3 focus-within:bg-marfil sm:p-4">
             <span className="text-xs font-semibold text-piedra">Llegada</span>
             <input type="date" min={hoy()} value={llegada} onChange={(e) => setLlegada(e.target.value)} className="mt-1 w-full bg-transparent text-[0.9375rem] font-semibold text-marino-900 outline-none" />
@@ -314,7 +314,7 @@ function PanelVacacional({ division }: { division: Division }) {
         <p aria-live="polite" className="mt-4 min-h-6 text-sm sm:mt-7 font-semibold text-dorado-600">
           {n > 0 && `${n} ${n === 1 ? "noche" : "noches"} de estancia`}
         </p>
-        <button type="submit" className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-marino-900 px-6 py-3.5 sm:py-4 text-sm font-bold text-white transition hover:bg-marino-700">
+        <button type="submit" className="boton boton-principal mt-2 w-full">
           <WhatsAppIcon className="size-[18px]" /> Consultar disponibilidad
         </button>
       </form>

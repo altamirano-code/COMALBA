@@ -23,7 +23,7 @@ export function CierreDivision({ division, titulo, cta }: { division: Division; 
                 href={whatsappUrl(`Hola, me interesa ${cta.toLowerCase()} con ${division.nombre}.`, division.telefono)}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex w-fit items-center gap-2.5 rounded-full border border-white/30 px-7 py-3.5 text-sm font-bold text-white transition hover:border-white hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-arena-200"
+                className="boton boton-contorno w-fit"
               >
                 <WhatsAppIcon className="size-[18px]" /> {cta}
               </a>

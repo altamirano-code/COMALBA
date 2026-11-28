@@ -36,7 +36,7 @@ export function GaleriaMosaico({ fotos, titulo }: { fotos: string[]; titulo: str
             key={foto + i}
             type="button"
             onClick={() => setAbierta(i)}
-            className={`group relative overflow-hidden rounded-3xl bg-black/5 ${celda(i)}`}
+            className={`group relative overflow-hidden rounded-lg bg-black/5 ${celda(i)}`}
             aria-label={`Ver foto ${i + 1} de ${fotos.length}`}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -112,7 +112,7 @@ export function Visor({ fotos, titulo, inicial, onCerrar }: { fotos: string[]; t
 
       <div className="relative flex min-h-0 flex-1 items-center justify-center px-2 pb-6 sm:px-16">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={fotos[i]} alt={`${titulo}, foto ${i + 1}`} className="max-h-full max-w-full rounded-xl object-contain" />
+        <img src={fotos[i]} alt={`${titulo}, foto ${i + 1}`} className="max-h-full max-w-full rounded-lg object-contain" />
         {fotos.length > 1 && (
           <>
             <button
@@ -139,7 +139,7 @@ export function Visor({ fotos, titulo, inicial, onCerrar }: { fotos: string[]; t
 }
 
 /* Carrusel del celular: swipe entre fotos con contador. Se oculta desde md. */
-export function CarruselFotos({ fotos, titulo, onAbrir, redondeo = "rounded-3xl" }: { fotos: string[]; titulo: string; onAbrir: (i: number) => void; redondeo?: string }) {
+export function CarruselFotos({ fotos, titulo, onAbrir, redondeo = "rounded-lg" }: { fotos: string[]; titulo: string; onAbrir: (i: number) => void; redondeo?: string }) {
   const [actual, setActual] = useState(0);
   const carrusel = useRef<HTMLDivElement>(null);
 
@@ -162,7 +162,7 @@ export function CarruselFotos({ fotos, titulo, onAbrir, redondeo = "rounded-3xl"
           </button>
         ))}
       </div>
-      <span className="pointer-events-none absolute bottom-3 right-3 rounded-full bg-black/60 px-3 py-1 text-xs font-semibold tabular-nums text-white backdrop-blur">
+      <span className="pointer-events-none absolute bottom-3 right-3 rounded-md bg-black/60 px-3 py-1 text-xs font-semibold tabular-nums text-white backdrop-blur">
         {actual + 1}/{fotos.length}
       </span>
     </div>

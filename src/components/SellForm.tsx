@@ -15,7 +15,7 @@ const MAX_DETALLES = 100; // Cuestionario 5.3: cuadro de texto de 100 caracteres
 const TIPOS = ["Casa", "Departamento", "Terreno", "Local comercial", "Oficina", "Bodega", "Otro"];
 
 const campo =
-  "mt-2 w-full rounded-xl border border-white/15 bg-white/[0.07] px-4 py-3 text-base sm:py-3.5 text-white placeholder:text-white/55 outline-none transition focus:border-arena-300 focus:bg-white/[0.11] focus:ring-4 focus:ring-arena-300/15";
+  "mt-2 w-full rounded-lg border border-white/15 bg-white/[0.07] px-4 py-3 text-base sm:py-3.5 text-white placeholder:text-white/55 outline-none transition focus:border-arena-300 focus:bg-white/[0.11] focus:ring-4 focus:ring-arena-300/15";
 const etiqueta = "block text-[0.8125rem] font-semibold text-white/85";
 
 /* Formulario "Cuéntanos sobre tu propiedad": arma el mensaje y lo envía por WhatsApp */
@@ -82,7 +82,7 @@ export function SellForm() {
   }
 
   return (
-    <form onSubmit={enviar} className="relative rounded-[1.6rem] border border-white/15 bg-marino-950/55 p-5 shadow-2xl shadow-black/30 backdrop-blur-xl sm:p-8">
+    <form onSubmit={enviar} className="relative rounded-xl border border-white/15 bg-marino-950/55 p-5 shadow-2xl shadow-black/30 backdrop-blur-xl sm:p-8">
       <label aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
         Sitio web
         <input name="sitio_web" tabIndex={-1} autoComplete="off" />
@@ -145,7 +145,7 @@ export function SellForm() {
 
       <button
         type="submit"
-        className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-dorado-500 px-4 py-3.5 sm:mt-6 sm:gap-2.5 sm:px-6 sm:py-4 text-[0.9375rem] font-bold text-marino-950 shadow-lg shadow-dorado-600/30 transition hover:-translate-y-0.5 hover:bg-dorado-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-arena-300 active:translate-y-0"
+        className="boton boton-dorado mt-5 w-full sm:mt-6"
       >
         <Send size={17} /> Enviar solicitud por WhatsApp
       </button>

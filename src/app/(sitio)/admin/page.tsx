@@ -43,6 +43,17 @@ import { estadoEnlace, listarEnlaces, type Enlace } from "@/lib/enlaces";
 import { eliminarDefinitivo, guardarPublicacion, listarPublicaciones } from "@/lib/almacenPublicaciones";
 import { cerrarSesion, leerSesion, type UsuarioEquipo } from "@/lib/sesion";
 import {
+  descargarExcel,
+  ETIQUETA_APAGADA,
+  ETIQUETA_BIEN,
+  fechaLocal,
+  FORMATO_DECIMAL,
+  FORMATO_FECHA,
+  FORMATO_PESOS,
+  type ColumnaExcel,
+  type ValorExcel,
+} from "@/lib/excel";
+import {
   CATEGORIAS,
   CATEGORIAS_AQMEN,
   MAX_DESTACADAS,
@@ -138,36 +149,41 @@ const CATALOGOS: Record<"" | Seccion, { href: string; texto: string }> = {
 const fecha = (iso: string) => new Date(iso).toLocaleDateString("es-MX", { day: "numeric", month: "short", year: "numeric" });
 const nombreSeccion = (s: Seccion) => SECCIONES.find((x) => x.id === s)!.nombre;
 
-/* Descarga un CSV que Excel abre con acentos correctos (cuestionario 4.3) */
+/* Descarga las publicaciones en Excel con la imagen de Comalba (cuestionario 4.3) */
 function exportarExcel(lista: Publicacion[]) {
-  const columnas: [string, (p: Publicacion) => string | number | null][] = [
-    ["Clave", (p) => p.clave],
-    ["Sección", (p) => nombreSeccion(p.seccion)],
-    ["Operación", (p) => p.operacion],
-    ["Categoría", (p) => p.categoria],
-    ["Título", (p) => p.titulo],
-    ["Precio", (p) => p.precio],
-    ["Forma de pago", (p) => p.formaPago],
-    ["Colonia", (p) => p.colonia],
-    ["Municipio", (p) => p.municipio],
-    ["Estado", (p) => p.estado],
-    ["Terreno m²", (p) => p.terrenoM2],
-    ["Construcción m²", (p) => p.construccionM2],
-    ["Recámaras", (p) => p.recamaras],
-    ["Baños", (p) => p.banos],
-    ["Estacionamientos", (p) => p.estacionamientos],
-    ["Fotos", (p) => p.fotos.length],
-    ["Publicada", (p) => (p.publicada ? "Sí" : "No")],
-    ["Destacada", (p) => (p.destacada ? "Sí" : "No")],
-    ["Actualizada", (p) => p.actualizadaEn.slice(0, 10)],
+  const siNo = (v: boolean) => (v ? "Sí" : "No");
+  const pildoraSiNo = (v: ValorExcel) => (v === "Sí" ? ETIQUETA_BIEN : ETIQUETA_APAGADA);
+  const numero = { formato: FORMATO_DECIMAL, alinear: "right" as const };
+  const columnas: ColumnaExcel<Publicacion>[] = [
+    { titulo: "Clave", ancho: 11, valor: (p) => p.clave, alinear: "center" },
+    { titulo: "Sección", ancho: 13, valor: (p) => nombreSeccion(p.seccion) },
+    { titulo: "Operación", ancho: 16, valor: (p) => p.operacion },
+    { titulo: "Categoría", ancho: 15, valor: (p) => p.categoria },
+    { titulo: "Título", ancho: 36, valor: (p) => p.titulo, ajustar: true },
+    { titulo: "Precio", ancho: 15, valor: (p) => p.precio, formato: FORMATO_PESOS, alinear: "right" },
+    { titulo: "Desde", ancho: 9, valor: (p) => (p.precio === null ? null : siNo(p.precioDesde)), alinear: "center" },
+    { titulo: "Forma de pago", ancho: 22, valor: (p) => p.formaPago, ajustar: true },
+    { titulo: "Colonia", ancho: 18, valor: (p) => p.colonia },
+    { titulo: "Municipio", ancho: 18, valor: (p) => p.municipio },
+    { titulo: "Estado", ancho: 12, valor: (p) => p.estado },
+    { titulo: "Terreno m²", ancho: 12, valor: (p) => p.terrenoM2, ...numero },
+    { titulo: "Constr. m²", ancho: 12, valor: (p) => p.construccionM2, ...numero },
+    { titulo: "Recámaras", ancho: 11, valor: (p) => p.recamaras, ...numero },
+    { titulo: "Baños", ancho: 9, valor: (p) => p.banos, ...numero },
+    { titulo: "Autos", ancho: 9, valor: (p) => p.estacionamientos, ...numero },
+    { titulo: "Fotos", ancho: 8, valor: (p) => p.fotos.length, alinear: "center" },
+    { titulo: "Publicada", ancho: 11, valor: (p) => siNo(p.publicada), etiqueta: pildoraSiNo },
+    { titulo: "Destacada", ancho: 11, valor: (p) => siNo(p.destacada), etiqueta: pildoraSiNo },
+    { titulo: "En papelera", ancho: 12, valor: (p) => siNo(Boolean(p.eliminadaEn)), alinear: "center" },
+    { titulo: "Actualizada", ancho: 13, valor: (p) => fechaLocal(p.actualizadaEn), formato: FORMATO_FECHA },
   ];
-  const celda = (v: string | number | null) => `"${String(v ?? "").replace(/"/g, '""')}"`;
-  const filas = [columnas.map(([t]) => celda(t)), ...lista.map((p) => columnas.map(([, f]) => celda(f(p))))].map((f) => f.join(","));
-  const enlace = document.createElement("a");
-  enlace.href = URL.createObjectURL(new Blob(["﻿" + filas.join("\r\n")], { type: "text/csv;charset=utf-8" }));
-  enlace.download = `publicaciones-comalba-${new Date().toISOString().slice(0, 10)}.csv`;
-  enlace.click();
-  URL.revokeObjectURL(enlace.href);
+  return descargarExcel({
+    archivo: `publicaciones-comalba-${new Date().toISOString().slice(0, 10)}`,
+    hoja: "Publicaciones",
+    titulo: "Publicaciones",
+    columnas,
+    filas: lista,
+  });
 }
 
 export default function AdminPage() {

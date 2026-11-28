@@ -43,6 +43,16 @@ export const formatearTelefono = (tel: string) => tel.replace(/(\d{3})(\d{3})(\d
 export const whatsappUrl = (mensaje: string, telefono?: string) =>
   `https://wa.me/${telefono ? `52${telefono}` : contacto.whatsapp}?text=${encodeURIComponent(mensaje)}`;
 
+/* ---------- Ajustes de diseño (reversibles) ----------
+   Cambios de prueba del menú. Para volver a como estaba antes, pon el valor en false.
+   - marcarDivisionActiva: en una página de división, "Servicios" se pinta en dorado con línea
+     dorada, la división queda remarcada en dorado en el desplegable y en el celular el botón
+     dice "Servicios · ALBAVERA".
+     false = solo "Servicios" en negritas, sin decir cuál. */
+export const ajustesDiseno = {
+  marcarDivisionActiva: true,
+};
+
 /* ---------- Navegación ---------- */
 export type NavItem = { label: string; href: string; id: string };
 
@@ -60,6 +70,7 @@ export const navegacion: NavItem[] = [
 export type Division = {
   slug: string;
   nombre: string;
+  nombreCorto: string; // Para el menú: "Servicios · AQMEN"
   etiqueta: string;
   resumen: string;
   logo?: string; // Sin logo se muestra el ícono de la división (Financiamiento)
@@ -70,6 +81,7 @@ export const divisiones: Division[] = [
   {
     slug: "albavera",
     nombre: "ALBAVERA Bienes Raíces",
+    nombreCorto: "ALBAVERA",
     etiqueta: "Compra y venta",
     resumen: "Te acompañamos a encontrar y adquirir la propiedad ideal para tu siguiente etapa.",
     logo: "/logos/Albavera_sf.png",
@@ -78,6 +90,7 @@ export const divisiones: Division[] = [
   {
     slug: "civ-rentas",
     nombre: "CIV Rentas",
+    nombreCorto: "CIV Rentas",
     etiqueta: "Rentas anuales y vacacionales",
     resumen: "Rentas por año para comercio, industria y vivienda, y casas o departamentos para vacacionar.",
     logo: "/logos/civ-rentas__sf.png",
@@ -86,6 +99,7 @@ export const divisiones: Division[] = [
   {
     slug: "asesoria-proyectos",
     nombre: "ALBANDRA",
+    nombreCorto: "ALBANDRA",
     etiqueta: "Gestión y desarrollo",
     resumen: "Asesoría jurídica, gestoría inmobiliaria, mantenimiento y desarrollo de proyectos.",
     logo: "/logos/albandra_sf.png",
@@ -93,6 +107,7 @@ export const divisiones: Division[] = [
   {
     slug: "aqmen",
     nombre: "AQMEN Modern Furniture",
+    nombreCorto: "AQMEN",
     etiqueta: "Cocinas y clósets",
     resumen: "Cocinas integrales y clósets modernos, funcionales y hechos a la medida.",
     logo: "/logos/aqmen.png",
@@ -101,6 +116,7 @@ export const divisiones: Division[] = [
   {
     slug: "immor",
     nombre: "Transportes IMMOR",
+    nombreCorto: "IMMOR",
     etiqueta: "Fletes y mudanzas",
     resumen: "Traslado seguro de muebles y pertenencias hasta tu nuevo destino.",
     logo: "/logos/transportes-immor_sf.png",
@@ -109,6 +125,7 @@ export const divisiones: Division[] = [
   {
     slug: "financiamiento",
     nombre: "Financiamiento Inmobiliario",
+    nombreCorto: "Financiamiento",
     etiqueta: "Compra, construye y remodela",
     resumen: "Financia tu inmueble a 10 años con tasa preferencial de 4% anual y comprobación de ingresos flexible.",
     telefono: "7774497048",

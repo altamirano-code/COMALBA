@@ -187,7 +187,7 @@ export function CalculadoraFinanciamiento({ division }: { division: Division }) 
             href={whatsappUrl(mensaje, division.telefono)}
             target="_blank"
             rel="noreferrer"
-            className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-dorado-500 px-4 py-3.5 sm:mt-6 sm:px-6 sm:py-4 text-sm font-bold text-marino-950 transition hover:bg-dorado-400"
+            className="boton boton-dorado mt-5 w-full sm:mt-6"
           >
             <WhatsAppIcon className="size-[18px]" /> Enviar mi simulación a un asesor
           </a>

@@ -4,6 +4,14 @@ import { supabaseNavegador } from "@/lib/supabase/cliente";
 import { supabaseConfigurado } from "@/lib/supabase/config";
 import { divisiones } from "@/lib/site";
 import type { Publicacion } from "@/lib/publicaciones";
+import {
+  descargarExcel,
+  ETIQUETA_BIEN,
+  ETIQUETA_PENDIENTE,
+  fechaLocal,
+  FORMATO_FECHA_HORA,
+  type ColumnaExcel,
+} from "@/lib/excel";
 
 /* =========================================================
    SOLICITUDES (leads)
@@ -13,11 +21,12 @@ import type { Publicacion } from "@/lib/publicaciones";
    - area:        formulario al final de cada división.
    - propietario: «Vender, rentar o valuar» del inicio.
    - mudanza:     cotizador de Transportes IMMOR.
+   - contacto:    "Hablemos de tu próxima propiedad" del inicio (sin división).
    El público solo registra (funciones registrar_solicitud y
    registrar_lead); el equipo con sesión las lee y las atiende.
    ========================================================= */
 
-export type Formulario = "visita" | "area" | "propietario" | "mudanza";
+export type Formulario = "visita" | "area" | "propietario" | "mudanza" | "contacto";
 export type DatoLead = { etiqueta: string; valor: string };
 
 export const FORMULARIOS: Record<Formulario, string> = {
@@ -25,6 +34,7 @@ export const FORMULARIOS: Record<Formulario, string> = {
   area: "Formulario del área",
   propietario: "Propietario",
   mudanza: "Cotización de mudanza",
+  contacto: "Contacto general",
 };
 
 export type Solicitud = {
@@ -59,7 +69,8 @@ type Fila = {
   eliminada_en?: string | null; // Sin 04_papelera_solicitudes.sql la columna no existe
 };
 
-export const nombreArea = (slug: string | null) => divisiones.find((d) => d.slug === slug)?.nombre ?? "Sin área";
+/* Sin área = contacto general del inicio: lo atiende el grupo */
+export const nombreArea = (slug: string | null) => divisiones.find((d) => d.slug === slug)?.nombre ?? "Grupo Comalba";
 
 export async function listarSolicitudes(): Promise<Solicitud[]> {
   if (!supabaseConfigurado) return [];
@@ -103,7 +114,7 @@ export async function eliminarSolicitud(id: string) {
 /* ---------- Registro público (formularios del sitio) ---------- */
 export type NuevoLead = {
   formulario: Exclude<Formulario, "visita">;
-  area: string;
+  area: string | null; // null solo en "contacto"
   nombre: string;
   correo: string;
   telefono: string;
@@ -131,29 +142,32 @@ export async function registrarLead(lead: NuevoLead): Promise<boolean> {
   }
 }
 
-/* ---------- Exportar a Excel ----------
-   CSV con BOM: Excel lo abre con acentos correctos (cuestionario 5.4 y 9.3). */
+/* ---------- Exportar a Excel (cuestionario 5.4 y 9.3) ---------- */
 export function exportarSolicitudesExcel(lista: Solicitud[], publicaciones: Publicacion[]) {
   const propiedad = (s: Solicitud) => publicaciones.find((p) => p.id === s.publicacionId);
-  const columnas: [string, (s: Solicitud) => string][] = [
-    ["Fecha", (s) => new Date(s.creadaEn).toLocaleString("es-MX", { dateStyle: "short", timeStyle: "short" })],
-    ["Estado", (s) => (s.atendida ? "Atendida" : "Pendiente")],
-    ["Área", (s) => nombreArea(s.area)],
-    ["Formulario", (s) => FORMULARIOS[s.formulario] + (s.origen === "enlace" ? " (enlace sin datos)" : "")],
-    ["Nombre", (s) => s.nombre],
-    ["Teléfono", (s) => s.telefono],
-    ["Correo", (s) => s.correo],
-    ["Clave de propiedad", (s) => propiedad(s)?.clave ?? ""],
-    ["Propiedad", (s) => propiedad(s)?.titulo ?? ""],
-    ["Detalles", (s) => s.datos.map((d) => `${d.etiqueta}: ${d.valor}`).join(" | ")],
-    ["Mensaje", (s) => s.mensaje],
+  const columnas: ColumnaExcel<Solicitud>[] = [
+    { titulo: "Fecha", ancho: 18, valor: (s) => fechaLocal(s.creadaEn), formato: FORMATO_FECHA_HORA },
+    {
+      titulo: "Estado",
+      ancho: 13,
+      valor: (s) => (s.atendida ? "Atendida" : "Pendiente"),
+      etiqueta: (v) => (v === "Atendida" ? ETIQUETA_BIEN : ETIQUETA_PENDIENTE),
+    },
+    { titulo: "Área", ancho: 24, valor: (s) => nombreArea(s.area) },
+    { titulo: "Formulario", ancho: 24, valor: (s) => FORMULARIOS[s.formulario] + (s.origen === "enlace" ? " (enlace sin datos)" : "") },
+    { titulo: "Nombre", ancho: 26, valor: (s) => s.nombre },
+    { titulo: "Teléfono", ancho: 16, valor: (s) => s.telefono },
+    { titulo: "Correo", ancho: 30, valor: (s) => s.correo },
+    { titulo: "Clave", ancho: 11, valor: (s) => propiedad(s)?.clave, alinear: "center" },
+    { titulo: "Propiedad", ancho: 30, valor: (s) => propiedad(s)?.titulo, ajustar: true },
+    { titulo: "Detalles", ancho: 44, valor: (s) => s.datos.map((d) => `${d.etiqueta}: ${d.valor}`).join("\n"), ajustar: true },
+    { titulo: "Mensaje", ancho: 44, valor: (s) => s.mensaje, ajustar: true },
   ];
-  // Prefijo ' en celdas que Excel tomaría como fórmula (=, @, o + y - seguidos de algo que no es número, como en "+52 777…")
-  const celda = (v: string) => `"${(/^[=@]|^[+-](?![\d\s])/.test(v) ? `'${v}` : v).replace(/"/g, '""')}"`;
-  const filas = [columnas.map(([t]) => celda(t)), ...lista.map((s) => columnas.map(([, f]) => celda(f(s))))].map((f) => f.join(","));
-  const enlace = document.createElement("a");
-  enlace.href = URL.createObjectURL(new Blob(["﻿" + filas.join("\r\n")], { type: "text/csv;charset=utf-8" }));
-  enlace.download = `leads-comalba-${new Date().toISOString().slice(0, 10)}.csv`;
-  enlace.click();
-  URL.revokeObjectURL(enlace.href);
+  return descargarExcel({
+    archivo: `solicitudes-comalba-${new Date().toISOString().slice(0, 10)}`,
+    hoja: "Solicitudes",
+    titulo: "Solicitudes",
+    columnas,
+    filas: lista,
+  });
 }

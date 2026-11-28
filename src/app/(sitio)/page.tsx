@@ -1,16 +1,17 @@
 import { Fragment, type CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Mail, Phone, Search, ShieldCheck, Users } from "lucide-react";
+import { Phone, Search, ShieldCheck, Users } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { HeroSlideshow } from "@/components/HeroSlideshow";
 import { FeaturedProperties } from "@/components/FeaturedProperties";
 import { SellForm } from "@/components/SellForm";
+import { FormularioContacto } from "@/components/FormularioContacto";
 import { Reveal } from "@/components/Reveal";
 import { DivisionesSelector } from "@/components/DivisionesSelector";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton, WhatsAppIcon } from "@/components/WhatsAppButton";
-import { contacto, divisiones, formatearTelefono, whatsappUrl } from "@/lib/site";
+import { contacto, formatearTelefono, whatsappUrl } from "@/lib/site";
 
 const principios = [
   {
@@ -25,6 +26,13 @@ const principios = [
     titulo: "Nuestros valores",
     texto: "Compromiso · Integridad · Profesionalismo · Responsabilidad",
   },
+];
+
+/* Solo datos reales; agregar aquí operaciones cerradas o asesores cuando se tengan */
+const cifrasEmpresa = [
+  { valor: "10+", etiqueta: "años en el mercado" },
+  { valor: "6", etiqueta: "negocios especializados" },
+  { valor: "Cuernavaca", etiqueta: "nuestra base en Morelos" },
 ];
 
 const beneficiosVenta = [
@@ -84,13 +92,13 @@ export default function Home() {
             <div className="fade-up mt-7 flex flex-wrap justify-center gap-2.5 [animation-delay:.55s] sm:mt-10 sm:flex-nowrap sm:gap-3">
               <Link
                 href="#divisiones"
-                className="inline-flex flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-dorado-500 px-4 py-3.5 text-sm sm:flex-none sm:px-8 sm:py-4 font-bold text-marino-950 shadow-xl shadow-dorado-600/30 transition hover:-translate-y-0.5 hover:bg-dorado-400"
+                className="boton boton-dorado flex-1 whitespace-nowrap sm:flex-none sm:px-8"
               >
                 Nuestros servicios
               </Link>
               <Link
                 href="#empresa"
-                className="inline-flex flex-1 items-center justify-center whitespace-nowrap rounded-full border border-white/35 bg-white/10 px-4 py-3.5 text-sm sm:flex-none sm:px-8 sm:py-4 font-bold text-white backdrop-blur-md transition hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/20"
+                className="boton boton-contorno flex-1 whitespace-nowrap backdrop-blur-md sm:flex-none sm:px-8"
               >
                 Conoce el grupo
               </Link>
@@ -118,32 +126,43 @@ export default function Home() {
         </section>
 
         {/* =================== PROPIEDADES =================== */}
-        <section id="propiedades" className="overflow-hidden bg-marfil px-6 py-16 sm:px-10 sm:py-24 lg:py-32">
+        <section id="propiedades" className="overflow-hidden bg-marfil px-6 py-10 sm:px-10 sm:py-12 lg:py-14">
           <div className="mx-auto max-w-7xl">
-            <Reveal className="mb-7 flex flex-col justify-between gap-3 sm:mb-12 sm:gap-6 md:flex-row md:items-end">
+            {/* Como en la demo: "Ver todas las propiedades" arriba a la derecha, junto al título */}
+            <Reveal className="mb-7 flex flex-wrap items-end justify-between gap-x-6 gap-y-5 sm:mb-12">
               <div>
                 <p className="eyebrow text-dorado-600">Oportunidades</p>
                 <h2 className="mt-3 font-display text-titulo font-semibold sm:mt-4 text-marino-900">
                   Propiedades destacadas
                 </h2>
+                <p className="mt-3 max-w-xl text-cuerpo-lg text-piedra sm:mt-4">
+                  Casas, departamentos y terrenos seleccionados por nuestros asesores en Morelos.
+                </p>
               </div>
-              <p className="max-w-sm text-cuerpo-lg text-piedra">
-                Casas, departamentos y terrenos seleccionados por nuestros asesores en Morelos.
-              </p>
+              <Link href="/albavera" className="boton boton-secundario">
+                Ver todas las propiedades
+              </Link>
             </Reveal>
 
             <Reveal delay={120}>
-              <FeaturedProperties />
+              {/* La nota va en la misma fila que las flechas */}
+              <FeaturedProperties nota={<p className="text-xs text-piedra">* Precios aproximados y sujetos a cambios. Confirma disponibilidad con un asesor.</p>} />
+            </Reveal>
+          </div>
+        </section>
+
+        {/* =================== DIVISIONES =================== */}
+        <section id="divisiones" className="bg-white px-6 py-16 sm:px-10 sm:py-24 lg:py-32">
+          <div className="mx-auto max-w-7xl">
+            <Reveal className="grid gap-3 sm:gap-6 lg:grid-cols-[1.15fr_1fr] lg:items-end lg:gap-14">
+              <h2 className="font-display text-titulo font-semibold text-marino-900">¿Qué necesitas hoy?</h2>
+              <p className="text-cuerpo-lg text-piedra">
+                Grupo Comalba reúne seis negocios especializados. Elige lo que buscas y te mostramos cuál de ellos te atiende.
+              </p>
             </Reveal>
 
-            <Reveal className="mt-6 flex flex-col items-center justify-between gap-4 sm:mt-10 sm:flex-row sm:gap-5">
-              <p className="text-xs text-piedra">* Precios aproximados y sujetos a cambios. Confirma disponibilidad con un asesor.</p>
-              <Link
-                href="/albavera"
-                className="inline-flex items-center gap-2 rounded-full bg-marino-900 px-7 py-4 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-marino-700"
-              >
-                Ver todas las propiedades
-              </Link>
+            <Reveal className="mt-8 sm:mt-14">
+              <DivisionesSelector />
             </Reveal>
           </div>
         </section>
@@ -186,61 +205,49 @@ export default function Home() {
           </div>
         </section>
 
-        {/* =================== LA EMPRESA =================== */}
-        <section id="empresa" className="bg-marfil px-6 py-16 sm:px-10 sm:py-24 lg:py-32">
-          <div className="mx-auto grid max-w-7xl items-center gap-10 sm:gap-14 lg:grid-cols-2 lg:gap-20">
-            <Reveal className="relative">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] sm:aspect-[4/5] shadow-2xl shadow-marino-950/25">
+        {/* =================== POR QUÉ COMALBA =================== */}
+        <section id="empresa" className="bg-white px-6 pb-16 pt-12 sm:px-10 sm:pb-24 sm:pt-16 lg:pb-32 lg:pt-20">
+          <div className="mx-auto max-w-7xl">
+            <Reveal className="max-w-3xl">
+              <p className="eyebrow text-dorado-600">La empresa</p>
+              <h2 className="mt-3 font-display text-titulo font-semibold text-marino-900 sm:mt-5">Por qué COMALBA</h2>            </Reveal>
+
+            <dl className="mt-10 grid gap-4 sm:mt-12 sm:grid-cols-3 sm:gap-6">
+              {cifrasEmpresa.map((c) => (
+                <div key={c.etiqueta} className="flex flex-col rounded-xl bg-marfil p-6">
+                  <dt className="text-sm text-piedra">{c.etiqueta}</dt>
+                  <dd className="order-first font-display text-4xl font-semibold text-marino-900">{c.valor}</dd>
+                </div>
+              ))}
+            </dl>
+
+            <div className="mt-10 grid items-center gap-10 sm:mt-12 lg:grid-cols-2 lg:gap-20">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
                 <Image src="/images/cuernavaca.jpg" alt="Residencia con alberca en Cuernavaca, Morelos" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
               </div>
-              <div className="absolute -bottom-5 right-4 rounded-2xl bg-marino-900 p-4 text-white shadow-2xl sm:-bottom-8 sm:-right-6 sm:rounded-3xl sm:p-8">
-                <p className="font-display text-4xl font-semibold leading-none text-arena-200 sm:text-6xl">10+</p>
-                <p className="mt-1.5 text-xs leading-4 text-white/70 sm:mt-2 sm:text-sm sm:leading-5">años construyendo<br />confianza y oportunidades</p>
-              </div>
-              <div aria-hidden="true" className="absolute -left-4 -top-4 -z-10 h-40 w-40 rounded-[2rem] border-2 border-dorado-500/40" />
-            </Reveal>
 
-            <div>
-              <Reveal>
-                <p className="eyebrow text-dorado-600">La empresa</p>
-                <h2 className="mt-3 font-display text-titulo font-semibold sm:mt-5 text-marino-900">
-                  Experiencia que transforma espacios.
-                </h2>
-                <p className="mt-4 text-cuerpo-lg text-piedra sm:mt-6">
-                  Grupo Comalba integra servicios inmobiliarios, diseño y soluciones para acompañar a personas y empresas desde la búsqueda de un espacio hasta hacerlo suyo.
-                </p>
-              </Reveal>
+              <div>
+                <Reveal>
+                  <p className="text-cuerpo-lg text-piedra">
+                    Grupo Comalba integra servicios inmobiliarios, diseño y soluciones para acompañar a personas y empresas desde la búsqueda de un espacio hasta hacerlo suyo.
+                  </p>
+                </Reveal>
 
-              <div className="mt-6 divide-y divide-marino-950/10 sm:mt-10 border-y border-marino-950/10">
-                {principios.map((p, i) => (
-                  <Reveal key={p.titulo} delay={i * 100} className="grid gap-1 py-4 sm:grid-cols-[180px_1fr] sm:gap-6 sm:py-6">
-                    <p className="font-display text-xl font-semibold text-marino-900 sm:text-2xl">{p.titulo}</p>
-                    <p className="text-cuerpo text-piedra">{p.texto}</p>
-                  </Reveal>
-                ))}
+                <div className="mt-6 divide-y divide-marino-950/10 border-y border-marino-950/10 sm:mt-10">
+                  {principios.map((p, i) => (
+                    <Reveal key={p.titulo} delay={i * 100} className="grid gap-1 py-4 sm:grid-cols-[180px_1fr] sm:gap-6 sm:py-6">
+                      <p className="font-display text-xl font-semibold text-marino-900 sm:text-2xl">{p.titulo}</p>
+                      <p className="text-cuerpo text-piedra">{p.texto}</p>
+                    </Reveal>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* =================== DIVISIONES =================== */}
-        <section id="divisiones" className="bg-white px-6 py-16 sm:px-10 sm:py-24 lg:py-32">
-          <div className="mx-auto max-w-7xl">
-            <Reveal className="grid gap-3 sm:gap-6 lg:grid-cols-[1.15fr_1fr] lg:items-end lg:gap-14">
-              <h2 className="font-display text-titulo font-semibold text-marino-900">¿Qué necesitas hoy?</h2>
-              <p className="text-cuerpo-lg text-piedra">
-                Grupo Comalba reúne seis negocios especializados. Elige lo que buscas y te mostramos cuál de ellos te atiende.
-              </p>
-            </Reveal>
-
-            <Reveal className="mt-8 sm:mt-14">
-              <DivisionesSelector />
-            </Reveal>
-          </div>
-        </section>
-
         {/* =================== VALUACIÓN =================== */}
-        <section id="valuacion" className="bg-crema px-6 py-16 sm:px-10 sm:py-24 lg:py-32">
+        <section id="valuacion" className="bg-crema px-6 py-12 sm:px-10 sm:py-16 lg:py-20">
           <div className="mx-auto max-w-7xl">
             <div className="grid gap-3 sm:gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
               <Reveal>
@@ -279,7 +286,7 @@ export default function Home() {
               <a
                 href="#valuar"
                 data-operacion="Valuar"
-                className="inline-flex items-center gap-2 rounded-full bg-dorado-500 px-8 py-4 text-sm font-bold text-marino-950 shadow-lg shadow-dorado-600/25 transition hover:-translate-y-0.5 hover:bg-dorado-400"
+                className="boton boton-principal"
               >
                 Solicitar valuación
               </a>
@@ -287,7 +294,7 @@ export default function Home() {
                 href={whatsappUrl("Hola, me gustaría solicitar la valuación de una propiedad.")}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-marino-900/20 px-8 py-4 text-sm font-bold text-marino-900 transition hover:border-marino-900 hover:bg-marino-900 hover:text-white"
+                className="boton boton-secundario"
               >
                 <WhatsAppIcon className="size-[18px]" /> Preguntar por WhatsApp
               </a>
@@ -296,42 +303,26 @@ export default function Home() {
         </section>
 
         {/* =================== CONTACTO =================== */}
-        <section id="contacto" className="relative isolate overflow-hidden bg-marino-900 px-6 py-16 text-white sm:px-10 sm:py-24 lg:py-28">
-
-          <div className="mx-auto max-w-7xl">
-            <Reveal className="max-w-3xl">
-              <p className="eyebrow text-arena-300">Empecemos una conversación</p>
-              <h2 className="mt-3 font-display text-titulo font-semibold sm:mt-5">
-                Tu próxima posibilidad comienza aquí.
-              </h2>
-            </Reveal>
-
-            <div className="mt-8 grid gap-3 sm:mt-14 sm:gap-5 md:grid-cols-2 lg:grid-cols-[1fr_1fr_1.45fr]">
-              {[
-                { href: whatsappUrl("Hola, me interesa conocer más sobre Grupo Comalba."), externo: true, etiqueta: "WhatsApp", valor: "Enviar mensaje", Icono: WhatsAppIcon },
-                { href: `tel:+52${contacto.telefono}`, externo: false, etiqueta: "Llámanos", valor: formatearTelefono(contacto.telefono), Icono: Phone },
-                { href: `mailto:${contacto.correo}`, externo: false, etiqueta: "Escríbenos", valor: contacto.correo, Icono: Mail },
-              ].map(({ href, externo, etiqueta, valor, Icono }, i) => (
-                <Reveal key={etiqueta} delay={i * 100}>
-                  <a
-                    href={href}
-                    target={externo ? "_blank" : undefined}
-                    rel={externo ? "noreferrer" : undefined}
-                    className="group flex h-full items-center gap-4 rounded-[1.4rem] border border-white/10 bg-white/[0.05] p-4 transition sm:gap-5 sm:p-6 duration-300 hover:-translate-y-1 hover:border-arena-300/50 hover:bg-white/[0.09] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-arena-300"
-                  >
-                    <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-arena-300 sm:size-14 sm:rounded-2xl text-marino-950">
-                      <Icono className="size-6" />
-                    </span>
-                    <span className="min-w-0 flex-1">
-                      <span className="block text-[0.6875rem] font-bold uppercase tracking-[0.22em] text-white/50">{etiqueta}</span>
-                      <span className="mt-1 block text-[0.9375rem] font-semibold [overflow-wrap:anywhere]">{valor}</span>
-                    </span>
-                    {externo && <ArrowUpRight size={18} className="shrink-0 text-white/35 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-arena-300" />}
+        <section id="contacto" className="bg-marino-900 px-6 py-16 text-white sm:px-10 sm:py-24 lg:py-28">
+          <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-start">
+            <div>
+              <Reveal className="max-w-3xl">
+                <p className="eyebrow text-arena-300">Contacto</p>
+                <h2 className="mt-3 font-display text-titulo font-semibold sm:mt-5">Hablemos de tu próxima propiedad</h2>
+              </Reveal>
+              <ul className="mt-8 space-y-5 sm:mt-10">
+                <li>
+                  <a href={whatsappUrl("Hola, me interesa conocer más sobre Grupo Comalba.")} target="_blank" rel="noreferrer" className="boton boton-dorado">
+                    <WhatsAppIcon className="size-5" /> Escríbenos por WhatsApp
                   </a>
-                </Reveal>
-              ))}
+                </li>
+                <li className="flex items-center gap-3 text-cuerpo-lg">
+                  <Phone size={20} className="text-arena-300" />
+                  <a href={`tel:+52${contacto.telefono}`} className="hover:underline">{formatearTelefono(contacto.telefono)}</a>
+                </li>
+              </ul>
             </div>
-
+            <FormularioContacto />
           </div>
         </section>
       </main>

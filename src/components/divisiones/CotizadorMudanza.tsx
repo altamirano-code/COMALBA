@@ -173,7 +173,7 @@ export function CotizadorMudanza({ division }: { division: Division }) {
             {paso === 2 && (
               <fieldset>
                 <legend className="font-display text-2xl font-semibold sm:text-3xl">¿De dónde a dónde?</legend>
-                <div className="relative mt-3 rounded-2xl sm:mt-5 border border-marino-950/15 bg-white">
+                <div className="relative mt-3 rounded-lg sm:mt-5 border border-marino-950/15 bg-white">
                   {/* Línea de ruta entre origen y destino */}
                   <span aria-hidden="true" className="absolute bottom-[2.6rem] left-[1.55rem] top-[2.6rem] w-0 border-l-2 border-dashed border-dorado-500" />
                   <label className="flex items-center gap-4 p-4">
@@ -191,16 +191,16 @@ export function CotizadorMudanza({ division }: { division: Division }) {
                     </span>
                   </label>
                 </div>
-                <label className="mt-4 block rounded-2xl border border-marino-950/15 bg-white p-4">
+                <label className="mt-4 block rounded-lg border border-marino-950/15 bg-white p-4">
                   <span className="block text-xs font-semibold text-piedra">Fecha tentativa (opcional)</span>
                   <input type="date" min={hoy()} value={fecha} onChange={(e) => setFecha(e.target.value)} className="w-full bg-transparent text-[0.9375rem] font-semibold outline-none" />
                 </label>
                 <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                  <label className="block rounded-2xl border border-marino-950/15 bg-white p-4">
+                  <label className="block rounded-lg border border-marino-950/15 bg-white p-4">
                     <span className="block text-xs font-semibold text-piedra">Tu nombre</span>
                     <input required maxLength={120} autoComplete="name" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Nombre completo" className="w-full bg-transparent text-[0.9375rem] font-semibold outline-none placeholder:font-normal placeholder:text-piedra/70" />
                   </label>
-                  <label className="block rounded-2xl border border-marino-950/15 bg-white p-4">
+                  <label className="block rounded-lg border border-marino-950/15 bg-white p-4">
                     <span className="block text-xs font-semibold text-piedra">Tu teléfono</span>
                     <input required type="tel" inputMode="tel" autoComplete="tel" maxLength={40} pattern="[0-9+ ()-]{10,}" value={telefono} onChange={(e) => setTelefono(e.target.value)} placeholder="777 123 4567" className="w-full bg-transparent text-[0.9375rem] font-semibold outline-none placeholder:font-normal placeholder:text-piedra/70" />
                   </label>
@@ -217,7 +217,7 @@ export function CotizadorMudanza({ division }: { division: Division }) {
           </div>
 
           {paso === 2 ? (
-            <button type="submit" disabled={!listoRuta} className="mt-5 flex w-full shrink-0 items-center justify-center gap-2 rounded-full bg-marino-900 px-6 py-3.5 sm:mt-8 sm:py-4 text-sm font-bold text-white transition hover:bg-marino-700 disabled:opacity-40">
+            <button type="submit" disabled={!listoRuta} className="boton boton-principal mt-5 w-full shrink-0 sm:mt-8">
               <WhatsAppIcon className="size-[18px]" /> Recibir mi cotización
             </button>
           ) : (
@@ -228,7 +228,7 @@ export function CotizadorMudanza({ division }: { division: Division }) {
                   type="button"
                   onClick={() => setPaso((p) => p - 1)}
                   disabled={paso === 0}
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-marino-950/20 px-5 py-3.5 text-sm font-bold text-marino-900 transition hover:border-marino-900 disabled:pointer-events-none disabled:opacity-35"
+                  className="boton boton-secundario"
                 >
                   <ChevronLeft size={17} /> Anterior
                 </button>
@@ -236,7 +236,7 @@ export function CotizadorMudanza({ division }: { division: Division }) {
                   type="button"
                   onClick={() => setPaso((p) => p + 1)}
                   disabled={paso === 0 ? !servicio : !tamano}
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-marino-900 px-5 py-3.5 text-sm font-bold text-white transition hover:bg-marino-700 disabled:pointer-events-none disabled:opacity-35"
+                  className="boton boton-principal"
                 >
                   Continuar <ChevronRight size={17} />
                 </button>

@@ -92,7 +92,7 @@ const AREAS: Record<string, ConfigArea> = {
 const MAX_COMENTARIO = 100;
 
 const campo =
-  "mt-2 w-full rounded-xl border border-white/15 bg-white/[0.07] px-4 py-3 text-[0.9375rem] text-white placeholder:text-white/40 outline-none transition focus:border-arena-300 focus:bg-white/[0.11] focus:ring-4 focus:ring-arena-300/15 [color-scheme:dark]";
+  "mt-2 w-full rounded-lg border border-white/15 bg-white/[0.07] px-4 py-3 text-[0.9375rem] text-white placeholder:text-white/40 outline-none transition focus:border-arena-300 focus:bg-white/[0.11] focus:ring-4 focus:ring-arena-300/15 [color-scheme:dark]";
 const flecha =
   "appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22white%22 stroke-width=%222%22><path d=%22m6 9 6 6 6-6%22/></svg>')] bg-[length:16px] bg-[right_1rem_center] bg-no-repeat pr-10";
 const etiqueta = "block text-[0.8125rem] font-semibold text-white/85";
@@ -140,7 +140,7 @@ export function FormularioArea({ division }: { division: Division }) {
   }
 
   return (
-    <form onSubmit={enviar} className="relative rounded-[1.6rem] border border-white/15 bg-marino-950/40 p-5 shadow-2xl shadow-black/20 sm:p-8">
+    <form onSubmit={enviar} className="relative rounded-xl border border-white/15 bg-marino-950/40 p-5 shadow-2xl shadow-black/20 sm:p-8">
       <label aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
         Sitio web
         <input name="sitio_web" tabIndex={-1} autoComplete="off" />
@@ -210,7 +210,7 @@ export function FormularioArea({ division }: { division: Division }) {
 
       <button
         type="submit"
-        className="mt-5 flex w-full items-center justify-center gap-2.5 rounded-xl bg-dorado-500 px-6 py-3.5 sm:mt-6 sm:py-4 text-[0.9375rem] font-bold text-marino-950 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:bg-dorado-400 active:translate-y-0"
+        className="boton boton-dorado mt-5 w-full sm:mt-6"
       >
         <Send size={17} /> Enviar solicitud
       </button>

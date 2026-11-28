@@ -14,7 +14,7 @@ export function ListadoPublicaciones({ seccion, operacion }: { seccion: Seccion;
     return (
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" aria-hidden="true">
         {[0, 1, 2].map((i) => (
-          <div key={i} className="h-[22rem] animate-pulse rounded-[1.4rem] bg-white/70 sm:h-[26rem]" />
+          <div key={i} className="h-[22rem] animate-pulse rounded-xl bg-white/70 sm:h-[26rem]" />
         ))}
       </div>
     );
@@ -22,7 +22,7 @@ export function ListadoPublicaciones({ seccion, operacion }: { seccion: Seccion;
 
   if (!visibles.length) {
     return (
-      <div className="rounded-[1.4rem] border border-dashed border-marino-950/20 bg-white p-6 text-center sm:p-10">
+      <div className="rounded-xl border border-dashed border-marino-950/20 bg-white p-6 text-center sm:p-10">
         <p className="font-medium text-marino-900">Estamos preparando el catálogo.</p>
         <p className="mt-2 text-sm text-piedra">Contáctanos para conocer las opciones disponibles.</p>
       </div>
