@@ -1,20 +1,29 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { LockKeyhole } from "lucide-react";
-import { iniciarSesion } from "@/lib/sesion";
+import { cerrarSesion, iniciarSesion, MENSAJE_SIN_ACCESO } from "@/lib/sesion";
 import { supabaseConfigurado } from "@/lib/supabase/config";
 
-/* Acceso al panel. Los usuarios se crean en Supabase → Authentication → Users. */
+/* Acceso al panel. Los usuarios se crean en Supabase → Authentication → Users
+   y se agregan a la tabla "equipo" (supabase/05_equipo.sql). */
 export default function EntrarPage() {
   const router = useRouter();
   const [correo, setCorreo] = useState("");
   const [contrasena, setContrasena] = useState("");
   const [error, setError] = useState("");
   const [enviando, setEnviando] = useState(false);
+
+  /* El middleware manda aquí con ?sinAcceso=1 a una cuenta con sesión que no es del equipo:
+     se avisa y se cierra esa sesión para poder entrar con otra */
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("sinAcceso") !== "1") return;
+    setError(MENSAJE_SIN_ACCESO);
+    cerrarSesion();
+  }, []);
 
   async function entrar(e: FormEvent) {
     e.preventDefault();

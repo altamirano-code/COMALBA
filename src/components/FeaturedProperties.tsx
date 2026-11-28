@@ -1,13 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { usePublicacionesPublicas } from "@/lib/almacenPublicaciones";
 import { MAX_DESTACADAS } from "@/lib/publicaciones";
 import { TarjetaPropiedad } from "@/components/TarjetaPropiedad";
 
-/* Siempre 4 propiedades en el inicio: primero las destacadas desde /admin, luego las más recientes */
-export function FeaturedProperties() {
+/* Siempre 4 propiedades en el inicio: primero las destacadas desde /admin, luego las más recientes.
+   nota: texto opcional que va a la izquierda de las flechas, en su misma fila. */
+export function FeaturedProperties({ nota }: { nota?: ReactNode } = {}) {
   const { publicaciones, cargando } = usePublicacionesPublicas();
   const [puedeIzq, setPuedeIzq] = useState(false);
   const [puedeDer, setPuedeDer] = useState(false);
@@ -46,16 +47,19 @@ export function FeaturedProperties() {
       <div ref={pista} className="no-scrollbar -mx-6 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-px-6 px-6 pb-6 pt-2 sm:-mx-10 sm:scroll-px-10 sm:px-10">
         {cargando &&
           [0, 1, 2].map((i) => (
-            <div key={i} aria-hidden="true" className="h-[22rem] w-[85%] sm:h-[26rem] shrink-0 animate-pulse rounded-[1.4rem] bg-white/70 sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]" />
+            <div key={i} aria-hidden="true" className="h-[22rem] w-[85%] sm:h-[26rem] shrink-0 animate-pulse rounded-xl bg-white/70 sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]" />
           ))}
         {propiedades.map((p) => (
           <TarjetaPropiedad key={p.id} p={p} className="w-[85%] shrink-0 snap-start sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]" />
         ))}
       </div>
 
-      {/* Flechas (solo aparecen si hay más tarjetas de las que caben) */}
-      {(puedeIzq || puedeDer) && (
-        <div className="mt-4 flex justify-end gap-3">
+      {/* Nota (opcional, a la izquierda) y flechas (a la derecha, solo si hay más tarjetas de las que caben), en la misma fila */}
+      {(nota || puedeIzq || puedeDer) && (
+        <div className="mt-4 flex items-center justify-between gap-4">
+          {nota ?? <span />}
+          {(puedeIzq || puedeDer) && (
+        <div className="flex shrink-0 gap-3">
           <button
             type="button"
             onClick={() => mover(-1)}
@@ -74,6 +78,8 @@ export function FeaturedProperties() {
           >
             <ArrowRight size={18} />
           </button>
+        </div>
+          )}
         </div>
       )}
     </div>

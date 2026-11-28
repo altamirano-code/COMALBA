@@ -3,14 +3,19 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { ShieldCheck, Send } from "lucide-react";
 import { whatsappUrl } from "@/lib/site";
+import { registrarLead } from "@/lib/solicitudes";
 
 const OPERACIONES = ["Vender", "Rentar", "Valuar"] as const;
 type Operacion = (typeof OPERACIONES)[number];
 
+/* Quién atiende al propietario: rentar es de CIV Rentas; vender y valuar, de ALBAVERA */
+const AREA: Record<Operacion, string> = { Vender: "albavera", Rentar: "civ-rentas", Valuar: "albavera" };
+const MAX_DETALLES = 100; // Cuestionario 5.3: cuadro de texto de 100 caracteres
+
 const TIPOS = ["Casa", "Departamento", "Terreno", "Local comercial", "Oficina", "Bodega", "Otro"];
 
 const campo =
-  "mt-2 w-full rounded-xl border border-white/15 bg-white/[0.07] px-4 py-3 text-base sm:py-3.5 text-white placeholder:text-white/55 outline-none transition focus:border-arena-300 focus:bg-white/[0.11] focus:ring-4 focus:ring-arena-300/15";
+  "mt-2 w-full rounded-lg border border-white/15 bg-white/[0.07] px-4 py-3 text-base sm:py-3.5 text-white placeholder:text-white/55 outline-none transition focus:border-arena-300 focus:bg-white/[0.11] focus:ring-4 focus:ring-arena-300/15";
 const etiqueta = "block text-[0.8125rem] font-semibold text-white/85";
 
 /* Formulario "Cuéntanos sobre tu propiedad": arma el mensaje y lo envía por WhatsApp */
@@ -43,6 +48,7 @@ export function SellForm() {
     e.preventDefault();
     const datos = new FormData(e.currentTarget);
     const v = (k: string) => String(datos.get(k) ?? "").trim();
+    if (v("sitio_web")) return setEnviado(true); // Campo trampa: solo un robot lo llena
 
     const mensaje = [
       `Hola, quiero *${operacion.toLowerCase()}* una propiedad.`,
@@ -57,12 +63,30 @@ export function SellForm() {
       .filter(Boolean)
       .join("\n");
 
+    // WhatsApp se abre antes de esperar a la base: si no, el navegador bloquea la ventana
     window.open(whatsappUrl(mensaje), "_blank", "noopener");
     setEnviado(true);
+    registrarLead({
+      formulario: "propietario",
+      area: AREA[operacion],
+      nombre: v("nombre"),
+      telefono: v("telefono"),
+      correo: v("correo"),
+      mensaje: v("detalles"),
+      datos: [
+        { etiqueta: "Quiere", valor: operacion },
+        { etiqueta: "Tipo de propiedad", valor: v("tipo") },
+        { etiqueta: "Ubicación", valor: v("ubicacion") },
+      ],
+    });
   }
 
   return (
-    <form onSubmit={enviar} className="rounded-[1.6rem] border border-white/15 bg-marino-950/55 p-5 shadow-2xl shadow-black/30 backdrop-blur-xl sm:p-8">
+    <form onSubmit={enviar} className="relative rounded-xl border border-white/15 bg-marino-950/55 p-5 shadow-2xl shadow-black/30 backdrop-blur-xl sm:p-8">
+      <label aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+        Sitio web
+        <input name="sitio_web" tabIndex={-1} autoComplete="off" />
+      </label>
       <fieldset>
         <legend className={etiqueta}>¿Qué te gustaría hacer?</legend>
         <div className="mt-2 grid grid-cols-3 gap-1 rounded-xl bg-white/[0.07] p-1">
@@ -111,7 +135,7 @@ export function SellForm() {
 
       <label className={`${etiqueta} mt-4 sm:mt-5`}>
         Cuéntanos más <span className="font-normal text-white/60">(opcional)</span>
-        <textarea name="detalles" rows={3} className={`${campo} resize-none`} placeholder="Recámaras, m², estado de la propiedad, etc." />
+        <textarea name="detalles" rows={3} maxLength={MAX_DETALLES} className={`${campo} resize-none`} placeholder="Recámaras, m², estado de la propiedad, etc." />
       </label>
 
       <label className="mt-4 flex items-start gap-3 text-[0.8125rem] sm:mt-5 leading-5 text-white/70">
@@ -121,14 +145,14 @@ export function SellForm() {
 
       <button
         type="submit"
-        className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-dorado-500 px-4 py-3.5 sm:mt-6 sm:gap-2.5 sm:px-6 sm:py-4 text-[0.9375rem] font-bold text-marino-950 shadow-lg shadow-dorado-600/30 transition hover:-translate-y-0.5 hover:bg-dorado-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-arena-300 active:translate-y-0"
+        className="boton boton-dorado mt-5 w-full sm:mt-6"
       >
         <Send size={17} /> Enviar solicitud por WhatsApp
       </button>
 
       <p className="mt-4 flex items-center justify-center gap-2 text-center text-xs text-white/65" aria-live="polite">
         <ShieldCheck size={14} />
-        {enviado ? "¡Listo! Se abrió WhatsApp con tu solicitud." : "Tus datos solo se usan para contactarte."}
+        {enviado ? "¡Listo! Recibimos tu solicitud y se abrió WhatsApp." : "Tus datos solo se usan para contactarte."}
       </p>
     </form>
   );

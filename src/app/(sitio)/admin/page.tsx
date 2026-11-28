@@ -38,10 +38,21 @@ import {
 import { EditorPublicacion } from "@/components/admin/EditorPublicacion";
 import { CompartirPropiedad } from "@/components/admin/CompartirPropiedad";
 import { ListaSolicitudes } from "@/components/admin/ListaSolicitudes";
-import { eliminarSolicitud, listarSolicitudes, marcarAtendida, type Solicitud } from "@/lib/solicitudes";
+import { eliminarSolicitud, listarSolicitudes, marcarAtendida, papeleraSolicitud, type Solicitud } from "@/lib/solicitudes";
 import { estadoEnlace, listarEnlaces, type Enlace } from "@/lib/enlaces";
 import { eliminarDefinitivo, guardarPublicacion, listarPublicaciones } from "@/lib/almacenPublicaciones";
 import { cerrarSesion, leerSesion, type UsuarioEquipo } from "@/lib/sesion";
+import {
+  descargarExcel,
+  ETIQUETA_APAGADA,
+  ETIQUETA_BIEN,
+  fechaLocal,
+  FORMATO_DECIMAL,
+  FORMATO_FECHA,
+  FORMATO_PESOS,
+  type ColumnaExcel,
+  type ValorExcel,
+} from "@/lib/excel";
 import {
   CATEGORIAS,
   CATEGORIAS_AQMEN,
@@ -60,7 +71,7 @@ import {
    Administra todas las publicaciones del sitio: ALBAVERA,
    CIV Rentas, AQMEN y las destacadas del inicio.
    Acceso protegido con Supabase Auth (ver src/middleware.ts).
-   Solicitudes: interesados del formulario «Solicitar una visita».
+   Solicitudes: leads de todos los formularios del sitio (visitas, áreas, propietarios y mudanzas).
    Pendiente: roles (Marketing / Dirección General) y registro
    de cambios por usuario.
    ========================================================= */
@@ -138,36 +149,41 @@ const CATALOGOS: Record<"" | Seccion, { href: string; texto: string }> = {
 const fecha = (iso: string) => new Date(iso).toLocaleDateString("es-MX", { day: "numeric", month: "short", year: "numeric" });
 const nombreSeccion = (s: Seccion) => SECCIONES.find((x) => x.id === s)!.nombre;
 
-/* Descarga un CSV que Excel abre con acentos correctos (cuestionario 4.3) */
+/* Descarga las publicaciones en Excel con la imagen de Comalba (cuestionario 4.3) */
 function exportarExcel(lista: Publicacion[]) {
-  const columnas: [string, (p: Publicacion) => string | number | null][] = [
-    ["Clave", (p) => p.clave],
-    ["Sección", (p) => nombreSeccion(p.seccion)],
-    ["Operación", (p) => p.operacion],
-    ["Categoría", (p) => p.categoria],
-    ["Título", (p) => p.titulo],
-    ["Precio", (p) => p.precio],
-    ["Forma de pago", (p) => p.formaPago],
-    ["Colonia", (p) => p.colonia],
-    ["Municipio", (p) => p.municipio],
-    ["Estado", (p) => p.estado],
-    ["Terreno m²", (p) => p.terrenoM2],
-    ["Construcción m²", (p) => p.construccionM2],
-    ["Recámaras", (p) => p.recamaras],
-    ["Baños", (p) => p.banos],
-    ["Estacionamientos", (p) => p.estacionamientos],
-    ["Fotos", (p) => p.fotos.length],
-    ["Publicada", (p) => (p.publicada ? "Sí" : "No")],
-    ["Destacada", (p) => (p.destacada ? "Sí" : "No")],
-    ["Actualizada", (p) => p.actualizadaEn.slice(0, 10)],
+  const siNo = (v: boolean) => (v ? "Sí" : "No");
+  const pildoraSiNo = (v: ValorExcel) => (v === "Sí" ? ETIQUETA_BIEN : ETIQUETA_APAGADA);
+  const numero = { formato: FORMATO_DECIMAL, alinear: "right" as const };
+  const columnas: ColumnaExcel<Publicacion>[] = [
+    { titulo: "Clave", ancho: 11, valor: (p) => p.clave, alinear: "center" },
+    { titulo: "Sección", ancho: 13, valor: (p) => nombreSeccion(p.seccion) },
+    { titulo: "Operación", ancho: 16, valor: (p) => p.operacion },
+    { titulo: "Categoría", ancho: 15, valor: (p) => p.categoria },
+    { titulo: "Título", ancho: 36, valor: (p) => p.titulo, ajustar: true },
+    { titulo: "Precio", ancho: 15, valor: (p) => p.precio, formato: FORMATO_PESOS, alinear: "right" },
+    { titulo: "Desde", ancho: 9, valor: (p) => (p.precio === null ? null : siNo(p.precioDesde)), alinear: "center" },
+    { titulo: "Forma de pago", ancho: 22, valor: (p) => p.formaPago, ajustar: true },
+    { titulo: "Colonia", ancho: 18, valor: (p) => p.colonia },
+    { titulo: "Municipio", ancho: 18, valor: (p) => p.municipio },
+    { titulo: "Estado", ancho: 12, valor: (p) => p.estado },
+    { titulo: "Terreno m²", ancho: 12, valor: (p) => p.terrenoM2, ...numero },
+    { titulo: "Constr. m²", ancho: 12, valor: (p) => p.construccionM2, ...numero },
+    { titulo: "Recámaras", ancho: 11, valor: (p) => p.recamaras, ...numero },
+    { titulo: "Baños", ancho: 9, valor: (p) => p.banos, ...numero },
+    { titulo: "Autos", ancho: 9, valor: (p) => p.estacionamientos, ...numero },
+    { titulo: "Fotos", ancho: 8, valor: (p) => p.fotos.length, alinear: "center" },
+    { titulo: "Publicada", ancho: 11, valor: (p) => siNo(p.publicada), etiqueta: pildoraSiNo },
+    { titulo: "Destacada", ancho: 11, valor: (p) => siNo(p.destacada), etiqueta: pildoraSiNo },
+    { titulo: "En papelera", ancho: 12, valor: (p) => siNo(Boolean(p.eliminadaEn)), alinear: "center" },
+    { titulo: "Actualizada", ancho: 13, valor: (p) => fechaLocal(p.actualizadaEn), formato: FORMATO_FECHA },
   ];
-  const celda = (v: string | number | null) => `"${String(v ?? "").replace(/"/g, '""')}"`;
-  const filas = [columnas.map(([t]) => celda(t)), ...lista.map((p) => columnas.map(([, f]) => celda(f(p))))].map((f) => f.join(","));
-  const enlace = document.createElement("a");
-  enlace.href = URL.createObjectURL(new Blob(["﻿" + filas.join("\r\n")], { type: "text/csv;charset=utf-8" }));
-  enlace.download = `publicaciones-comalba-${new Date().toISOString().slice(0, 10)}.csv`;
-  enlace.click();
-  URL.revokeObjectURL(enlace.href);
+  return descargarExcel({
+    archivo: `publicaciones-comalba-${new Date().toISOString().slice(0, 10)}`,
+    hoja: "Publicaciones",
+    titulo: "Publicaciones",
+    columnas,
+    filas: lista,
+  });
 }
 
 export default function AdminPage() {
@@ -281,20 +297,34 @@ export default function AdminPage() {
     }
   }
 
+  /* Mandar a la papelera o restaurar (no pide confirmación: se puede deshacer) */
+  async function moverSolicitud(sol: Solicitud, aPapelera: boolean) {
+    try {
+      await papeleraSolicitud(sol.id, aPapelera);
+      const eliminadaEn = aPapelera ? new Date().toISOString() : null;
+      setSolicitudes((lista) => lista.map((x) => (x.id === sol.id ? { ...x, eliminadaEn } : x)));
+      setAviso(aPapelera ? `La solicitud de ${sol.nombre} se movió a la papelera.` : `La solicitud de ${sol.nombre} se restauró.`);
+    } catch {
+      setAviso(aPapelera ? "No se pudo mover a la papelera." : "No se pudo restaurar la solicitud.");
+    }
+  }
+
   async function borrarSolicitud(sol: Solicitud) {
-    if (!confirm(`¿Eliminar la solicitud de ${sol.nombre}? No se puede deshacer.`)) return;
+    if (!confirm(`¿Eliminar para siempre la solicitud de ${sol.nombre}? Esta acción no se puede deshacer.`)) return;
     try {
       await eliminarSolicitud(sol.id);
       setSolicitudes((lista) => lista.filter((x) => x.id !== sol.id));
+      setAviso(`La solicitud de ${sol.nombre} se eliminó definitivamente.`);
     } catch {
       setAviso("No se pudo eliminar la solicitud.");
     }
   }
 
-  const pendientes = solicitudes.filter((x) => !x.atendida).length;
+  const pendientes = solicitudes.filter((x) => !x.atendida && !x.eliminadaEn).length;
 
   function irA(v: Vista) {
     setVista(v);
+    setAviso(""); // El aviso es de la vista anterior
     setMenuMovil(false);
   }
 
@@ -302,7 +332,7 @@ export default function AdminPage() {
     resumen: "Resumen",
     publicaciones: "Publicaciones",
     destacadas: "Destacadas en el inicio",
-    papelera: "Papelera",
+    papelera: "Papelera de propiedades",
     solicitudes: "Solicitudes",
   };
 
@@ -389,7 +419,21 @@ export default function AdminPage() {
 
           <main className="flex-1 bg-white p-4 sm:p-6 lg:rounded-2xl">
             {vista === "solicitudes" ? (
-              <ListaSolicitudes solicitudes={solicitudes} publicaciones={publicaciones} onAtendida={alternarAtendida} onEliminar={borrarSolicitud} />
+              <>
+              {aviso && (
+                <p className="mb-4 rounded-xl bg-marfil px-4 py-2.5 text-sm text-marino-900" aria-live="polite">
+                  {aviso}
+                </p>
+              )}
+              <ListaSolicitudes
+                solicitudes={solicitudes}
+                publicaciones={publicaciones}
+                onAtendida={alternarAtendida}
+                onPapelera={(s) => moverSolicitud(s, true)}
+                onRestaurar={(s) => moverSolicitud(s, false)}
+                onEliminar={borrarSolicitud}
+              />
+              </>
             ) : vista === "resumen" ? (
               <Resumen
                 activas={activas}

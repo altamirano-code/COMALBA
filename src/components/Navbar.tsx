@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown, Menu, X, ArrowUpRight, Landmark } from "lucide-react";
-import { divisiones, navegacion, whatsappUrl } from "@/lib/site";
+import { ajustesDiseno, divisiones, navegacion, whatsappUrl } from "@/lib/site";
 
 /* La posición donde se inserta "Servicios" dentro del menú */
 const POSICION_DIVISIONES = 4;
@@ -88,10 +88,14 @@ export function Navbar() {
     cerrarTimer.current = setTimeout(() => setDivisionesAbierto(false), 140);
   };
 
-  const divisionActiva = divisiones.some((d) => pathname === `/${d.slug}`) || (esInicio && activo === "divisiones");
+  const divisionActual = divisiones.find((d) => pathname === `/${d.slug}`);
+  const divisionActiva = Boolean(divisionActual) || (esInicio && activo === "divisiones");
+  // Ajuste reversible (site.ts → ajustesDiseno): decir en qué división estás
+  const marcada = ajustesDiseno.marcarDivisionActiva ? divisionActual : undefined;
+  const esLaActual = (slug: string) => marcada?.slug === slug;
 
   const linkClase = (id: string) =>
-    `relative px-1 py-2 text-[0.8125rem] font-semibold tracking-wide transition-colors duration-300 after:absolute after:inset-x-1 after:-bottom-0.5 after:h-px after:origin-left after:bg-arena-300 after:transition-transform after:duration-300 ${
+    `relative whitespace-nowrap px-1 py-2 text-[0.8125rem] font-semibold tracking-wide transition-colors duration-300 after:absolute after:inset-x-1 after:-bottom-0.5 after:h-px after:origin-left after:bg-arena-300 after:transition-transform after:duration-300 ${
       esInicio && activo === id
         ? "text-white after:scale-x-100"
         : "text-white/75 hover:text-white after:scale-x-0 hover:after:scale-x-100"
@@ -137,10 +141,16 @@ export function Navbar() {
               aria-haspopup="true"
               aria-expanded={divisionesAbierto}
               onClick={() => setDivisionesAbierto((v) => !v)}
-              className={`flex items-center gap-1.5 px-1 py-2 text-[0.8125rem] font-semibold tracking-wide transition-colors ${
-                divisionActiva || divisionesAbierto ? "text-white" : "text-white/75 hover:text-white"
+              aria-label={marcada ? `Servicios (estás en ${marcada.nombreCorto})` : undefined}
+              className={`relative flex items-center gap-1.5 whitespace-nowrap px-1 py-2 text-[0.8125rem] font-semibold tracking-wide transition-colors ${
+                marcada
+                  ? "text-arena-300 after:absolute after:inset-x-1 after:-bottom-0.5 after:h-px after:bg-arena-300 after:content-['']"
+                  : divisionActiva || divisionesAbierto
+                    ? "text-white"
+                    : "text-white/75 hover:text-white"
               }`}
             >
+              {/* En computadora no se agrega el nombre de la división: no cabe y empuja a los demás enlaces */}
               Servicios
               <ChevronDown size={15} className={`transition-transform duration-300 ${divisionesAbierto ? "rotate-180" : ""}`} />
             </button>
@@ -157,7 +167,10 @@ export function Navbar() {
                     key={d.slug}
                     href={`/${d.slug}`}
                     onClick={() => setDivisionesAbierto(false)}
-                    className="group/item flex items-center gap-3 rounded-xl px-3 py-2.5 transition hover:bg-white/[0.07]"
+                    aria-current={esLaActual(d.slug) ? "page" : undefined}
+                    className={`group/item flex items-center gap-3 rounded-xl px-3 py-2.5 transition hover:bg-white/[0.07] ${
+                      esLaActual(d.slug) ? "bg-white/[0.08] ring-1 ring-inset ring-arena-300/40" : ""
+                    }`}
                   >
                     {!d.logo ? (
                       <span className="grid h-11 w-16 shrink-0 place-items-center rounded-lg border border-arena-300/30 bg-white/[0.06] text-arena-300">
@@ -192,7 +205,7 @@ export function Navbar() {
           href={whatsappUrl("Hola, me interesa conocer más sobre Grupo Comalba.")}
           target="_blank"
           rel="noreferrer"
-          className="hidden items-center gap-2 rounded-full bg-dorado-500 px-5 py-2.5 text-[0.8125rem] font-bold text-marino-950 shadow-lg shadow-dorado-600/30 transition hover:-translate-y-0.5 hover:bg-dorado-400 xl:inline-flex"
+          className="boton boton-dorado hidden xl:inline-flex"
         >
           Escríbenos <ArrowUpRight size={15} />
         </a>
@@ -228,7 +241,10 @@ export function Navbar() {
             aria-expanded={movilDivisiones}
             className="flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-[0.9375rem] font-semibold text-white/85 hover:bg-white/5"
           >
-            Servicios
+            <span>
+              Servicios
+              {marcada && <span className="text-arena-300"> · {marcada.nombreCorto}</span>}
+            </span>
             <ChevronDown size={18} className={`transition-transform duration-300 ${movilDivisiones ? "rotate-180" : ""}`} />
           </button>
           <div className={`grid transition-all duration-300 ${movilDivisiones ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
@@ -239,7 +255,10 @@ export function Navbar() {
                     key={d.slug}
                     href={`/${d.slug}`}
                     onClick={() => setMovilAbierto(false)}
-                    className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-white/5"
+                    aria-current={esLaActual(d.slug) ? "page" : undefined}
+                    className={`flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-white/5 ${
+                      esLaActual(d.slug) ? "bg-white/[0.08] ring-1 ring-inset ring-arena-300/40" : ""
+                    }`}
                   >
                     {!d.logo ? (
                       <span className="grid h-10 w-14 shrink-0 place-items-center rounded-lg border border-arena-300/30 bg-white/[0.06] text-arena-300">
@@ -251,7 +270,7 @@ export function Navbar() {
                       </span>
                     )}
 
-                    <span>
+                    <span className="min-w-0 flex-1">
                       <span className="block text-sm font-semibold">{d.nombre}</span>
                       <span className="block text-xs text-white/50">{d.etiqueta}</span>
                     </span>
@@ -271,7 +290,7 @@ export function Navbar() {
             href={whatsappUrl("Hola, me interesa conocer más sobre Grupo Comalba.")}
             target="_blank"
             rel="noreferrer"
-            className="mt-2 flex items-center justify-center gap-2 rounded-xl bg-dorado-500 px-4 py-3.5 text-sm font-bold text-marino-950"
+            className="boton boton-dorado mt-2 w-full"
           >
             Escríbenos por WhatsApp <ArrowUpRight size={16} />
           </a>

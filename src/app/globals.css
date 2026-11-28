@@ -46,6 +46,14 @@
   --color-arena-300: #d3bd91;
   --color-arena-400: #b99a63;
 
+  /* Esquinas (en px para que no cambien con la escala de escritorio):
+     rounded-lg = botones, campos y fotos (8 px) · rounded-xl / 2xl / 3xl = tarjetas y paneles (12 px).
+     rounded-full queda solo para elementos circulares (íconos, flechas, avatar, WhatsApp). */
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 12px;
+  --radius-3xl: 12px;
+
   --color-marfil: #f7f3ec;
   --color-crema: #ebe7df;
   --color-piedra: #5c6470; /* texto secundario: ≥4.5:1 sobre marfil, crema y blanco */
@@ -132,6 +140,76 @@ button {
   .font-hero {
     letter-spacing: -0.012em;
   }
+  /* =========================================================
+     BOTONES: dos tipos en todo el sitio, misma altura y esquinas.
+     Fondos claros:  .boton-principal (marino sólido) · .boton-secundario (borde marino, fondo blanco)
+     Fondos oscuros: .boton-dorado (principal) · .boton-contorno (secundario, borde blanco)
+     Uso: class="boton boton-principal". Las clases de Tailwind (w-full, mt-5…) se pueden agregar.
+     ========================================================= */
+  .boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 46px;
+    padding: 0.625rem 1.5rem;
+    border: 1px solid transparent;
+    border-radius: 9999px; /* Píldora, como el «Nuestros servicios» original del inicio */
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.25;
+    text-align: center;
+    transition:
+      background-color 0.2s,
+      border-color 0.2s,
+      color 0.2s;
+  }
+  .boton:focus-visible {
+    outline: 2px solid var(--color-dorado-500);
+    outline-offset: 2px;
+  }
+  .boton:disabled,
+  .boton[aria-disabled="true"] {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .boton-principal {
+    background: var(--color-marino-900);
+    border-color: var(--color-marino-900);
+    color: #fff;
+  }
+  .boton-principal:hover,
+  .group:hover .boton-principal {
+    background: var(--color-marino-700);
+    border-color: var(--color-marino-700);
+  }
+  .boton-secundario {
+    background: #fff;
+    border-color: var(--color-marino-900);
+    color: var(--color-marino-900);
+  }
+  .boton-secundario:hover {
+    background: var(--color-marfil);
+  }
+  .boton-dorado {
+    background: var(--color-dorado-500);
+    border-color: var(--color-dorado-500);
+    color: var(--color-marino-950);
+  }
+  .boton-dorado:hover {
+    background: var(--color-dorado-400);
+    border-color: var(--color-dorado-400);
+  }
+  .boton-contorno {
+    background: transparent;
+    border-color: rgb(255 255 255 / 0.45);
+    color: #fff;
+  }
+  .boton-contorno:hover {
+    background: rgb(255 255 255 / 0.1);
+    border-color: #fff;
+  }
+
   .eyebrow {
     display: inline-flex;
     align-items: center;

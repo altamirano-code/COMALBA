@@ -59,17 +59,17 @@ export function SolicitarVisita({ publicacionId, whatsapp }: Props) {
       <div className={`${tarjeta} text-center`}>
         <CheckCircle2 size={40} className="mx-auto text-emerald-600" />
         <h2 className="mt-3 text-xl font-bold text-neutral-950">¡Solicitud enviada!</h2>
-        <p className="mt-2 text-[0.9375rem] leading-7 text-neutral-600">Gracias, {nombre.trim().split(" ")[0]}. Te contactaremos pronto para agendar la visita.</p>
+        <p className="mt-2 text-[0.9375rem] leading-7 text-neutral-600">Gracias, {nombre.trim().split(" ")[0]}. Te contactaremos pronto con la información.</p>
       </div>
     );
   }
 
   const entrada =
-    "mt-1.5 h-12 w-full rounded-2xl border border-black/10 bg-white/80 px-4 text-base font-normal text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-neutral-400 focus:ring-4 focus:ring-black/5";
+    "mt-1.5 h-12 w-full rounded-lg border border-black/10 bg-white/80 px-4 text-base font-normal text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-neutral-400 focus:ring-4 focus:ring-black/5";
 
   return (
     <form onSubmit={enviar} className={`${tarjeta} relative`}>
-      <h2 className="text-xl font-bold text-neutral-950 sm:text-2xl">Solicitar una visita</h2>
+      <h2 className="text-xl font-bold text-neutral-950 sm:text-2xl">Solicitar información</h2>
       <label className="mt-5 block text-sm font-semibold text-neutral-900">
         Nombre completo
         <input required maxLength={120} value={nombre} onChange={(e) => setNombre(e.target.value)} autoComplete="name" placeholder="Tu nombre" className={entrada} />
@@ -89,7 +89,7 @@ export function SolicitarVisita({ publicacionId, whatsapp }: Props) {
           value={mensaje}
           onChange={(e) => setMensaje(e.target.value)}
           rows={3}
-          placeholder="¿Qué día y horario te acomodan?"
+          placeholder="¿Qué te gustaría saber? Si quieres visitarla, dinos qué día te acomoda."
           className={`${entrada} h-auto resize-none py-3`}
         />
       </label>
@@ -107,9 +107,9 @@ export function SolicitarVisita({ publicacionId, whatsapp }: Props) {
       <button
         type="submit"
         disabled={estado === "enviando"}
-        className="mt-5 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-neutral-950 text-sm font-semibold text-white transition hover:bg-neutral-800 disabled:opacity-60"
+        className="boton boton-principal mt-5 w-full"
       >
-        {estado === "enviando" && <Loader2 size={16} className="animate-spin" />} Solicitar visita
+        {estado === "enviando" && <Loader2 size={16} className="animate-spin" />} Enviar
       </button>
 
       {whatsapp && (

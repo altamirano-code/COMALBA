@@ -34,7 +34,7 @@ function Panel({ i, className = "" }: { i: number; className?: string }) {
       )}
       <Link
         href={necesidad.href}
-        className="mt-5 inline-flex w-fit items-center rounded-full bg-dorado-500 px-6 py-3 text-sm sm:mt-8 sm:px-7 sm:py-3.5 font-bold text-marino-950 transition hover:bg-dorado-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-arena-200"
+        className="boton boton-dorado mt-5 w-fit sm:mt-8"
       >
         Ir a {division.nombre}
       </Link>

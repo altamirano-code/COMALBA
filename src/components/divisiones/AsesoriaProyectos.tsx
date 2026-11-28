@@ -114,7 +114,7 @@ export function AsesoriaProyectos({ division }: { division: Division }) {
                 href={whatsappUrl(`Hola, me interesa el servicio de ${s.nombre.toLowerCase()} de Grupo Comalba.`, division.telefono)}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex h-fit w-fit items-center gap-2 rounded-full border border-marino-900/25 px-6 py-3 text-sm font-bold text-marino-900 transition hover:border-marino-900 hover:bg-marino-900 hover:text-white"
+                className="boton boton-secundario h-fit w-fit"
               >
                 <WhatsAppIcon className="size-4" /> Consultar este servicio
               </a>

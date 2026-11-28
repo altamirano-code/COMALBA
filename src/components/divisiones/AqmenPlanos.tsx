@@ -138,7 +138,7 @@ export function AqmenPlanos({ division }: { division: Division }) {
               <p className="mt-3 min-h-12 text-[0.9375rem] sm:mt-4 leading-6 text-piedra">{elegida.texto}</p>
             </fieldset>
 
-            <div className="mt-4 flex items-center justify-between gap-4 rounded-2xl border border-marino-950/15 p-4">
+            <div className="mt-4 flex items-center justify-between gap-4 rounded-lg border border-marino-950/15 p-4">
               <span>
                 <span className="block text-sm font-semibold text-marino-900">Metros lineales aproximados</span>
                 <span className="block text-xs text-piedra">Lo confirmamos en la visita</span>
@@ -158,7 +158,7 @@ export function AqmenPlanos({ division }: { division: Division }) {
               href={whatsappUrl(mensaje, division.telefono)}
               target="_blank"
               rel="noreferrer"
-              className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-marino-900 px-6 py-3.5 sm:mt-8 sm:py-4 text-sm font-bold text-white transition hover:bg-marino-700"
+              className="boton boton-principal mt-5 w-full sm:mt-8"
             >
               <WhatsAppIcon className="size-[18px]" /> Agendar visita de medición
             </a>

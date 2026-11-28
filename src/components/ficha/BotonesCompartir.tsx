@@ -34,25 +34,26 @@ export function BotonesCompartir({ titulo, codigoSinDatos }: { titulo: string; c
   }
 
   const boton =
-    "inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold transition sm:flex-none";
+    "boton flex-1 sm:flex-none";
 
   return (
     <div className="relative">
       <div className="flex flex-wrap gap-2.5">
-        <button type="button" onClick={() => compartir(null, "Link copiado")} className={`${boton} bg-neutral-950 text-white hover:bg-neutral-800`}>
+        <button type="button" onClick={() => compartir(null, "Link copiado")} className={`${boton} boton-principal`}>
           <Share2 size={17} /> Compartir link
         </button>
         {codigoSinDatos && (
           <button
             type="button"
             onClick={() => compartir(`/p/${codigoSinDatos}`, "Link sin datos copiado")}
-            className={`${boton} bg-white text-neutral-900 ring-1 ring-black/10 hover:bg-neutral-50`}
+            className={`${boton} boton-secundario`}
           >
             <EyeOff size={17} /> Compartir sin datos
           </button>
         )}
       </div>
-      <p role="status" aria-live="polite" className={`mt-3 flex items-center gap-1.5 text-sm font-medium text-emerald-800 transition-opacity ${copiado ? "opacity-100" : "opacity-0"}`}>
+      {/* Flota debajo de los botones: no aparta espacio cuando no hay aviso */}
+      <p role="status" aria-live="polite" className={`pointer-events-none absolute left-0 top-full mt-2 flex w-full items-center gap-1.5 break-all text-sm font-medium text-emerald-800 transition-opacity ${copiado ? "opacity-100" : "opacity-0"}`}>
         <Check size={16} /> {copiado || " "}
       </p>
     </div>

@@ -3,28 +3,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
-import { Bath, BedDouble, Car, ChevronLeft, ChevronRight, MapPin, Maximize2, Search, Sparkles, Users } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { MarcaDivision } from "@/components/divisiones/MarcaDivision";
+import { TarjetaPropiedad } from "@/components/TarjetaPropiedad";
 import { WhatsAppIcon } from "@/components/WhatsAppButton";
 import { usePublicacionesPublicas } from "@/lib/almacenPublicaciones";
 import { esRegreso, guardarEstado, leerEstado } from "@/lib/navegacion";
-import { CATEGORIAS, caracteristicasDe, precioTexto, ubicacionTexto, type Caracteristica } from "@/lib/publicaciones";
+import { CATEGORIAS, ubicacionTexto } from "@/lib/publicaciones";
 import { whatsappUrl, type Division } from "@/lib/site";
 
 const TIPOS = CATEGORIAS;
 
-const ICONOS: Record<Caracteristica["icono"], typeof BedDouble> = {
-  area: Maximize2,
-  recamaras: BedDouble,
-  banos: Bath,
-  autos: Car,
-  huespedes: Users,
-  extra: Sparkles,
-};
-
-/* Rangos del filtro de precio (MXN). Las propiedades con "Consultar precio" solo aparecen en "Cualquier precio". */
+/* Rangos del filtro de precio (MXN). Las propiedades con "Consultar precio" solo aparecen en "Todos". */
 const RANGOS = [
-  { id: "", texto: "Cualquier precio", min: 0, max: Infinity },
+  { id: "", texto: "Todos", min: 0, max: Infinity }, // Corto para que quepa en el celular
   { id: "1", texto: "Hasta $1 millón", min: 0, max: 1_000_000 },
   { id: "2", texto: "$1 a $2 millones", min: 1_000_000, max: 2_000_000 },
   { id: "4", texto: "$2 a $4 millones", min: 2_000_000, max: 4_000_000 },
@@ -168,7 +160,7 @@ export function AlbaveraExplorador({ division }: { division: Division }) {
               </label>
               <button
                 type="submit"
-                className="inline-flex items-center justify-center gap-2 col-span-2 rounded-xl bg-marino-900 px-8 py-3 sm:py-4 md:col-span-1 text-sm font-bold text-white transition hover:bg-marino-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dorado-500"
+                className="boton boton-principal col-span-2 px-8 md:col-span-1"
               >
                 <Search size={18} /> Buscar
               </button>
@@ -211,71 +203,26 @@ export function AlbaveraExplorador({ division }: { division: Division }) {
           </div>
 
           {visibles.length > 0 ? (
-            <ul className="mt-5 space-y-4 sm:mt-8 sm:space-y-5">
+            <ul className="mt-5 grid gap-6 sm:mt-8 sm:grid-cols-2 lg:grid-cols-3">
               {enPagina.map((p) => (
-                <li key={p.id}>
-                  <article className="relative grid overflow-hidden rounded-2xl bg-white ring-1 ring-marino-950/8 transition hover:shadow-lg sm:grid-cols-[minmax(0,320px)_1fr]">
-                    <div className="relative aspect-[16/9] bg-crema sm:aspect-auto sm:min-h-56">
-                      {p.fotos[0] && (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={p.fotos[0]} alt={p.titulo} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
-                      )}
-                      <span className="absolute left-3 top-3 rounded-md bg-white px-2.5 py-1 text-xs font-bold text-marino-900">{p.categoria}</span>
-                    </div>
-                    <div className="flex flex-col p-4 sm:p-7">
-                      <p className="font-hero text-2xl font-semibold text-marino-900 sm:text-3xl">{precioTexto(p)}</p>
-                      <h3 className="mt-1.5 text-base font-bold leading-snug text-tinta sm:mt-2 sm:text-lg">
-                        <Link href={`/propiedad/${p.id}`} className="after:absolute after:inset-0 after:z-[1] after:content-[''] focus-visible:outline-none">
-                          {p.titulo}
-                        </Link>
-                      </h3>
-                      <p className="mt-1.5 flex items-center gap-1.5 text-sm text-piedra">
-                        <MapPin size={15} className="shrink-0" /> {ubicacionTexto(p)}
-                      </p>
-                      {caracteristicasDe(p).length > 0 && (
-                        <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2 sm:mt-5 sm:gap-x-6 text-sm font-medium text-marino-900">
-                          {caracteristicasDe(p).map((c) => {
-                            const Icono = ICONOS[c.icono];
-                            return (
-                              <li key={c.texto} className="flex items-center gap-1.5">
-                                <Icono size={17} strokeWidth={1.7} className="text-dorado-600" /> {c.texto}
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      )}
-                      <div className="mt-4 flex flex-wrap items-center gap-4 border-t border-marino-950/10 pt-4 sm:mt-auto sm:pt-5">
-                        <a
-                          href={whatsappUrl(`Hola, me interesa la propiedad ${p.clave} "${p.titulo}" (${ubicacionTexto(p)}). ¿Sigue disponible?`, division.telefono)}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="relative z-[2] inline-flex items-center gap-2 rounded-full bg-[#25d366] px-5 py-2.5 text-sm font-bold text-white transition hover:brightness-95"
-                        >
-                          <WhatsAppIcon className="size-4" /> Preguntar por esta propiedad
-                        </a>
-                        <span className="text-sm font-semibold text-marino-900 underline-offset-4">Ver fotos y detalles →</span>
-                      </div>
-                    </div>
-                  </article>
+                <li key={p.id} className="flex">
+                  <TarjetaPropiedad p={p} className="w-full" />
                 </li>
               ))}
             </ul>
           ) : cargando ? (
-            // Tarjetas de muestra con la misma estructura que las reales: apartan el espacio mientras
+            // Tarjetas de muestra con la misma forma que las reales: apartan el espacio mientras
             // se leen las publicaciones, para que el resto de la sección no salte al llegar.
-            <ul aria-hidden="true" className="mt-5 space-y-4 sm:mt-8 sm:space-y-5">
+            <ul aria-hidden="true" className="mt-5 grid gap-6 sm:mt-8 sm:grid-cols-2 lg:grid-cols-3">
               {[0, 1, 2].map((i) => (
-                <li key={i}>
-                  <div className="grid animate-pulse overflow-hidden rounded-2xl bg-white ring-1 ring-marino-950/8 sm:grid-cols-[minmax(0,320px)_1fr]">
-                    <div className="aspect-[16/9] bg-crema sm:aspect-auto sm:min-h-56" />
-                    <div className="flex flex-col p-4 sm:p-7">
-                      <div className="h-8 w-40 rounded-md bg-crema sm:h-9" />
-                      <div className="mt-1.5 h-6 w-3/4 rounded-md bg-crema sm:mt-2 sm:h-7" />
-                      <div className="mt-1.5 h-5 w-1/2 rounded-md bg-crema" />
-                      <div className="mt-3 h-5 w-2/3 rounded-md bg-crema sm:mt-5" />
-                      <div className="mt-4 border-t border-marino-950/10 pt-4 sm:mt-auto sm:pt-5">
-                        <div className="h-10 w-64 max-w-full rounded-full bg-crema" />
-                      </div>
+                <li key={i} className="animate-pulse overflow-hidden rounded-xl bg-white ring-1 ring-marino-950/10">
+                  <div className="aspect-[4/3] bg-crema" />
+                  <div className="p-5 sm:p-6">
+                    <div className="h-8 w-40 rounded-md bg-crema" />
+                    <div className="mt-3 h-11 w-3/4 rounded-md bg-crema" />
+                    <div className="mt-2 h-5 w-1/2 rounded-md bg-crema" />
+                    <div className="mt-5 border-t border-marino-950/10 pt-4">
+                      <div className="h-5 w-2/3 rounded-md bg-crema" />
                     </div>
                   </div>
                 </li>
@@ -323,7 +270,7 @@ export function AlbaveraExplorador({ division }: { division: Division }) {
               href={whatsappUrl(mensajeAsesor, division.telefono)}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-dorado-500 px-6 py-3 text-sm font-bold text-marino-950 transition hover:bg-dorado-400"
+              className="boton boton-dorado shrink-0"
             >
               <WhatsAppIcon className="size-4" /> Pedir opciones a un asesor
             </a>
